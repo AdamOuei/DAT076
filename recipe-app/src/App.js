@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Modal, Button } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 import logo from "./logo.svg";
@@ -11,7 +11,15 @@ import CreateRecipe from "./component/create-recipe.component.js";
 import Login from "./component/login.component";
 
 class App extends Component {
+  constructor(...args) {
+    super(...args);
+
+    this.state = { modalShow: false };
+  }
+
   render() {
+    let modalClose = () => this.setState({ modalShow: false });
+
     return (
       <Router>
         <div className="container">
