@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-import logo from './logo.svg';
+import logo from "./logo.svg";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import RecipeList from './component/recipe-list.component'
-import EditRecipe from './component/edit-recipe.component'
-import CreateRecipe from './component/create-recipe.component.js'
-
+import RecipeList from "./component/recipe-list.component";
+import EditRecipe from "./component/edit-recipe.component";
+import CreateRecipe from "./component/create-recipe.component.js";
 
 class App extends Component {
   render() {
@@ -19,19 +18,25 @@ class App extends Component {
             <a class="navbar-brand" href="/" target="_blank">
               <img src={logo} width="30" height="30" alt="RecipeList" />
             </a>
-            <Link to="/" className="navbar-brand">MERN-Stack Todo App</Link>
+            <Link to="/" className="navbar-brand">
+              Recipe Site
+            </Link>
             <div className="collpase navbar-collapse">
               <ul className="navbar-nav mr-auto">
                 <li className="navbar-item">
-                  <Link to="/" className="nav-link">Todos</Link>
+                  <Link to="/" className="nav-link">
+                    Recipes
+                  </Link>
                 </li>
                 <li className="navbar-item">
-                  <Link to="/create" className="nav-link">Create Todo</Link>
+                  <Link to="/create" className="nav-link">
+                    Create Recipe
+                  </Link>
                 </li>
               </ul>
             </div>
           </nav>
-          <br/>
+          <br />
           <Route path="/" exact component={RecipeList} />
           <Route path="/edit/:id" component={EditRecipe} />
           <Route path="/create" component={CreateRecipe} />
