@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
+
 
 const options = [
   { label: 'Kyckling', value: 1},
@@ -10,6 +13,8 @@ const options = [
 ];
 
 export default class CreateRecipe extends Component {
+
+
 
       render() {
         return (
@@ -42,7 +47,17 @@ export default class CreateRecipe extends Component {
                       
                         </label>
                         <br/>
-                        <input type="submit" value="Submit" />
+                        
+                        <Link to="/dashboard">
+                          <button type="button">
+                                Create
+                          </button>
+                        </Link>
+
+                
+                        
+                  
+                  
                     </form>
                   </div>
                   </div>
