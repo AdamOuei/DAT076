@@ -1,31 +1,20 @@
 import React, { Component } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import Register from "./register-user.component";
 
 export default class Login extends Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.handleShow = this.handleShow.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-
-    this.state = {
-      show: false
-    };
-  }
-
-  handleClose() {
-    this.setState({ show: false });
-  }
-
-  handleShow() {
-    this.setState({ show: true });
-  }
-
   render() {
     return (
-      <div>
-        <p>Login thingy here</p>
-      </div>
+      <Router>
+        <div>
+          <p>Login thingy here</p>
+          <Link to="/register" className="nav-link">
+            Register if not already
+          </Link>
+
+          <Route path="/register" component={Register} />
+        </div>
+      </Router>
     );
   }
 }
