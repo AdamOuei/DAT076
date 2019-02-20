@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Modal, Button } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 import logo from "./logo.svg";
@@ -8,9 +8,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import RecipeList from "./component/recipe-list.component";
 import EditRecipe from "./component/edit-recipe.component";
 import CreateRecipe from "./component/create-recipe.component.js";
+import Login from "./component/login.component";
 
 class App extends Component {
+  constructor(...args) {
+    super(...args);
+
+    this.state = { modalShow: false };
+  }
+
   render() {
+    let modalClose = () => this.setState({ modalShow: false });
+
     return (
       <Router>
         <div className="container">
@@ -33,6 +42,11 @@ class App extends Component {
                     Create Recipe
                   </Link>
                 </li>
+                <li>
+                  <Link to="/login" className="nav-link">
+                    Login
+                  </Link>
+                </li>
               </ul>
             </div>
           </nav>
@@ -40,6 +54,7 @@ class App extends Component {
           <Route path="/" exact component={RecipeList} />
           <Route path="/edit/:id" component={EditRecipe} />
           <Route path="/create" component={CreateRecipe} />
+          <Route path="/login" component={Login} />
         </div>
       </Router>
     );
