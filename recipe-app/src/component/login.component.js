@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import Register from "./register-user.component";
+import "../styles/Login.css";
 
 export default class Login extends Component {
   constructor(props) {
@@ -57,7 +58,7 @@ export default class Login extends Component {
               Login
             </Button>
             <Link to="/register" className="nav-link">
-              Register if not already
+              Sign Up
             </Link>
 
             <Route path="/register" component={Register} />
