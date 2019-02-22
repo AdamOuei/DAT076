@@ -12,12 +12,12 @@ const options = [
 export default class CreateRecipe extends Component {
   constructor(props) {
     super(props);
-
+    /*Preliminary strings, change to lists if possible, or parse them*/
     this.state = {
       title: "",
-      ingredients: [],
-      instructions: [],
-      categories: []
+      ingredients: "",
+      instructions: "",
+      categories: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -25,6 +25,7 @@ export default class CreateRecipe extends Component {
   }
 
   handleChange = event => {
+    console.log(event.target);
     this.setState({
       [event.target.id]: event.target.value
     });
@@ -32,6 +33,9 @@ export default class CreateRecipe extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+
+    console.log("Recipe created");
+    console.log(`Title: ${this.state.title}`);
   };
 
   render() {
@@ -43,21 +47,34 @@ export default class CreateRecipe extends Component {
         <div className="container">
           <div className="row mt-5">
             <div className="col-sm-12">
-              <form>
+              <form onSubmit={this.handleSubmit}>
                 <label>
                   Title:
-                  <input type="text" />
+                  <input
+                    id="title"
+                    type="text"
+                    value={this.state.title}
+                    onChange={this.handleChange}
+                  />
                 </label>
                 <br />
                 <label>
                   Ingredients:
-                  <textarea />
+                  <textarea
+                    id="ingredients"
+                    value={this.state.ingredients}
+                    onChange={this.handleChange}
+                  />
                 </label>
                 <br />
 
                 <label>
                   Instructions:
-                  <textarea />
+                  <textarea
+                    id="instructions"
+                    value={this.state.instructions}
+                    onChange={this.handleChange}
+                  />
                 </label>
                 <br />
 
