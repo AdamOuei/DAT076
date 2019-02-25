@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
 import axios from "axios";
 
+
 const options = [
     { label: "Kyckling", value: 1 },
     { label: "Vegetariskt", value: 2 },
@@ -87,14 +88,26 @@ export default class CreateRecipe extends Component {
                                 <label>
                                     Category:
                   <ReactMultiSelectCheckboxes options={options} />
-                                </label>
-                                <br />
-                                <input type="submit" value="Submit" />
-                            </form>
-                        </div>
-                    </div>
-                </div>
+
+                </label>
+                <br />
+                <input type="submit" value="Submit" />
+              </form>
             </div>
-        );
-    }
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
+
+
+/*
+                        
+                        <Link to="/dashboard">
+                          <button type="button">
+                                Create
+                          </button>
+                        </Link>
+*/
+
