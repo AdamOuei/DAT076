@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormLabel, FormControl } from "react-bootstrap";
+import axios from "axios";
 
 export default class Register extends Component {
   constructor(props) {
@@ -22,8 +23,16 @@ export default class Register extends Component {
   };
 
   handleSubmit = event => {
+    let idToBeAdded = 50;
+    axios.post("http://localhost:4000/api/add", {
+      id: idToBeAdded,
+      email: this.state.email,
+      password: this.state.password,
+      name: this.state.name
+    })
     event.preventDefault();
   };
+
   render() {
     return (
       <div className="Register">

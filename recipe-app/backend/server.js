@@ -4,7 +4,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const PORT = 4000;
 const mongoose = require('mongoose');
+const User = require("./user.model");
 const recipeRoutes = express.Router();
+const userRoutes = express.Router();
 
 let Recipe = require('./recipe.model');
 
@@ -24,6 +26,32 @@ app.listen(PORT, function () {
     console.log("Server is running on Port: " + PORT);
 });
 
+userRoutes.post("/add", (req, res) => {
+    let user = new User();
+    user.id = req.body.id;
+    user.name = req.body.name;
+    user.email = req.body.email;
+    user.password = req.body.password;
+
+    user.save(error => {
+        if (error) return res.json({ success: false, error: error });
+        console.log(user.id);
+        console.log(user.name);
+        return res.json({ success: true });
+    });
+});
+
+app.use('/api', userRoutes);
+
+
+
+
+
+
+
+
+
+/*
 app.get('/', function (req, res) {
     res.send('Hello World');
 });
