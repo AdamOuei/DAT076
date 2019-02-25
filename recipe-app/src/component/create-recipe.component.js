@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
+import axios from "axios";
 
 const options = [
     { label: "Kyckling", value: 1 },
@@ -32,10 +33,15 @@ export default class CreateRecipe extends Component {
     };
 
     handleSubmit = event => {
+        //TODO Fix id and category
+        axios.post("http://localhost:4000/api/recipe/add", {
+            id: 123,
+            title: this.state.title,
+            ingredients: this.state.ingredients,
+            instructions: this.state.instructions,
+            category: [this.state.category]
+        })
         event.preventDefault();
-
-        console.log("Recipe created");
-        console.log(`Title: ${this.state.title}`);
     };
 
     render() {

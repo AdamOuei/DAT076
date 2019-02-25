@@ -23,9 +23,9 @@ export default class Register extends Component {
   };
 
   handleSubmit = event => {
-    let idToBeAdded = 50;
-    axios.post("http://localhost:4000/api/add", {
-      id: idToBeAdded,
+    //TODO fix id 
+    axios.post("http://localhost:4000/api/user/add", {
+      id: 50,
       email: this.state.email,
       password: this.state.password,
       name: this.state.name

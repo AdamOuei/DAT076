@@ -4,11 +4,10 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const PORT = 4000;
 const mongoose = require('mongoose');
-const User = require("./user.model");
+const User = require('./user.model');
+const Recipe = require('./recipe.model');
 const recipeRoutes = express.Router();
 const userRoutes = express.Router();
-
-let Recipe = require('./recipe.model');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -26,7 +25,7 @@ app.listen(PORT, function () {
     console.log("Server is running on Port: " + PORT);
 });
 
-userRoutes.post("/add", (req, res) => {
+userRoutes.post('/add', (req, res) => {
     let user = new User();
     user.id = req.body.id;
     user.name = req.body.name;
@@ -41,7 +40,24 @@ userRoutes.post("/add", (req, res) => {
     });
 });
 
-app.use('/api', userRoutes);
+recipeRoutes.post('/add', (req, res) => {
+    console.log("In add recipe")
+    let recipe = new Recipe();
+    recipe.id = req.body.id;
+    recipe.title = req.body.title;
+    recipe.ingredients = req.body.ingredients;
+    recipe.instructions = req.body.instructions;
+    recipe.category = req.body.category;
+
+    recipe.save(error => {
+        if (error) return res.json({ success: false, error: error });
+        console.log(recipe.category);
+        return res.json({ success: true });
+    })
+})
+
+app.use('/api/recipe', recipeRoutes);
+app.use('/api/user', userRoutes);
 
 
 
