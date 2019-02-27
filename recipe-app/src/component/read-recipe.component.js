@@ -10,12 +10,11 @@ export default class Recipe extends Component {
             ingredients: null,
             instructions: null,
             //picture: null,
-
         }
     };
 
     componentDidMount(){
-        axios.get("http://localhost:4000/api/recipe/getRecipe")
+        axios.get("http://localhost:4000/api/recipe/getRecipe", {id:this.props.id})
             .then(res => {
                 this.setState({ 
                     name: res.body.title, 
