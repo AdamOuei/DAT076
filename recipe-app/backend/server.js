@@ -56,6 +56,14 @@ recipeRoutes.post('/add', (req, res) => {
     })
 })
 
+recipeRoutes.get('/getRecipe', (req, res) => {
+    const {id} = req.body;
+    Recipe.findById(id,err => {
+        if(err) return res.send(err);
+        return res
+    })
+})
+
 app.use('/api/recipe', recipeRoutes);
 app.use('/api/user', userRoutes);
 
