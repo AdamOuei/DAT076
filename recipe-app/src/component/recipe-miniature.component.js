@@ -4,6 +4,7 @@ import StarRatingComponent from 'react-star-rating-component';
 import { Card } from "react-bootstrap";
 import { Button} from 'react-bootstrap';
 import SvgIcon from '@material-ui/core/SvgIcon';
+import axios from "axios";
 
 
 
@@ -26,12 +27,19 @@ export default class MiniRecipe extends Component {
     
     }
 
-    componentDidMount(){
+    componentDidMount(){        
+        axios.get("http://localhost:4000/api/recipe/getRecipe", {id: this.props.id})
+            .then(res => {
+                this.setState({
+                    recipe: res.recipe,
+                    isLoaded: true,
+                });    
+            })
         //this.getDataFromDb();
     }
 
     /*getDataFromDb = () => {
-        fetch("http://localhost:4000/api/recipe/getRecipe")
+        fetch("http://localhost:4000/api/recipe/getRecipe", {id: this.props.id})
           .then(data => data.json())
           .then(res => 
             this.setState({ recipe: res.data, isLoaded: true }));
@@ -57,7 +65,8 @@ export default class MiniRecipe extends Component {
         );
 
         let buttonText = this.state.liked? 'Unsave': 'Save';
-        //if(!this.state.isLoaded) return <div>Sleep deprived</div>
+        //console.log(this.state.recipe);
+        if(!this.state.isLoaded) return <div>Sleep deprived</div>
         return (
             <Card style={{ width: '18rem' }}>
                 <Card.Img variant="top" src={photo}>
@@ -71,7 +80,7 @@ export default class MiniRecipe extends Component {
                
                 
 
-                    <Card.Title id="recipeTitle">Title typ</Card.Title>
+                    <Card.Title id="recipeTitle">Title</Card.Title>
                     <StarRatingComponent 
                         name="rate" 
                         editing={false}

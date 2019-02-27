@@ -63,11 +63,12 @@ recipeRoutes.get('/recipes', (req, res) => {
     });
 });
 
-recipeRoutes.get('getRecipe', (req, res) => {
+recipeRoutes.get('/getRecipe', (req, res) => {
     const {id} = req.body;
-    Recipe.findById(id, (err, data) => {
+    Recipe.findById(id, function(err, data) {
+        console.log(data);
         if(err) return res.json({success: false, error: err});
-        return res.json({success: true, data: data});
+        return res.json({success: true, recipe: data});
     })
 })
 
