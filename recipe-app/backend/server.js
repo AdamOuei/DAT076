@@ -53,8 +53,15 @@ recipeRoutes.post('/add', (req, res) => {
         if (error) return res.json({ success: false, error: error });
         console.log(recipe.category);
         return res.json({ success: true });
-    })
-})
+    });
+});
+
+recipeRoutes.get('/recipes', (req, res) => {
+    Recipe.find((err, data) => {
+        if(err) return res.json({success: false, error: err});
+        return res.json({success: true, data: data});
+    });
+});
 
 app.use('/api/recipe', recipeRoutes);
 app.use('/api/user', userRoutes);
