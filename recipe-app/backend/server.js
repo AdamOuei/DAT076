@@ -25,6 +25,24 @@ app.listen(PORT, function () {
     console.log("Server is running on Port: " + PORT);
 });
 
+userRoutes.post('/getUserInfo', (req, res) => {
+    User.findOne({ "name": "Hanna" }, (error, result) => {
+        if (error) {
+            return res.json({ success: false, error: error });
+        }
+        return res.json({ success: true, data: result });
+    })
+})
+
+userRoutes.post('/update', (req, res) => {
+    const { email, name, password } = req.body;
+    console.log(email);
+    User.findOneAndUpdate({ email: email }, { name: name, password: password }, (error) => {
+        if (error) return res.json({ success: false, error: error })
+        return res.json({ success: true });
+    })
+})
+
 userRoutes.post('/add', (req, res) => {
     let user = new User();
     user.id = req.body.id;
@@ -41,7 +59,6 @@ userRoutes.post('/add', (req, res) => {
 });
 
 recipeRoutes.post('/add', (req, res) => {
-    console.log("In add recipe")
     let recipe = new Recipe();
     recipe.id = req.body.id;
     recipe.title = req.body.title;
@@ -58,69 +75,3 @@ recipeRoutes.post('/add', (req, res) => {
 
 app.use('/api/recipe', recipeRoutes);
 app.use('/api/user', userRoutes);
-
-
-
-
-
-
-
-
-
-/*
-app.get('/', function (req, res) {
-    res.send('Hello World');
-});
-
-app.post('/add', function (req, res) {
-    connection.collection('recipe').insertOne(req.body, (error, result) => {
-        if (error) return console.log(error);
-        console.log("Added one recipe");
-        console.log(req.body);
-    });
-});
-
-app.post('/delete', function (req, res) {
-    connection.collection('recipe').deleteOne({ "_id": req.body }, (error, result) => {
-        if (error) return console.log(error);
-        console.log("Deleted one recipe");
-    });
-});
-
-app.get('/recipe', function (req, res) {
-    connection.collection('recipe').findOne({ "_id": req.body }, (error, result) => {
-        if (error) return console.log(error);
-        console.log("Got one recipe");
-    })
-});
-
-/*
-app.use('/recipe', recipeRoutes);
-
-recipeRoutes.route('/').get(function (req, res) {
-    Recipe.find(function (err, recipe) {
-        if (err) {
-            console.log("Bajs");
-        } else {
-            res.json(recipe);
-        }
-    });
-});
-
-recipeRoutes.route('/:id').get(function (req, res) {
-    let id = req.params.id;
-    Recipe.findById(id, function (err, recipe) {
-        res.json(recipe);
-    });
-});
-
-recipeRoutes.route('/add').post(function (req, res) {
-    let recipe = new Recipe(req.body);
-    recipe.save().then(recipe => {
-        res.status(200).json({ 'recipe': 'recipe added successfully' });
-        console.log(recipe);
-    }).catch(err => {
-        res.status(400).send('adding new recipe failed');
-    });
-});
-*/
