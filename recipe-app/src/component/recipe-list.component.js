@@ -28,7 +28,7 @@ export default class RecipeList extends Component {
     if(!this.state.isLoaded) return (<div>Loading...</div>);
     return (
       <div>
-        {this.state.recipes.map(recipe => (<MiniRecipe key={recipe.id} id={recipe.id} />))}
+        {this.state.recipes.map(recipe => (<MiniRecipe key={recipe._id} id={recipe.id} />))}
       </div>
     );
   }
