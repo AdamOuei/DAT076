@@ -94,5 +94,20 @@ recipeRoutes.post("/add", (req, res) => {
     });
 });
 
+recipeRoutes.post("/update", (req, res) => {
+    Recipe.findByIdAndUpdate(req.params.id,
+        {
+            $set: {
+                title: req.body.title,
+                ingredients: req.body.ingredients,
+                instructions: req.body.instructions
+            }
+        },
+        (error, result) => {
+            if (error) return res.json({ success: false, error: error });
+            return res.json({ success: true, data: result });
+        })
+})
+
 app.use("/api/recipe", recipeRoutes);
 app.use("/api/user", userRoutes);
