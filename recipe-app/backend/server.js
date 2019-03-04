@@ -1,23 +1,26 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const bodyParser = require('body-parser');
-const cors = require('cors');
+const bodyParser = require("body-parser");
+const cors = require("cors");
 const PORT = 4000;
-const mongoose = require('mongoose');
-const User = require('./user.model');
-const Recipe = require('./recipe.model');
+const mongoose = require("mongoose");
+const User = require("./user.model");
+const Recipe = require("./recipe.model");
 const recipeRoutes = express.Router();
 const userRoutes = express.Router();
 
 app.use(cors());
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb://recipe-user:recipe-password@cluster0-shard-00-00-tky9f.mongodb.net:27017,cluster0-shard-00-01-tky9f.mongodb.net:27017,cluster0-shard-00-02-tky9f.mongodb.net:27017/recipe-db?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true', {
-    useNewUrlParser: true
-});
+mongoose.connect(
+    "mongodb://recipe-user:recipe-password@cluster0-shard-00-00-tky9f.mongodb.net:27017,cluster0-shard-00-01-tky9f.mongodb.net:27017,cluster0-shard-00-02-tky9f.mongodb.net:27017/recipe-db?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true",
+    {
+        useNewUrlParser: true
+    }
+);
 const connection = mongoose.connection;
 
-connection.once('open', function () {
+connection.once("open", function () {
     console.log("MongoDB database connection established succesfully");
 });
 
@@ -25,7 +28,25 @@ app.listen(PORT, function () {
     console.log("Server is running on Port: " + PORT);
 });
 
-userRoutes.post('/add', (req, res) => {
+userRoutes.post('/getUserInfo', (req, res) => {
+    User.findOne({ "name": "Hanna" }, (error, result) => {
+        if (error) {
+            return res.json({ success: false, error: error });
+        }
+        return res.json({ success: true, data: result });
+    })
+})
+
+userRoutes.post('/update', (req, res) => {
+    const { email, name, password } = req.body;
+    console.log(email);
+    User.findOneAndUpdate({ email: email }, { name: name, password: password }, (error) => {
+        if (error) return res.json({ success: false, error: error })
+        return res.json({ success: true });
+    })
+})
+
+userRoutes.post("/add", (req, res) => {
     let user = new User();
     user.id = req.body.id;
     user.name = req.body.name;
@@ -40,8 +61,25 @@ userRoutes.post('/add', (req, res) => {
     });
 });
 
-recipeRoutes.post('/add', (req, res) => {
-    console.log("In add recipe")
+userRoutes.post("/get", (req, res) => {
+    User.findOne({ email: "hej@hej" }, (err, result) => {
+        if (err) throw err;
+        if (
+            result.password === req.body.password &&
+            result.password !== undefined &&
+            req.body.password !== undefined
+        ) {
+            console.log("You are in!");
+            return res.json({ success: true });
+        } else {
+            console.log("WRONG!");
+            return res.json({ success: false });
+        }
+    });
+});
+
+recipeRoutes.post("/add", (req, res) => {
+    console.log("In add recipe");
     let recipe = new Recipe();
     recipe.id = req.body.id;
     recipe.title = req.body.title;
@@ -53,6 +91,7 @@ recipeRoutes.post('/add', (req, res) => {
         if (error) return res.json({ success: false, error: error });
         console.log(recipe.category);
         return res.json({ success: true });
+
     });
 });
 
@@ -76,67 +115,20 @@ app.use('/api/recipe', recipeRoutes);
 app.use('/api/user', userRoutes);
 
 
+recipeRoutes.post("/update", (req, res) => {
+    Recipe.findByIdAndUpdate(req.params.id,
+        {
+            $set: {
+                title: req.body.title,
+                ingredients: req.body.ingredients,
+                instructions: req.body.instructions
+            }
+        },
+        (error, result) => {
+            if (error) return res.json({ success: false, error: error });
+            return res.json({ success: true, data: result });
+        })
+})
 
-
-
-
-
-
-
-/*
-app.get('/', function (req, res) {
-    res.send('Hello World');
-});
-
-app.post('/add', function (req, res) {
-    connection.collection('recipe').insertOne(req.body, (error, result) => {
-        if (error) return console.log(error);
-        console.log("Added one recipe");
-        console.log(req.body);
-    });
-});
-
-app.post('/delete', function (req, res) {
-    connection.collection('recipe').deleteOne({ "_id": req.body }, (error, result) => {
-        if (error) return console.log(error);
-        console.log("Deleted one recipe");
-    });
-});
-
-app.get('/recipe', function (req, res) {
-    connection.collection('recipe').findOne({ "_id": req.body }, (error, result) => {
-        if (error) return console.log(error);
-        console.log("Got one recipe");
-    })
-});
-
-/*
-app.use('/recipe', recipeRoutes);
-
-recipeRoutes.route('/').get(function (req, res) {
-    Recipe.find(function (err, recipe) {
-        if (err) {
-            console.log("Bajs");
-        } else {
-            res.json(recipe);
-        }
-    });
-});
-
-recipeRoutes.route('/:id').get(function (req, res) {
-    let id = req.params.id;
-    Recipe.findById(id, function (err, recipe) {
-        res.json(recipe);
-    });
-});
-
-recipeRoutes.route('/add').post(function (req, res) {
-    let recipe = new Recipe(req.body);
-    recipe.save().then(recipe => {
-        res.status(200).json({ 'recipe': 'recipe added successfully' });
-        console.log(recipe);
-    }).catch(err => {
-        res.status(400).send('adding new recipe failed');
-    });
-});
-*/
+app.use("/api/recipe", recipeRoutes);
+app.use("/api/user", userRoutes);
