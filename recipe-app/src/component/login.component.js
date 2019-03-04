@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import Register from "./register-user.component";
 import "../styles/Login.css";
+import axios from "axios";
 
 export default class Login extends Component {
   constructor(props) {
@@ -10,7 +11,8 @@ export default class Login extends Component {
 
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      loggedIn: false
     };
   }
 
@@ -23,7 +25,24 @@ export default class Login extends Component {
     });
   };
 
+  validateLogin(input) {
+    this.setState({
+      loggedIn: input
+    });
+  }
+
   handleSubmit = event => {
+    axios
+      .post("http://localhost:4000/api/user/get", {
+        email: this.state.email,
+        password: this.state.password
+      })
+      .then(res => res.request.response)
+      .then(res => {
+        let validate = JSON.parse(res).success;
+        this.validateLogin(validate);
+      });
+    console.log(this.state.loggedIn);
     event.preventDefault();
   };
 
@@ -32,7 +51,7 @@ export default class Login extends Component {
       <Router>
         <div className="Login">
           <form onSubmit={this.handleSubmit}>
-            <FormGroup controlId="email" bSize="large">
+            <FormGroup controlId="email" bSize="large ">
               <FormLabel>Email</FormLabel>
               <FormControl
                 autoFocus

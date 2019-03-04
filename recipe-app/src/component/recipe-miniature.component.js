@@ -4,6 +4,7 @@ import StarRatingComponent from 'react-star-rating-component';
 import { Card } from "react-bootstrap";
 import { Button} from 'react-bootstrap';
 import SvgIcon from '@material-ui/core/SvgIcon';
+import axios from "axios";
 
 
 
@@ -13,7 +14,10 @@ export default class MiniRecipe extends Component {
         super(props);
         this.state = { 
             liked: false, 
-             rating: 1};
+            rating: 1, 
+            recipe: {},
+            isLoaded: false,
+        };
         this.handleClick = this.handleClick.bind(this);
     }
 
@@ -43,7 +47,6 @@ export default class MiniRecipe extends Component {
         );
 
         let buttonText = this.state.liked? 'Unsave': 'Save';
-
         return (
             <Card style={{ width: '18rem' }}>
                 <Card.Img variant="top" src={photo}>
@@ -52,12 +55,9 @@ export default class MiniRecipe extends Component {
             
                 <Button onClick={this.handleClick} className="like" style={iconStyles}>
                 <i className="fa fa-heart"></i>&nbsp;
-                {buttonText}</Button>
-                
-               
-                
+                {buttonText}</Button> 
 
-                    <Card.Title id="recipeTitle">Recipe title</Card.Title>
+                    <Card.Title id="recipeTitle">{this.props.recipe.title}</Card.Title>
                     <StarRatingComponent 
                         name="rate" 
                         editing={false}
@@ -73,5 +73,5 @@ export default class MiniRecipe extends Component {
    
         );
     }
-    }
+}
     
