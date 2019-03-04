@@ -68,9 +68,6 @@ export default class MiniRecipe extends Component {
                     <Button variant="primary">Show recipe</Button>
                 </Card.Body>
             </Card>
-
-
-   
         );
     }
 }
