@@ -26,24 +26,6 @@ export default class MiniRecipe extends Component {
         console.log("Clicked");
     
     }
-
-    componentDidMount(){        
-        axios.get("http://localhost:4000/api/recipe/getRecipe", {id: this.props.id})
-            .then(res => {
-                this.setState({
-                    recipe: res.recipe,
-                    isLoaded: true,
-                });    
-            })
-        //this.getDataFromDb();
-    }
-
-    /*getDataFromDb = () => {
-        fetch("http://localhost:4000/api/recipe/getRecipe", {id: this.props.id})
-          .then(data => data.json())
-          .then(res => 
-            this.setState({ recipe: res.data, isLoaded: true }));
-      };*/
     
     render() {
 
@@ -65,8 +47,6 @@ export default class MiniRecipe extends Component {
         );
 
         let buttonText = this.state.liked? 'Unsave': 'Save';
-        //console.log(this.state.recipe);
-        if(!this.state.isLoaded) return <div>Sleep deprived</div>
         return (
             <Card style={{ width: '18rem' }}>
                 <Card.Img variant="top" src={photo}>
@@ -75,12 +55,9 @@ export default class MiniRecipe extends Component {
             
                 <Button onClick={this.handleClick} className="like" style={iconStyles}>
                 <i className="fa fa-heart"></i>&nbsp;
-                {buttonText}</Button>
-                
-               
-                
+                {buttonText}</Button> 
 
-                    <Card.Title id="recipeTitle">Title</Card.Title>
+                    <Card.Title id="recipeTitle">{this.props.recipe.title}</Card.Title>
                     <StarRatingComponent 
                         name="rate" 
                         editing={false}
