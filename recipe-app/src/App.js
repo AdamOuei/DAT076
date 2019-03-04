@@ -65,34 +65,13 @@ class App extends Component {
             </div>
           </nav>
           <br />
-          <Routes isShowing={this.state.isShowing} recipe={this.state.recipe} method={this.showRecipe}/>
-        </div>
-      </Router>
-    );
-  }
-}
-
-class Routes extends Component{
-
-  render(){
-    if(this.props.isShowing){
-      return(
-        <React.Fragment>
-          <Route path="/recipe" render={(props) => <RecipeRead recipe={this.props.recipe}/>} />
+          <Route path="/" exact render={(props) => <RecipeList method={this.showRecipe} />} />
           <Route path="/edit/:id" component={EditRecipe} />
           <Route path="/create" component={CreateRecipe} />
           <Route path="/login" component={Login} />
-        </React.Fragment>
-      ); 
-    }
-
-    return(
-      <React.Fragment>
-        <Route path="/" render={(props) => <RecipeList method={this.props.method} />} />
-        <Route path="/edit/:id" component={EditRecipe} />
-        <Route path="/create" component={CreateRecipe} />
-        <Route path="/login" component={Login} />
-      </React.Fragment>
+          <Route path="/recipe" render={(props) => <RecipeRead recipe={this.state.recipe}/>} />
+        </div>
+      </Router>
     );
   }
 }
