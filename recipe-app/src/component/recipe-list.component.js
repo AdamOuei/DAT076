@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 import MiniRecipe from "./recipe-miniature.component";
 
 export default class RecipeList extends Component {
@@ -26,7 +25,7 @@ export default class RecipeList extends Component {
     if(!this.state.isLoaded) return (<div>Loading...</div>);    
     return (
       <div>
-        {this.state.recipes.map(recipe => (<MiniRecipe key={recipe._id} recipe={recipe} />))}
+        {this.state.recipes.map(recipe => (<MiniRecipe key={recipe._id} recipe={recipe} method={this.props.method}/>))}
       </div>
     );
   }

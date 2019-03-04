@@ -4,7 +4,7 @@ import StarRatingComponent from 'react-star-rating-component';
 import { Card } from "react-bootstrap";
 import { Button} from 'react-bootstrap';
 import SvgIcon from '@material-ui/core/SvgIcon';
-import axios from "axios";
+import { Link } from "react-router-dom";
 
 
 
@@ -19,12 +19,16 @@ export default class MiniRecipe extends Component {
             isLoaded: false,
         };
         this.handleClick = this.handleClick.bind(this);
+        this.showRecipe = this.showRecipe.bind(this);
+    }
+
+    showRecipe(){
+        this.props.method(this.props.recipe);
     }
 
     handleClick(event) {
         this.setState({ liked: !this.state.liked});
         console.log("Clicked");
-    
     }
     
     render() {
@@ -65,7 +69,9 @@ export default class MiniRecipe extends Component {
                         value={3}
                         />
                         <br/>
-                    <Button variant="primary">Show recipe</Button>
+                    <Button onClick={this.showRecipe} variant="primary">
+                        <Link to="/recipe" style={{color:'white'}}>Show Recipe</Link>
+                    </Button>
                 </Card.Body>
             </Card>
         );
