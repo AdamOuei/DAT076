@@ -19,7 +19,8 @@ class App extends Component {
     this.state = {
       modalShow: false,
       isShowing: false,
-      recipe: null
+      recipe: null,
+      authenticated: false
     };
 
     this.showRecipe = this.showRecipe.bind(this);
