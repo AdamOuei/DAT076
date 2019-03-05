@@ -9,6 +9,7 @@ import RecipeList from "./component/recipe-list.component";
 import EditRecipe from "./component/edit-recipe.component";
 import CreateRecipe from "./component/create-recipe.component.js";
 import Login from "./component/login.component";
+import UserProfile from "./component/user-profile.component.js";
 
 class App extends Component {
   constructor(...args) {
@@ -51,7 +52,7 @@ class App extends Component {
             </div>
           </nav>
           <br />
-          <Route path="/" exact component={RecipeList} />
+          <Route path="/" exact render={(props) => <UserProfile />} />
           <Route path="/edit/:id" component={EditRecipe} />
           <Route path="/create" component={CreateRecipe} />
           <Route path="/login" component={Login} />

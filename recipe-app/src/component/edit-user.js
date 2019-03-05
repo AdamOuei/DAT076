@@ -9,7 +9,8 @@ class EditUser extends Component {
         this.state = {
             name: "",
             email: "",
-            password: ""
+            password: "",
+            
         }
 
         this.handleChange = this.handleChange.bind(this);
