@@ -1,5 +1,5 @@
-import React, { Component/*, Modal, Button */} from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import React, { Component /*, Modal, Button */ } from "react";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
 import logo from "./logo.svg";
 
@@ -16,16 +16,16 @@ class App extends Component {
   constructor(...args) {
     super(...args);
 
-    this.state = { 
+    this.state = {
       modalShow: false,
-      isShowing: false, 
+      isShowing: false,
       recipe: null
     };
-    
+
     this.showRecipe = this.showRecipe.bind(this);
   }
 
-  showRecipe(recipe){
+  showRecipe(recipe) {
     this.setState({
       isShowing: true,
       recipe: recipe
@@ -65,12 +65,20 @@ class App extends Component {
             </div>
           </nav>
           <br />
-
-          <Route path="/" exact render={(props) => <RecipeList method={this.showRecipe} />} />
-          <Route path="/edit/:id" component={EditRecipe} />
-          <Route path="/create" component={CreateRecipe} />
-          <Route path="/login" component={Login} />
-          <Route path="/recipe" render={(props) => <RecipeRead recipe={this.state.recipe}/>} />
+          <Switch>
+            <Route
+              path="/"
+              exact
+              render={props => <RecipeList method={this.showRecipe} />}
+            />
+            <Route path="/edit/:id" component={EditRecipe} />
+            <Route path="/create" component={CreateRecipe} />
+            <Route path="/login" component={Login} />
+            <Route
+              path="/recipe"
+              render={props => <RecipeRead recipe={this.state.recipe} />}
+            />
+          </Switch>
         </div>
       </Router>
     );

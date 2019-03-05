@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect,
+  Switch
+} from "react-router-dom";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import Register from "./register-user.component";
 import "../styles/Login.css";
@@ -31,18 +37,27 @@ export default class Login extends Component {
     });
   }
 
-  handleSubmit = event => {
-    axios
-      .post("http://localhost:4000/api/user/get", {
-        email: this.state.email,
-        password: this.state.password
-      })
-      .then(res => res.request.response)
-      .then(res => {
-        let validate = JSON.parse(res).success;
-        this.validateLogin(validate);
-      });
-    console.log(this.state.loggedIn);
+  handleSubmit = async event => {
+    try {
+      axios
+        .post("http://localhost:4000/api/user/get", {
+          email: this.state.email,
+          password: this.state.password
+        })
+        .then(res => res.request.response)
+        .then(res => {
+          console.log(res);
+          let validate = JSON.parse(res).success;
+          this.validateLogin(validate);
+          if (this.state.loggedIn) {
+            this.props.history.push("/");
+          }
+          console.log(this.state.loggedIn);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+
     event.preventDefault();
   };
 
@@ -80,7 +95,9 @@ export default class Login extends Component {
               Sign Up
             </Link>
 
-            <Route path="/register" component={Register} />
+            <Switch>
+              <Route path="/register" component={Register} />
+            </Switch>
           </form>
         </div>
       </Router>
