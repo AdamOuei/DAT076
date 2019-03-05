@@ -44,7 +44,7 @@ userRoutes.post("/add", (req, res) => {
 });
 
 userRoutes.post("/get", (req, res) => {
-  User.findOne({ email: "hej@hej" }, (err, result) => {
+  User.findOne({ email: req.body.email }, (err, result) => {
     if (err) throw err;
     if (
       result.password === req.body.password &&
