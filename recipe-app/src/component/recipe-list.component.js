@@ -1,10 +1,31 @@
 import React, { Component } from "react";
+import MiniRecipe from "./recipe-miniature.component";
 
 export default class RecipeList extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      recipes: {},
+      isLoaded: false,
+    }
+  }
+
+  componentDidMount(){
+    this.getDataFromDb();
+  }
+
+  getDataFromDb = () => {
+    fetch("http://localhost:4000/api/recipe/recipes")
+      .then(data => data.json())
+      .then(res => 
+        this.setState({ recipes: res.data, isLoaded: true }));
+  };
+
   render() {
+    if(!this.state.isLoaded) return (<div>Loading...</div>);    
     return (
       <div>
-        <p>RecipeList</p>
+        {this.state.recipes.map(recipe => (<MiniRecipe key={recipe._id} recipe={recipe} method={this.props.method}/>))}
       </div>
     );
   }
