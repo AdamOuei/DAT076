@@ -10,7 +10,7 @@ import EditRecipe from "./component/edit-recipe.component";
 import CreateRecipe from "./component/create-recipe.component.js";
 import Login from "./component/login.component";
 import RecipeRead from "./component/read-recipe.component";
-
+import UserProfile from "./component/user-profile.component.js";
 
 class App extends Component {
   constructor(...args) {
@@ -65,6 +65,7 @@ class App extends Component {
             </div>
           </nav>
           <br />
+
           <Route path="/" exact render={(props) => <RecipeList method={this.showRecipe} />} />
           <Route path="/edit/:id" component={EditRecipe} />
           <Route path="/create" component={CreateRecipe} />
