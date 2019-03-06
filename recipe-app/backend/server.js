@@ -20,16 +20,18 @@ mongoose.connect(
 );
 const connection = mongoose.connection;
 
-connection.once("open", function() {
+connection.once("open", function () {
   console.log("MongoDB database connection established succesfully");
 });
 
-app.listen(PORT, function() {
+app.listen(PORT, function () {
   console.log("Server is running on Port: " + PORT);
 });
 
 userRoutes.post("/getUserInfo", (req, res) => {
-  User.findOne({ name: "Hanna" }, (error, result) => {
+  console.log(req.body)
+  console.log(req.body.email);
+  User.findOne({ email: req.body.email }, (error, result) => {
     if (error) {
       return res.json({ success: false, error: error });
     }
@@ -59,8 +61,6 @@ userRoutes.post("/add", (req, res) => {
 
   user.save(error => {
     if (error) return res.json({ success: false, error: error });
-    console.log(user.id);
-    console.log(user.name);
     return res.json({ success: true });
   });
 });
@@ -73,17 +73,14 @@ userRoutes.post("/get", async (req, res) => {
       result.password !== undefined &&
       req.body.password !== undefined
     ) {
-      console.log("You are in!");
       return res.json({ success: true, name: result.name });
     } else {
-      console.log("WRONG!");
       return res.json({ success: false });
     }
   });
 });
 
 recipeRoutes.post("/add", (req, res) => {
-  console.log("In add recipe");
   let recipe = new Recipe();
   recipe.id = req.body.id;
   recipe.title = req.body.title;
@@ -93,7 +90,6 @@ recipeRoutes.post("/add", (req, res) => {
 
   recipe.save(error => {
     if (error) return res.json({ success: false, error: error });
-    console.log(recipe.category);
     return res.json({ success: true });
   });
 });
@@ -107,8 +103,7 @@ recipeRoutes.get("/recipes", (req, res) => {
 
 recipeRoutes.get("/getRecipe", (req, res) => {
   const { id } = req.body;
-  Recipe.findById(id, function(err, data) {
-    console.log(data);
+  Recipe.findById(id, function (err, data) {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, recipe: data });
   });

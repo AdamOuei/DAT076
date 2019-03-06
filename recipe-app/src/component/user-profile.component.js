@@ -16,9 +16,7 @@ export default class UserProfile extends Component {
             savedRecipes: {},
             ownRecipes: {}
         }
-
     }
-
 
     render() {
         return (
@@ -36,10 +34,7 @@ export default class UserProfile extends Component {
                         </div>
                     </Router>
                 </div>
-
-
             </div>
-
         );
     }
 }

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { AppContext } from '../AppProvider';
+import App from "../App";
 
 class EditUser extends Component {
   constructor(props) {
@@ -13,21 +15,28 @@ class EditUser extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    //getUserInfo();
   }
 
-  /*
+  componentDidMount() {
+    this.getUserInfo();
+  }
+
   getUserInfo() {
     axios
-      .post("/getUserInfo", {
-        email: this.state.email
+      .post("http://localhost:4000/api/user/getUserInfo", {
+        email: this.context.user.email
       })
+      .then(res => res.request.response)
       .then(res => {
-        (this.state.name = res.data.name),
-          (this.state.email = res.data.email),
-          (this.state.password = res.data.password);
+        let user = JSON.parse(res).data;
+        console.log(user)
+        this.setState({
+          name: user.name,
+          email: user.email,
+          password: user.password
+        });
       });
-  }*/
+  }
 
   handleChange(event) {
     this.setState({
@@ -36,7 +45,7 @@ class EditUser extends Component {
   }
 
   handleSubmit(event) {
-    axios.post("/update", {
+    axios.post("http://localhost:4000/api/user/update", {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password
@@ -62,18 +71,12 @@ class EditUser extends Component {
               </label>
               <br />
               <label>
-                Email:
-                <textarea
-                  id="email"
-                  value={this.state.email}
-                  onChange={this.handleChange}
-                  placeholder={this.state.email}
-                />
+                Email: {this.state.email}
               </label>
               <br />
               <label>
                 Password:
-                <textarea
+                <input
                   id="password"
                   value={this.state.password}
                   onChange={this.handleChange}
@@ -89,5 +92,7 @@ class EditUser extends Component {
     );
   }
 }
+
+EditUser.contextType = AppContext;
 
 export default EditUser;
