@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import axios from "axios";
 import MiniRecipe from "./recipe-miniature.component";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-import EditUser from './edit-user';
+import EditUser from "./edit-user";
+import { AppContext } from "../AppProvider";
 
 export default class UserProfile extends Component {
-
     constructor(props) {
         super(props);
 
@@ -15,6 +15,16 @@ export default class UserProfile extends Component {
             password: "",
             savedRecipes: {},
             ownRecipes: {}
+        };
+    }
+
+    componentWillMount() {
+        this.checkIfLoggedIn();
+    }
+
+    checkIfLoggedIn() {
+        if (!this.context.isLoggedIn) {
+            this.props.history.push("/");
         }
     }
 
@@ -38,6 +48,8 @@ export default class UserProfile extends Component {
         );
     }
 }
+
+UserProfile.contextType = AppContext;
 
 /*
 <div id="savedRecipes">

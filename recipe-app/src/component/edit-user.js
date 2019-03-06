@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { AppContext } from '../AppProvider';
-import App from "../App";
+import { AppContext } from "../AppProvider";
 
 class EditUser extends Component {
   constructor(props) {
@@ -36,6 +35,16 @@ class EditUser extends Component {
           password: user.password
         });
       });
+  }
+
+  componentWillMount() {
+    this.checkIfLoggedIn();
+  }
+
+  checkIfLoggedIn() {
+    if (!this.context.isLoggedIn) {
+      this.props.history.push("/");
+    }
   }
 
   handleChange(event) {
