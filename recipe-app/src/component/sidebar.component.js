@@ -23,26 +23,27 @@ export default class Sidebar extends Component {
         <div className="wrapper">
           <nav id="sidebar" ref="sidebar" className={this.state.activeStyle}>
             <div className="sidebar-header">
-              <h3>Header</h3>
+              <h3>Kategorier</h3>
             </div>
             <ul className="list-unstyled components">
-              <p>Dummy heading</p>
               {this.props.categories.map(cat => (
-                <li onClick={this.props.setFilter(cat)}>{cat}</li>
+                <li key={cat} onClick={this.props.setFilter(cat)}>
+                  <div className="filter-item">{cat}</div>
+                </li>
               ))}
             </ul>
           </nav>
 
           <div id="content">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-              <div class="container-fluid">
+            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+              <div className="container-fluid">
                 <button
                   type="button"
                   id="sidebarCollapse"
-                  class="btn btn-info"
+                  className="btn btn-info"
                   onClick={this.showMenu}
                 >
-                  <i class="fas fa-align-left" />
+                  <i className="fas fa-align-left" />
                   <span>Toggle Sidebar</span>
                 </button>
               </div>
@@ -104,12 +105,12 @@ export default class Sidebar extends Component {
               padding: 10px;
             }
 
-            #sidebar ul li a {
+            #sidebar ul li div {
               padding: 10px;
               font-size: 1.1em;
               display: block;
             }
-            #sidebar ul li a:hover {
+            #sidebar ul li div:hover {
               color: #7386d5;
               background: #fff;
             }

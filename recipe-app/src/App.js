@@ -35,8 +35,9 @@ class App extends Component {
   }
 
   setFilter(category) {
-    if (this.state.filter.includes(category)) {
-      this.state.filter.splice(category);
+    let index = this.state.filter.indexOf(category);
+    if (index > -1) {
+      this.state.filter.splice(index, 1);
     } else {
       this.setState(prevVal => ({
         filter: [...prevVal.filter, category]
@@ -49,7 +50,7 @@ class App extends Component {
     //let modalClose = () => this.setState({ modalShow: false });
     return (
       <Router>
-        <div className="container">
+        <div className="nopadding">
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <a className="navbar-brand" href="/" target="_blank">
               <img src={logo} width="30" height="30" alt="RecipeList" />
