@@ -25,7 +25,8 @@ class App extends Component {
       recipe: null,
       filter: [],
       activeStyle: "",
-      authenticated: false
+      authenticated: false,
+      categories: []
     };
 
     this.showRecipe = this.showRecipe.bind(this);
@@ -146,7 +147,11 @@ class App extends Component {
                           path="/"
                           exact
                           render={props => (
-                            <RecipeList method={this.showRecipe} />
+                            <RecipeList
+                              method={this.showRecipe}
+                              categories={cats}
+                              filter={this.state.filter}
+                            />
                           )}
                         />
                         <Route path="/edit/:id" component={EditRecipe} />
