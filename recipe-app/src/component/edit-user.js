@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { AppContext } from "../AppProvider";
 
 class EditUser extends Component {
   constructor(props) {
@@ -28,6 +29,16 @@ class EditUser extends Component {
           (this.state.password = res.data.password);
       });
   }*/
+
+  componentWillMount() {
+    this.checkIfLoggedIn();
+  }
+
+  checkIfLoggedIn() {
+    if (!this.context.isLoggedIn) {
+      this.props.history.push("/");
+    }
+  }
 
   handleChange(event) {
     this.setState({
@@ -89,5 +100,7 @@ class EditUser extends Component {
     );
   }
 }
+
+EditUser.contextType = AppContext;
 
 export default EditUser;

@@ -2,47 +2,54 @@ import React, { Component } from "react";
 import axios from "axios";
 import MiniRecipe from "./recipe-miniature.component";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-import EditUser from './edit-user';
+import EditUser from "./edit-user";
+import { AppContext } from "../AppProvider";
 
 export default class UserProfile extends Component {
+  constructor(props) {
+    super(props);
 
-    constructor(props) {
-        super(props);
+    this.state = {
+      name: "",
+      email: "",
+      password: "",
+      savedRecipes: {},
+      ownRecipes: {}
+    };
+  }
 
-        this.state = {
-            name: "",
-            email: "",
-            password: "",
-            savedRecipes: {},
-            ownRecipes: {}
-        }
+  componentWillMount() {
+    this.checkIfLoggedIn();
+  }
 
+  checkIfLoggedIn() {
+    if (!this.context.isLoggedIn) {
+      this.props.history.push("/");
     }
+  }
 
-
-    render() {
-        return (
-            <div id="userProfile">
-                <div id="UserInfo">
-                    <h1>User Info</h1>
-                    <h3 id="userName">{this.state.name}</h3>
-                    <p>Email: {this.state.email}</p>
-                    <Router>
-                        <div>
-                            <Link to="/editUser">
-                                <button>Edit info</button>
-                            </Link>
-                            <Route path="/editUser" component={EditUser} />
-                        </div>
-                    </Router>
-                </div>
-
-
+  render() {
+    return (
+      <div id="userProfile">
+        <div id="UserInfo">
+          <h1>User Info</h1>
+          <h3 id="userName">{this.state.name}</h3>
+          <p>Email: {this.state.email}</p>
+          <Router>
+            <div>
+              <Link to="/editUser">
+                <button>Edit info</button>
+              </Link>
+              <Route path="/editUser" component={EditUser} />
             </div>
-
-        );
-    }
+          </Router>
+        </div>
+      </div>
+    );
+  }
 }
+
+UserProfile.contextType = AppContext;
 
 /*
 <div id="savedRecipes">
