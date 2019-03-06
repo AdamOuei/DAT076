@@ -13,9 +13,10 @@ class EditUser extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    getUserInfo();
+    //getUserInfo();
   }
 
+  /*
   getUserInfo() {
     axios
       .post("/getUserInfo", {
@@ -26,7 +27,7 @@ class EditUser extends Component {
           (this.state.email = res.data.email),
           (this.state.password = res.data.password);
       });
-  }
+  }*/
 
   handleChange(event) {
     this.setState({

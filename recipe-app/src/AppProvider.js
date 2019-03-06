@@ -14,6 +14,11 @@ export default class AppProvider extends Component {
       this.setState({
         isLoggedIn: loggedIn
       });
+    },
+    removeUser: () => {
+      this.setState({
+        isLoggedIn: false
+      });
     }
   };
   render() {

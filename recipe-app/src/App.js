@@ -11,7 +11,8 @@ import CreateRecipe from "./component/create-recipe.component.js";
 import Login from "./component/login.component";
 import RecipeRead from "./component/read-recipe.component";
 import UserProfile from "./component/user-profile.component.js";
-import AppProvider from "./AppProvider";
+import AppProvider, { AppContext } from "./AppProvider";
+import { Button } from "@material-ui/core";
 
 class App extends Component {
   constructor(...args) {
@@ -60,9 +61,25 @@ class App extends Component {
                     </Link>
                   </li>
                   <li>
-                    <Link to="/login" className="nav-link">
-                      Login
-                    </Link>
+                    <AppContext.Consumer>
+                      {context =>
+                        context.isLoggedIn === false ? (
+                          <Link to="/login" className="nav-link">
+                            Login
+                          </Link>
+                        ) : (
+                            <React.Fragment>
+                              <Button
+                                onClick={context.removeUser}>
+                                Logout
+                              </Button>
+                              <Link to="/userProfile" className="nav-link">
+                                {context.user.name}
+                              </Link>
+                            </React.Fragment>
+                          )
+                      }
+                    </AppContext.Consumer>
                   </li>
                 </ul>
               </div>
@@ -77,6 +94,7 @@ class App extends Component {
               <Route path="/edit/:id" component={EditRecipe} />
               <Route path="/create" component={CreateRecipe} />
               <Route path="/login" component={Login} />
+              <Route path="/userProfile" component={UserProfile} />
               <Route
                 path="/recipe"
                 render={props => <RecipeRead recipe={this.state.recipe} />}
@@ -88,5 +106,7 @@ class App extends Component {
     );
   }
 }
+
+App.contextType = AppContext;
 
 export default App;
