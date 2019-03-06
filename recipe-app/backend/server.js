@@ -74,7 +74,7 @@ userRoutes.post("/get", async (req, res) => {
       req.body.password !== undefined
     ) {
       console.log("You are in!");
-      return res.json({ success: true });
+      return res.json({ success: true, name: result.name });
     } else {
       console.log("WRONG!");
       return res.json({ success: false });

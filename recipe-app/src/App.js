@@ -11,6 +11,7 @@ import CreateRecipe from "./component/create-recipe.component.js";
 import Login from "./component/login.component";
 import RecipeRead from "./component/read-recipe.component";
 import UserProfile from "./component/user-profile.component.js";
+import AppProvider from "./AppProvider";
 
 class App extends Component {
   constructor(...args) {
@@ -36,52 +37,54 @@ class App extends Component {
   render() {
     //let modalClose = () => this.setState({ modalShow: false });
     return (
-      <Router>
-        <div className="container">
-          <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <a className="navbar-brand" href="/" target="_blank">
-              <img src={logo} width="30" height="30" alt="RecipeList" />
-            </a>
-            <Link to="/" className="navbar-brand">
-              Recipe Site
-            </Link>
-            <div className="collpase navbar-collapse">
-              <ul className="navbar-nav mr-auto">
-                <li className="navbar-item">
-                  <Link to="/" className="nav-link">
-                    Recipes
-                  </Link>
-                </li>
-                <li className="navbar-item">
-                  <Link to="/create" className="nav-link">
-                    Create Recipe
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/login" className="nav-link">
-                    Login
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </nav>
-          <br />
-          <Switch>
-            <Route
-              path="/"
-              exact
-              render={props => <RecipeList method={this.showRecipe} />}
-            />
-            <Route path="/edit/:id" component={EditRecipe} />
-            <Route path="/create" component={CreateRecipe} />
-            <Route path="/login" component={Login} />
-            <Route
-              path="/recipe"
-              render={props => <RecipeRead recipe={this.state.recipe} />}
-            />
-          </Switch>
-        </div>
-      </Router>
+      <AppProvider>
+        <Router>
+          <div className="container">
+            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+              <a className="navbar-brand" href="/" target="_blank">
+                <img src={logo} width="30" height="30" alt="RecipeList" />
+              </a>
+              <Link to="/" className="navbar-brand">
+                Recipe Site
+              </Link>
+              <div className="collpase navbar-collapse">
+                <ul className="navbar-nav mr-auto">
+                  <li className="navbar-item">
+                    <Link to="/" className="nav-link">
+                      Recipes
+                    </Link>
+                  </li>
+                  <li className="navbar-item">
+                    <Link to="/create" className="nav-link">
+                      Create Recipe
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/login" className="nav-link">
+                      Login
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+            <br />
+            <Switch>
+              <Route
+                path="/"
+                exact
+                render={props => <RecipeList method={this.showRecipe} />}
+              />
+              <Route path="/edit/:id" component={EditRecipe} />
+              <Route path="/create" component={CreateRecipe} />
+              <Route path="/login" component={Login} />
+              <Route
+                path="/recipe"
+                render={props => <RecipeRead recipe={this.state.recipe} />}
+              />
+            </Switch>
+          </div>
+        </Router>
+      </AppProvider>
     );
   }
 }

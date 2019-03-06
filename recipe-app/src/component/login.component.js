@@ -1,15 +1,10 @@
 import React, { Component } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Redirect,
-  Switch
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import Register from "./register-user.component";
 import "../styles/Login.css";
 import axios from "axios";
+import { AppContext } from "../AppProvider.js";
 
 export default class Login extends Component {
   constructor(props) {
@@ -38,6 +33,7 @@ export default class Login extends Component {
   }
 
   handleSubmit = async event => {
+    console.log(this.context);
     try {
       axios
         .post("http://localhost:4000/api/user/get", {
@@ -49,10 +45,12 @@ export default class Login extends Component {
           console.log(res);
           let validate = JSON.parse(res).success;
           this.validateLogin(validate);
+          this.context.isLoggedIn = this.state.loggedIn;
+          this.context.user.name = JSON.parse(res).name;
+          this.context.user.email = this.state.email;
           if (this.state.loggedIn) {
             this.props.history.push("/");
           }
-          console.log(this.state.loggedIn);
         });
     } catch (error) {
       console.log(error);
@@ -83,12 +81,8 @@ export default class Login extends Component {
                 onChange={this.handleChange}
               />
             </FormGroup>
-            <Button
-              block
-              bSize="large"
-              disabled={!this.validateForm()}
-              type="submit"
-            >
+
+            <Button block disabled={!this.validateForm()} type="submit">
               Login
             </Button>
             <Link to="/register" className="nav-link">
@@ -104,3 +98,5 @@ export default class Login extends Component {
     );
   }
 }
+
+Login.contextType = AppContext;
