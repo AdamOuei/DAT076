@@ -1,4 +1,4 @@
-import React, { Component/*, Modal, Button */} from "react";
+import React, { Component /*, Modal, Button */ } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 import logo from "./logo.svg";
@@ -10,29 +10,42 @@ import EditRecipe from "./component/edit-recipe.component";
 import CreateRecipe from "./component/create-recipe.component.js";
 import Login from "./component/login.component";
 import RecipeRead from "./component/read-recipe.component";
-
+import Sidebar from "./component/sidebar.component";
 
 class App extends Component {
   constructor(...args) {
     super(...args);
 
-    this.state = { 
+    this.state = {
       modalShow: false,
-      isShowing: false, 
-      recipe: null
+      isShowing: false,
+      recipe: null,
+      filter: []
     };
-    
+
     this.showRecipe = this.showRecipe.bind(this);
+    this.setFilter = this.setFilter.bind(this);
   }
 
-  showRecipe(recipe){
+  showRecipe(recipe) {
     this.setState({
       isShowing: true,
       recipe: recipe
     });
   }
 
+  setFilter(category) {
+    if (this.state.filter.includes(category)) {
+      this.state.filter.splice(category);
+    } else {
+      this.setState(prevVal => ({
+        filter: [...prevVal.filter, category]
+      }));
+    }
+  }
+
   render() {
+    let cats = ["Kött", "Kyckling", "Fisk", "Vegetariskt", "Vegan"];
     //let modalClose = () => this.setState({ modalShow: false });
     return (
       <Router>
@@ -64,12 +77,20 @@ class App extends Component {
               </ul>
             </div>
           </nav>
+          <Sidebar categories={cats} setFilter={this.setFilter} />
           <br />
-          <Route path="/" exact render={(props) => <RecipeList method={this.showRecipe} />} />
+          <Route
+            path="/"
+            exact
+            render={props => <RecipeList method={this.showRecipe} />}
+          />
           <Route path="/edit/:id" component={EditRecipe} />
           <Route path="/create" component={CreateRecipe} />
           <Route path="/login" component={Login} />
-          <Route path="/recipe" render={(props) => <RecipeRead recipe={this.state.recipe}/>} />
+          <Route
+            path="/recipe"
+            render={props => <RecipeRead recipe={this.state.recipe} />}
+          />
         </div>
       </Router>
     );
