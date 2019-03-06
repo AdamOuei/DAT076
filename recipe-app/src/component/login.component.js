@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import Register from "./register-user.component";
 import "../styles/Login.css";
 import axios from "axios";
+import { AppContext } from "../AppProvider.js";
 
 export default class Login extends Component {
   constructor(props) {
@@ -31,18 +32,30 @@ export default class Login extends Component {
     });
   }
 
-  handleSubmit = event => {
-    axios
-      .post("http://localhost:4000/api/user/get", {
-        email: this.state.email,
-        password: this.state.password
-      })
-      .then(res => res.request.response)
-      .then(res => {
-        let validate = JSON.parse(res).success;
-        this.validateLogin(validate);
-      });
-    console.log(this.state.loggedIn);
+  handleSubmit = async event => {
+    console.log(this.context);
+    try {
+      axios
+        .post("http://localhost:4000/api/user/get", {
+          email: this.state.email,
+          password: this.state.password
+        })
+        .then(res => res.request.response)
+        .then(res => {
+          console.log(res);
+          let validate = JSON.parse(res).success;
+          this.validateLogin(validate);
+          this.context.isLoggedIn = this.state.loggedIn;
+          this.context.user.name = JSON.parse(res).name;
+          this.context.user.email = this.state.email;
+          if (this.state.loggedIn) {
+            this.props.history.push("/");
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+
     event.preventDefault();
   };
 
@@ -68,22 +81,22 @@ export default class Login extends Component {
                 onChange={this.handleChange}
               />
             </FormGroup>
-            <Button
-              block
-              bSize="large"
-              disabled={!this.validateForm()}
-              type="submit"
-            >
+
+            <Button block disabled={!this.validateForm()} type="submit">
               Login
             </Button>
             <Link to="/register" className="nav-link">
               Sign Up
             </Link>
 
-            <Route path="/register" component={Register} />
+            <Switch>
+              <Route path="/register" component={Register} />
+            </Switch>
           </form>
         </div>
       </Router>
     );
   }
 }
+
+Login.contextType = AppContext;

@@ -1,5 +1,5 @@
 import React, { Component /*, Modal, Button */ } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
 import logo from "./logo.svg";
 
@@ -11,6 +11,9 @@ import CreateRecipe from "./component/create-recipe.component.js";
 import Login from "./component/login.component";
 import RecipeRead from "./component/read-recipe.component";
 import ListItem from "./component/sidebarItem.component";
+import UserProfile from "./component/user-profile.component.js";
+import AppProvider, { AppContext } from "./AppProvider";
+import { Button } from "@material-ui/core";
 
 class App extends Component {
   constructor(...args) {
@@ -21,7 +24,8 @@ class App extends Component {
       isShowing: false,
       recipe: null,
       filter: [],
-      activeStyle: ""
+      activeStyle: "",
+      authenticated: false
     };
 
     this.showRecipe = this.showRecipe.bind(this);
@@ -60,89 +64,108 @@ class App extends Component {
     let cats = ["Kött", "Kyckling", "Fisk", "Vegetariskt", "Vegan"];
     //let modalClose = () => this.setState({ modalShow: false });
     return (
-      <Router>
-        <div className="nopadding">
-          <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <a className="navbar-brand" href="/" target="_blank">
-              <img src={logo} width="30" height="30" alt="RecipeList" />
-            </a>
-            <Link to="/" className="navbar-brand">
-              Recipe Site
-            </Link>
-            <div className="collpase navbar-collapse">
-              <ul className="navbar-nav mr-auto">
-                <li className="navbar-item">
-                  <Link to="/" className="nav-link">
-                    Recipes
-                  </Link>
-                </li>
-                <li className="navbar-item">
-                  <Link to="/create" className="nav-link">
-                    Create Recipe
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/login" className="nav-link">
-                    Login
-                  </Link>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    id="sidebarCollapse"
-                    className="btn btn-info"
-                    onClick={this.showMenu}
-                  >
-                    <i className="fas fa-align-left" />
-                    <span>Toggle Sidebar</span>
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </nav>
-          <div>
-            <div className="wrapper">
-              <nav
-                id="sidebar"
-                ref="sidebar"
-                className={this.state.activeStyle}
-              >
-                <div className="sidebar-header">
-                  <h3>Kategorier</h3>
-                </div>
-                <ul className="list-unstyled components">
-                  {cats.map(cat => (
-                    <ListItem
-                      key={cat}
-                      item={cat}
-                      setFilter={this.setFilter.bind(this)}
-                    />
-                  ))}
+      <AppProvider>
+        <Router>
+          <div className="nopadding">
+            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+              <a className="navbar-brand" href="/" target="_blank">
+                <img src={logo} width="30" height="30" alt="RecipeList" />
+              </a>
+              <Link to="/" className="navbar-brand">
+                Recipe Site
+              </Link>
+              <div className="collpase navbar-collapse">
+                <ul className="navbar-nav mr-auto">
+                  <li className="navbar-item">
+                    <Link to="/" className="nav-link">
+                      Recipes
+                    </Link>
+                  </li>
+                  <li className="navbar-item">
+                    <Link to="/create" className="nav-link">
+                      Create Recipe
+                    </Link>
+                  </li>
+                  <li>
+                    <AppContext.Consumer>
+                      {context =>
+                        context.isLoggedIn === false ? (
+                          <Link to="/login" className="nav-link">
+                            Login
+                          </Link>
+                        ) : (
+                          <React.Fragment>
+                            <Button onClick={context.removeUser}>Logout</Button>
+                            <Link to="/userProfile" className="nav-link">
+                              {context.user.name}
+                            </Link>
+                          </React.Fragment>
+                        )
+                      }
+                    </AppContext.Consumer>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                      id="sidebarCollapse"
+                      className="btn btn-info"
+                      onClick={this.showMenu}
+                    >
+                      <i className="fas fa-align-left" />
+                      <span>Toggle Sidebar</span>
+                    </button>
+                  </li>
                 </ul>
-              </nav>
-              <div id="content">
-                <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                  <div className="container-fluid">
-                    <Route
-                      path="/"
-                      exact
-                      render={props => <RecipeList method={this.showRecipe} />}
-                    />
-                    <Route path="/edit/:id" component={EditRecipe} />
-                    <Route path="/create" component={CreateRecipe} />
-                    <Route path="/login" component={Login} />
-                    <Route
-                      path="/recipe"
-                      render={props => (
-                        <RecipeRead recipe={this.state.recipe} />
-                      )}
-                    />
-                  </div>
-                </nav>
               </div>
-            </div>
-            <style>
-              {`
+            </nav>
+            <div>
+              <div className="wrapper">
+                <nav
+                  id="sidebar"
+                  ref="sidebar"
+                  className={this.state.activeStyle}
+                >
+                  <div className="sidebar-header">
+                    <h3>Kategorier</h3>
+                  </div>
+                  <ul className="list-unstyled components">
+                    {cats.map(cat => (
+                      <ListItem
+                        key={cat}
+                        item={cat}
+                        setFilter={this.setFilter.bind(this)}
+                      />
+                    ))}
+                  </ul>
+                </nav>
+                <div id="content">
+                  <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <div className="container-fluid">
+                      <Switch>
+                        <Route
+                          path="/"
+                          exact
+                          render={props => (
+                            <RecipeList method={this.showRecipe} />
+                          )}
+                        />
+                        <Route path="/edit/:id" component={EditRecipe} />
+                        <Route path="/create" component={CreateRecipe} />
+                        <Route path="/login" component={Login} />
+                        <Route path="/userProfile" component={UserProfile} />
+                        <Route
+                          path="/recipe"
+                          render={props => (
+                            <RecipeRead recipe={this.state.recipe} />
+                          )}
+                        />
+                      </Switch>
+                    </div>
+                  </nav>
+                </div>
+              </div>
+              <style>
+                {`
             .wrapper {
               display: flex;
               align-items: stretch;
@@ -206,12 +229,15 @@ class App extends Component {
               background: #fff;
             }
           `}
-            </style>
+              </style>
+            </div>
           </div>
-        </div>
-      </Router>
+        </Router>
+      </AppProvider>
     );
   }
 }
+
+App.contextType = AppContext;
 
 export default App;
