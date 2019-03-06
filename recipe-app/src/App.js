@@ -20,11 +20,13 @@ class App extends Component {
       modalShow: false,
       isShowing: false,
       recipe: null,
-      filter: []
+      filter: [],
+      activeStyle: ""
     };
 
     this.showRecipe = this.showRecipe.bind(this);
     this.setFilter = this.setFilter.bind(this);
+    this.showMenu = this.showMenu.bind(this);
   }
 
   showRecipe(recipe) {
@@ -43,6 +45,12 @@ class App extends Component {
         filter: [...prevVal.filter, category]
       }));
     }
+  }
+
+  showMenu() {
+    this.state.activeStyle === ""
+      ? this.setState({ activeStyle: "active" })
+      : this.setState({ activeStyle: "" });
   }
 
   render() {
@@ -75,23 +83,126 @@ class App extends Component {
                     Login
                   </Link>
                 </li>
+                <li>
+                  <button
+                    type="button"
+                    id="sidebarCollapse"
+                    className="btn btn-info"
+                    onClick={this.showMenu}
+                  >
+                    <i className="fas fa-align-left" />
+                    <span>Toggle Sidebar</span>
+                  </button>
+                </li>
               </ul>
             </div>
           </nav>
-          <Sidebar categories={cats} setFilter={this.setFilter} />
-          <br />
-          <Route
-            path="/"
-            exact
-            render={props => <RecipeList method={this.showRecipe} />}
-          />
-          <Route path="/edit/:id" component={EditRecipe} />
-          <Route path="/create" component={CreateRecipe} />
-          <Route path="/login" component={Login} />
-          <Route
-            path="/recipe"
-            render={props => <RecipeRead recipe={this.state.recipe} />}
-          />
+          <div>
+            <div className="wrapper">
+              <nav
+                id="sidebar"
+                ref="sidebar"
+                className={this.state.activeStyle}
+              >
+                <div className="sidebar-header">
+                  <h3>Kategorier</h3>
+                </div>
+                <ul className="list-unstyled components">
+                  {cats.map(cat => (
+                    <li key={cat} onClick={this.setFilter(cat)}>
+                      <div className="filter-item">{cat}</div>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+              <div id="content">
+                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                  <div className="container-fluid">
+                    <Route
+                      path="/"
+                      exact
+                      render={props => <RecipeList method={this.showRecipe} />}
+                    />
+                    <Route path="/edit/:id" component={EditRecipe} />
+                    <Route path="/create" component={CreateRecipe} />
+                    <Route path="/login" component={Login} />
+                    <Route
+                      path="/recipe"
+                      render={props => (
+                        <RecipeRead recipe={this.state.recipe} />
+                      )}
+                    />
+                  </div>
+                </nav>
+              </div>
+            </div>
+            <style>
+              {`
+            .wrapper {
+              display: flex;
+              align-items: stretch;
+            }
+
+            #sidebar {
+              min-width: 250px;
+              max-width: 250px;
+              min-height: 100vh;
+              background: #e0e0e0;
+              color: #fff;
+              transition: all 0.3s;
+            }
+
+            #sidebar.active {
+              margin-left: -250px;
+            }
+
+            @media (max-width: 768px) {
+              #sidebar {
+                margin-left: -250px;
+              }
+
+              #sidebar.active {
+                margin-left: 0;
+              }
+            }
+
+            p {
+              font-size: 1em;
+              font-weight: 300;
+              line-height: 1.7em;
+              color: #999;
+            }
+
+            a,
+            a:hover,
+            a:focus {
+              color: inherit;
+              text-decoration: none;
+              transition: all 0.3s;
+            }
+
+            #sidebar .sidebar-header {
+              padding: 20px;
+              background: #e0e0e0;
+            }
+
+            #sidebar ul p {
+              color: #fff;
+              padding: 10px;
+            }
+
+            #sidebar ul li div {
+              padding: 10px;
+              font-size: 1.1em;
+              display: block;
+            }
+            #sidebar ul li div:hover {
+              color: #aaaaaa;
+              background: #fff;
+            }
+          `}
+            </style>
+          </div>
         </div>
       </Router>
     );
