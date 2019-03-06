@@ -10,6 +10,7 @@ import EditRecipe from "./component/edit-recipe.component";
 import CreateRecipe from "./component/create-recipe.component.js";
 import Login from "./component/login.component";
 import RecipeRead from "./component/read-recipe.component";
+import ListItem from "./component/sidebarItem.component";
 
 class App extends Component {
   constructor(...args) {
@@ -36,10 +37,12 @@ class App extends Component {
   }
 
   setFilter(category) {
-    console.log("In setFilter");
     let index = this.state.filter.indexOf(category);
     if (index > -1) {
       this.state.filter.splice(index, 1);
+      this.setState(prevVal => ({
+        filter: prevVal.filter
+      }));
     } else {
       this.setState(prevVal => ({
         filter: [...prevVal.filter, category]
@@ -109,14 +112,11 @@ class App extends Component {
                 </div>
                 <ul className="list-unstyled components">
                   {cats.map(cat => (
-                    <li key={cat}>
-                      <div
-                        className="filter-item"
-                        onClick={this.setFilter(cat)}
-                      >
-                        {cat}
-                      </div>
-                    </li>
+                    <ListItem
+                      key={cat}
+                      item={cat}
+                      setFilter={this.setFilter.bind(this)}
+                    />
                   ))}
                 </ul>
               </nav>
