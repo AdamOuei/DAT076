@@ -35,7 +35,7 @@ class App extends Component {
   componentWillUpdate() {}
 
   componentDidMount() {
-    if (localStorage.getItem("isLoggedIn") == true) {
+    if (localStorage.getItem("isLoggedIn") === "true") {
       console.log("enters here");
     } else {
       console.log("Failed lol get rekt");

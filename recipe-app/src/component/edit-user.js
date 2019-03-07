@@ -28,13 +28,17 @@ class EditUser extends Component {
       .then(res => res.request.response)
       .then(res => {
         let user = JSON.parse(res).data;
-        console.log(user)
+        console.log(user);
         this.setState({
           name: user.name,
           email: user.email,
           password: user.password
         });
       });
+  }
+
+  componentDidUpdate() {
+    this.checkIfLoggedIn();
   }
 
   componentWillMount() {
@@ -79,9 +83,7 @@ class EditUser extends Component {
                 />
               </label>
               <br />
-              <label>
-                Email: {this.state.email}
-              </label>
+              <label>Email: {this.state.email}</label>
               <br />
               <label>
                 Password:

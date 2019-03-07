@@ -90,8 +90,6 @@ export default class Login extends Component {
           <Link to="/register" className="nav-link">
             Sign Up
           </Link>
-
-          <Switch />
         </form>
       </div>
     );
