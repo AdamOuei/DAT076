@@ -30,6 +30,16 @@ class App extends Component {
     this.showRecipe = this.showRecipe.bind(this);
   }
 
+  componentWillUpdate() {}
+
+  componentDidMount() {
+    if (localStorage.getItem("isLoggedIn") == true) {
+      console.log("enters here");
+    } else {
+      console.log("Failed lol get rekt");
+      console.log(localStorage.getItem("isLoggedIn"));
+    }
+  }
   showRecipe(recipe) {
     this.setState({
       isShowing: true,

@@ -50,6 +50,9 @@ export default class Login extends Component {
           this.context.user.email = this.state.email;
           if (this.state.loggedIn) {
             this.props.history.push("/");
+            localStorage.setItem("isLoggedIn", this.state.loggedIn);
+            localStorage.setItem("userName", this.context.user.name);
+            localStorage.setItem("userEmail", this.context.user.email);
           }
         });
     } catch (error) {
