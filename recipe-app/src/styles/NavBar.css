@@ -1,0 +1,10 @@
+.cool-class {
+  display: flex;
+  justify-items: space-between;
+}
+
+.friends {
+  display: flex;
+
+  flex-direction: row;
+}

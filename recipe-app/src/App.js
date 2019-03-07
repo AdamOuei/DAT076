@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import logo from "./logo.svg";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
 
 import RecipeList from "./component/recipe-list.component";
 import EditRecipe from "./component/edit-recipe.component";
@@ -41,7 +42,7 @@ class App extends Component {
     return (
       <AppProvider>
         <Router>
-          <div className="container">
+          <div className="container ">
             <NavBar />
             <Switch>
               <Route
