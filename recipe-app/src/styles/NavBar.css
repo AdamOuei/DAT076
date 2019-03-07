@@ -4,7 +4,15 @@
 }
 
 .friends {
+  color: black;
   display: flex;
-
   flex-direction: row;
+}
+a {
+  color: black;
+  text-decoration: none;
+  background-color: transparent;
+}
+a:hover {
+  color: black;
 }
