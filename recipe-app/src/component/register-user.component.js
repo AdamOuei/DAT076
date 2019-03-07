@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormLabel, FormControl } from "react-bootstrap";
 import axios from "axios";
+import "../styles/Register.css";
 
 export default class Register extends Component {
   constructor(props) {

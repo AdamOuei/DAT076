@@ -15,6 +15,8 @@ import UserProfile from "./component/user-profile.component.js";
 import AppProvider, { AppContext } from "./AppProvider";
 import NavBar from "./component/navbar.component";
 import { Button } from "@material-ui/core";
+import EditUser from "./component/edit-user";
+import Register from "./component/register-user.component";
 
 class App extends Component {
   constructor(...args) {
@@ -64,6 +66,8 @@ class App extends Component {
               <Route path="/create" component={CreateRecipe} />
               <Route path="/login" component={Login} />
               <Route path="/userProfile" component={UserProfile} />
+              <Route path="/editUser" component={EditUser} />
+              <Route path="/register" component={Register} />
               <Route
                 path="/recipe"
                 render={props => <RecipeRead recipe={this.state.recipe} />}

@@ -64,40 +64,36 @@ export default class Login extends Component {
 
   render() {
     return (
-      <Router>
-        <div className="Login">
-          <form onSubmit={this.handleSubmit}>
-            <FormGroup controlId="email" bSize="large ">
-              <FormLabel>Email</FormLabel>
-              <FormControl
-                autoFocus
-                type="email"
-                value={this.state.email}
-                onChange={this.handleChange}
-              />
-            </FormGroup>
-            <FormGroup controlId="password" bSize="large">
-              <FormLabel>Password</FormLabel>
-              <FormControl
-                type="password"
-                value={this.state.password}
-                onChange={this.handleChange}
-              />
-            </FormGroup>
+      <div className="Login">
+        <form onSubmit={this.handleSubmit}>
+          <FormGroup controlId="email" bSize="large ">
+            <FormLabel>Email</FormLabel>
+            <FormControl
+              autoFocus
+              type="email"
+              value={this.state.email}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <FormGroup controlId="password" bSize="large">
+            <FormLabel>Password</FormLabel>
+            <FormControl
+              type="password"
+              value={this.state.password}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
 
-            <Button block disabled={!this.validateForm()} type="submit">
-              Login
-            </Button>
-            <Link to="/register" className="nav-link">
-              Sign Up
-            </Link>
+          <Button block disabled={!this.validateForm()} type="submit">
+            Login
+          </Button>
+          <Link to="/register" className="nav-link">
+            Sign Up
+          </Link>
 
-            <Switch>
-              <Route path="/register" component={Register} />
-            </Switch>
-          </form>
-        </div>
-      </Router>
+          <Switch />
+        </form>
+      </div>
     );
   }
 }

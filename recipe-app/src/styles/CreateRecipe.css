@@ -1,0 +1,14 @@
+.test {
+  margin-left: 10px;
+}
+
+.recipeContainer {
+  display: flex;
+}
+
+h1,
+.btn,
+#input-field,
+.test {
+  flex: 1;
+}
