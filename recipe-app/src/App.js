@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import logo from "./logo.svg";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
 
 import RecipeList from "./component/recipe-list.component";
 import EditRecipe from "./component/edit-recipe.component";
@@ -13,7 +14,10 @@ import RecipeRead from "./component/read-recipe.component";
 import ListItem from "./component/sidebarItem.component";
 import UserProfile from "./component/user-profile.component.js";
 import AppProvider, { AppContext } from "./AppProvider";
+import NavBar from "./component/navbar.component";
 import { Button } from "@material-ui/core";
+import EditUser from "./component/edit-user";
+import Register from "./component/register-user.component";
 
 class App extends Component {
   constructor(...args) {
@@ -34,6 +38,16 @@ class App extends Component {
     this.showMenu = this.showMenu.bind(this);
   }
 
+  componentWillUpdate() {}
+
+  componentDidMount() {
+    if (localStorage.getItem("isLoggedIn") === "true") {
+      console.log("enters here");
+    } else {
+      console.log("Failed lol get rekt");
+      console.log(localStorage.getItem("isLoggedIn"));
+    }
+  }
   showRecipe(recipe) {
     this.setState({
       isShowing: true,
@@ -68,57 +82,7 @@ class App extends Component {
       <AppProvider>
         <Router>
           <div className="nopadding">
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
-              <a className="navbar-brand" href="/" target="_blank">
-                <img src={logo} width="30" height="30" alt="RecipeList" />
-              </a>
-              <Link to="/" className="navbar-brand">
-                Recipe Site
-              </Link>
-              <div className="collpase navbar-collapse">
-                <ul className="navbar-nav mr-auto">
-                  <li className="navbar-item">
-                    <Link to="/" className="nav-link">
-                      Recipes
-                    </Link>
-                  </li>
-                  <li className="navbar-item">
-                    <Link to="/create" className="nav-link">
-                      Create Recipe
-                    </Link>
-                  </li>
-                  <li>
-                    <AppContext.Consumer>
-                      {context =>
-                        context.isLoggedIn === false ? (
-                          <Link to="/login" className="nav-link">
-                            Login
-                          </Link>
-                        ) : (
-                          <React.Fragment>
-                            <Button onClick={context.removeUser}>Logout</Button>
-                            <Link to="/userProfile" className="nav-link">
-                              {context.user.name}
-                            </Link>
-                          </React.Fragment>
-                        )
-                      }
-                    </AppContext.Consumer>
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                      id="sidebarCollapse"
-                      className="btn btn-info"
-                      onClick={this.showMenu}
-                    >
-                      <i className="fas fa-align-left" />
-                      <span>Toggle Sidebar</span>
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            </nav>
+            <NavBar showMenu={this.showMenu} />
             <div>
               <div className="wrapper">
                 <nav
@@ -148,8 +112,8 @@ class App extends Component {
                         render={props => (
                           <RecipeList
                             method={this.showRecipe}
-                            categories={cats}
                             filter={this.state.filter}
+                            categories={cats}
                           />
                         )}
                       />
@@ -157,6 +121,8 @@ class App extends Component {
                       <Route path="/create" component={CreateRecipe} />
                       <Route path="/login" component={Login} />
                       <Route path="/userProfile" component={UserProfile} />
+                      <Route path="/editUser" component={EditUser} />
+                      <Route path="/register" component={Register} />
                       <Route
                         path="/recipe"
                         render={props => (

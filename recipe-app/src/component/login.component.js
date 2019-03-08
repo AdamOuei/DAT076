@@ -50,6 +50,9 @@ export default class Login extends Component {
           this.context.user.email = this.state.email;
           if (this.state.loggedIn) {
             this.props.history.push("/");
+            localStorage.setItem("isLoggedIn", this.state.loggedIn);
+            localStorage.setItem("userName", this.context.user.name);
+            localStorage.setItem("userEmail", this.context.user.email);
           }
         });
     } catch (error) {
@@ -61,40 +64,34 @@ export default class Login extends Component {
 
   render() {
     return (
-      <Router>
-        <div className="Login">
-          <form onSubmit={this.handleSubmit}>
-            <FormGroup controlId="email" bSize="large ">
-              <FormLabel>Email</FormLabel>
-              <FormControl
-                autoFocus
-                type="email"
-                value={this.state.email}
-                onChange={this.handleChange}
-              />
-            </FormGroup>
-            <FormGroup controlId="password" bSize="large">
-              <FormLabel>Password</FormLabel>
-              <FormControl
-                type="password"
-                value={this.state.password}
-                onChange={this.handleChange}
-              />
-            </FormGroup>
+      <div className="Login">
+        <form onSubmit={this.handleSubmit}>
+          <FormGroup controlId="email" bSize="large ">
+            <FormLabel>Email</FormLabel>
+            <FormControl
+              autoFocus
+              type="email"
+              value={this.state.email}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <FormGroup controlId="password" bSize="large">
+            <FormLabel>Password</FormLabel>
+            <FormControl
+              type="password"
+              value={this.state.password}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
 
-            <Button block disabled={!this.validateForm()} type="submit">
-              Login
-            </Button>
-            <Link to="/register" className="nav-link">
-              Sign Up
-            </Link>
-
-            <Switch>
-              <Route path="/register" component={Register} />
-            </Switch>
-          </form>
-        </div>
-      </Router>
+          <Button block disabled={!this.validateForm()} type="submit">
+            Login
+          </Button>
+          <Link to="/register" className="nav-link">
+            Sign Up
+          </Link>
+        </form>
+      </div>
     );
   }
 }

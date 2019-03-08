@@ -3,8 +3,16 @@ import React, { Component } from "react";
 export const AppContext = React.createContext();
 
 export default class AppProvider extends Component {
+  componentDidMount() {
+    this.setState({
+      isLoggedIn: localStorage.getItem("isLoggedIn") === "true",
+      user: {
+        name: localStorage.getItem("userName"),
+        email: localStorage.getItem("userEmail")
+      }
+    });
+  }
   state = {
-    number: 10,
     user: {
       name: "",
       email: ""
@@ -19,6 +27,7 @@ export default class AppProvider extends Component {
       this.setState({
         isLoggedIn: false
       });
+      localStorage.setItem("isLoggedIn", false);
     }
   };
   render() {

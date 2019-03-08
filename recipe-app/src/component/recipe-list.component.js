@@ -24,17 +24,11 @@ export default class RecipeList extends Component {
   render() {
     let filter =
       this.props.filter.length < 1 ? this.props.categories : this.props.filter;
-
     if (!this.state.isLoaded) return <div>Loading...</div>;
-
     return (
       <div>
         <AppContext.Consumer>
-          {context => (
-            <p>
-              {context.user.name}!{console.log(context.user.name)}
-            </p>
-          )}
+          {context => <p>Hej{context.user.name}!</p>}
         </AppContext.Consumer>
         {this.state.recipes
           .filter(recipe =>
@@ -53,15 +47,3 @@ export default class RecipeList extends Component {
 }
 
 RecipeList.context = AppContext;
-
-/*        {this.state.recipes
-          .filter(recipe =>
-            recipe.category.some(cat => filter.indexOf(cat) >= 0)
-          )
-          .map(recipe => (
-            <MiniRecipe
-              key={recipe._id}
-              recipe={recipe}
-              method={this.props.method}
-            />
-          ))}*/

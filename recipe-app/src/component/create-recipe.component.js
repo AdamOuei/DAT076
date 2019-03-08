@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
 import axios from "axios";
 
+import "../styles/CreateRecipe.css";
+
 const options = [
   { label: "Kyckling", value: 1 },
   { label: "Vegetariskt", value: 2 },
@@ -58,13 +60,14 @@ export default class CreateRecipe extends Component {
 
       <div>
         <p>Create Recipe</p>
-        <div className="container">
+        <div className="recipeContainer">
           <div className="row mt-5">
             <div className="col-sm-12">
               <form onSubmit={this.handleSubmit}>
                 <label>
                   Title:
                   <input
+                    className="test"
                     id="title"
                     type="text"
                     value={this.state.title}
@@ -75,6 +78,7 @@ export default class CreateRecipe extends Component {
                 <label>
                   Ingredients:
                   <textarea
+                    className="test"
                     id="ingredients"
                     value={this.state.ingredients}
                     onChange={this.handleChange}
@@ -85,6 +89,7 @@ export default class CreateRecipe extends Component {
                 <label>
                   Instructions:
                   <textarea
+                    className="test"
                     id="instructions"
                     value={this.state.instructions}
                     onChange={this.handleChange}

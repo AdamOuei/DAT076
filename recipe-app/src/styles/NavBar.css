@@ -1,0 +1,18 @@
+.cool-class {
+  display: flex;
+  justify-items: space-between;
+}
+
+.friends {
+  color: black;
+  display: flex;
+  flex-direction: row;
+}
+a {
+  color: black;
+  text-decoration: none;
+  background-color: transparent;
+}
+a:hover {
+  color: black;
+}

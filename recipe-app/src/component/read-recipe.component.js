@@ -13,8 +13,6 @@ export default class RecipeRead extends Component {
   }
 
   render() {
-    console.log(this.state.categories);
-
     return (
       <div>
         <div>

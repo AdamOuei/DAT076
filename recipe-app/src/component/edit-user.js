@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { AppContext } from "../AppProvider";
+import {
+  Button,
+  FormGroup,
+  FormControl,
+  FormLabel,
+  Col
+} from "react-bootstrap";
 
 class EditUser extends Component {
   constructor(props) {
@@ -28,13 +35,17 @@ class EditUser extends Component {
       .then(res => res.request.response)
       .then(res => {
         let user = JSON.parse(res).data;
-        console.log(user)
+        console.log(user);
         this.setState({
           name: user.name,
           email: user.email,
           password: user.password
         });
       });
+  }
+
+  componentDidUpdate() {
+    this.checkIfLoggedIn();
   }
 
   componentWillMount() {
@@ -68,6 +79,56 @@ class EditUser extends Component {
         <div className="row mt-5">
           <div className="col-sm-12">
             <form onSubmit={this.handleSubmit}>
+              <FormGroup controlId="formPlaintextEmail">
+                <FormLabel column sm="2">
+                  Email
+                </FormLabel>
+                <Col sm="10">
+                  <FormControl
+                    plaintext
+                    readOnly
+                    defaultValue={this.state.email}
+                  />
+                </Col>
+              </FormGroup>
+              <FormGroup controlId="changePassword">
+                <FormLabel column sm="2">
+                  Password
+                </FormLabel>
+                <Col sm="4">
+                  <FormControl
+                    onChange={this.handleChange}
+                    value={this.state.password}
+                  />
+                </Col>
+              </FormGroup>
+              <FormGroup controlId="changeName">
+                <FormLabel column sm="2">
+                  Name
+                </FormLabel>
+                <Col sm="4">
+                  <FormControl
+                    onChange={this.handleChange}
+                    value={this.state.name}
+                  />
+                </Col>
+              </FormGroup>
+              {/*Try to center this one*/}
+              <Button column sm="2" type="submit">
+                Submit
+              </Button>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  /*  render() {
+    return (
+      <div className="container">
+        <div className="row mt-5">
+          <div className="col-sm-12">
+            <form onSubmit={this.handleSubmit}>
               <label>
                 Name:
                 <input
@@ -79,9 +140,7 @@ class EditUser extends Component {
                 />
               </label>
               <br />
-              <label>
-                Email: {this.state.email}
-              </label>
+              <label>Email: {this.state.email}</label>
               <br />
               <label>
                 Password:
@@ -99,7 +158,7 @@ class EditUser extends Component {
         </div>
       </div>
     );
-  }
+  }*/
 }
 
 EditUser.contextType = AppContext;
