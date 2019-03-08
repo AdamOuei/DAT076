@@ -23,15 +23,13 @@ export default class RecipeList extends Component {
 
   render() {
     if (!this.state.isLoaded) return <div>Loading...</div>;
+    //TODO: Make the recipes show in a table instead of a long list (?)
     return (
       <div>
         <AppContext.Consumer>
-          {context => (
-            <p>
-              Hej {context.user.name}!{console.log(context.user.name)}
-            </p>
-          )}
+          {context => <p>Hej {context.user.name}!</p>}
         </AppContext.Consumer>
+
         {this.state.recipes.map(recipe => (
           <MiniRecipe
             key={recipe._id}
