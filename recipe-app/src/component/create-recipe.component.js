@@ -18,7 +18,7 @@ export default class CreateRecipe extends Component {
       title: "",
       ingredients: "",
       instructions: "",
-      categories: ""
+      categories: {}
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -32,6 +32,13 @@ export default class CreateRecipe extends Component {
     });
   };
 
+  handleOptions = selectedOptions => {
+    this.setState({
+      categories: selectedOptions
+    });
+    console.log(`selected options: `, selectedOptions);
+  };
+
   handleSubmit = event => {
     //TODO Fix id and category
     axios.post("http://localhost:4000/api/recipe/add", {
@@ -39,12 +46,13 @@ export default class CreateRecipe extends Component {
       title: this.state.title,
       ingredients: this.state.ingredients,
       instructions: this.state.instructions,
-      category: [this.state.category]
+      category: this.state.categories
     });
     event.preventDefault();
   };
 
   render() {
+    const { selectedOptions } = this.state.categories;
     return (
       /*TODO: Make into a form so that we can setStates above*/
 
@@ -87,9 +95,8 @@ export default class CreateRecipe extends Component {
                 <label>
                   Category:
                   <ReactMultiSelectCheckboxes
-                    id="categories"
-                    value={this.state.categories}
-                    onChange={this.handleChange}
+                    value={selectedOptions}
+                    onChange={this.handleOptions}
                     options={options}
                   />
                 </label>

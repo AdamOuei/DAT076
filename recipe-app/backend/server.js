@@ -20,16 +20,16 @@ mongoose.connect(
 );
 const connection = mongoose.connection;
 
-connection.once("open", function () {
+connection.once("open", function() {
   console.log("MongoDB database connection established succesfully");
 });
 
-app.listen(PORT, function () {
+app.listen(PORT, function() {
   console.log("Server is running on Port: " + PORT);
 });
 
 userRoutes.post("/getUserInfo", (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   console.log(req.body.email);
   User.findOne({ email: req.body.email }, (error, result) => {
     if (error) {
@@ -87,6 +87,7 @@ recipeRoutes.post("/add", (req, res) => {
   recipe.ingredients = req.body.ingredients;
   recipe.instructions = req.body.instructions;
   recipe.category = req.body.category;
+  console.log(req.body.category);
 
   recipe.save(error => {
     if (error) return res.json({ success: false, error: error });
@@ -103,7 +104,7 @@ recipeRoutes.get("/recipes", (req, res) => {
 
 recipeRoutes.get("/getRecipe", (req, res) => {
   const { id } = req.body;
-  Recipe.findById(id, function (err, data) {
+  Recipe.findById(id, function(err, data) {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, recipe: data });
   });

@@ -142,29 +142,27 @@ class App extends Component {
                 <div id="content">
                   <nav className="navbar navbar-expand-lg navbar-light bg-light">
                     <div className="container-fluid">
-                      <Switch>
-                        <Route
-                          path="/"
-                          exact
-                          render={props => (
-                            <RecipeList
-                              method={this.showRecipe}
-                              categories={cats}
-                              filter={this.state.filter}
-                            />
-                          )}
-                        />
-                        <Route path="/edit/:id" component={EditRecipe} />
-                        <Route path="/create" component={CreateRecipe} />
-                        <Route path="/login" component={Login} />
-                        <Route path="/userProfile" component={UserProfile} />
-                        <Route
-                          path="/recipe"
-                          render={props => (
-                            <RecipeRead recipe={this.state.recipe} />
-                          )}
-                        />
-                      </Switch>
+                      <Route
+                        path="/"
+                        exact
+                        render={props => (
+                          <RecipeList
+                            method={this.showRecipe}
+                            categories={cats}
+                            filter={this.state.filter}
+                          />
+                        )}
+                      />
+                      <Route path="/edit/:id" component={EditRecipe} />
+                      <Route path="/create" component={CreateRecipe} />
+                      <Route path="/login" component={Login} />
+                      <Route path="/userProfile" component={UserProfile} />
+                      <Route
+                        path="/recipe"
+                        render={props => (
+                          <RecipeRead recipe={this.state.recipe} />
+                        )}
+                      />
                     </div>
                   </nav>
                 </div>
