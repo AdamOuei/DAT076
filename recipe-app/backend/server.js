@@ -37,6 +37,16 @@ userRoutes.post('/getUserInfo', (req, res) => {
     })
 })
 
+userRoutes.post('/getUserInfoTest', (req, res) => {
+    User.findOne({ name: req.body.name }, (error, result) => {
+        if (error) {
+            return res.json({ success: false, error: error });
+        }
+        return res.json({ success: true, data: result });
+    })
+})
+
+
 userRoutes.post('/update', (req, res) => {
     const { email, name, password } = req.body;
     console.log(email);
@@ -94,6 +104,7 @@ recipeRoutes.post("/add", (req, res) => {
     });
 });
 
+
 recipeRoutes.get('/recipes', (req, res) => {
     Recipe.find((err, data) => {
         if(err) return res.json({success: false, error: err});
@@ -112,6 +123,16 @@ recipeRoutes.get('/getRecipe', (req, res) => {
 
 app.use('/api/recipe', recipeRoutes);
 app.use('/api/user', userRoutes);
+
+recipeRoutes.post('/getRecipeById', (req, res) => {
+    Recipe.findOne({ _id : req.body._id }, (error, result) => {
+        console.log("Id: " + req.body.id);
+        if (error) {
+            return res.json({ success: false, error: error });
+        }
+        return res.json({ success: true, data: result });
+    })
+})
 
 
 recipeRoutes.post("/update", (req, res) => {

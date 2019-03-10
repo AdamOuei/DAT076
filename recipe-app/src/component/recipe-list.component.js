@@ -11,7 +11,9 @@ export default class RecipeList extends Component {
   }
 
   componentDidMount(){
+
     this.getDataFromDb();
+
   }
 
   getDataFromDb = () => {
@@ -19,14 +21,17 @@ export default class RecipeList extends Component {
       .then(data => data.json())
       .then(res => 
         this.setState({ recipes: res.data, isLoaded: true }));
+
   };
 
   render() {
-    if(!this.state.isLoaded) return (<div>Loading...</div>);    
+    if(!this.state.isLoaded) return (<div>Loading...</div>); 
+       
     return (
       <div>
         {this.state.recipes.map(recipe => (<MiniRecipe key={recipe._id} recipe={recipe} method={this.props.method}/>))}
       </div>
     );
   }
+  
 }
