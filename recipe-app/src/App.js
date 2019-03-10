@@ -200,9 +200,23 @@ class App extends Component {
           `}
               </style>
             </div>
+
           </div>
         </Router>
       </AppProvider>
+/*=======
+          </nav>
+          <br />
+
+          <Route path="/" exact render={(props) => <RecipeList method={this.showRecipe}  />} />
+          <Route path="/edit/:id" component={EditRecipe} />
+          <Route path="/create" component={CreateRecipe} />
+          <Route path="/login" component={Login} />
+          <Route path="/recipe" render={(props) => <RecipeRead recipe={this.state.recipe}/>} />
+        </div>
+      </Router>
+>>>>>>> view
+*/
     );
   }
 }

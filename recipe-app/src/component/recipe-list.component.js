@@ -11,8 +11,11 @@ export default class RecipeList extends Component {
     };
   }
 
+
   componentDidMount() {
+
     this.getDataFromDb();
+
   }
 
   getDataFromDb = () => {
@@ -25,6 +28,7 @@ export default class RecipeList extends Component {
     let filter =
       this.props.filter.length < 1 ? this.props.categories : this.props.filter;
     if (!this.state.isLoaded) return <div>Loading...</div>;
+
     return (
       <div>
         <AppContext.Consumer>
@@ -44,6 +48,7 @@ export default class RecipeList extends Component {
       </div>
     );
   }
+  
 }
 
 RecipeList.context = AppContext;
