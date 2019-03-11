@@ -124,6 +124,7 @@ recipeRoutes.post("/add", (req, res) => {
 recipeRoutes.get("/recipes", (req, res) => {
   Recipe.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
+    console.log(data);
     return res.json({ success: true, data: data });
   });
 });

@@ -20,22 +20,22 @@ class App extends Component {
   constructor(...args) {
     super(...args);
 
-        this.state = {
-            modalShow: false,
-            isShowing: false,
-            recipe: null,
-            filter: [],
-            activeStyle: "",
-            authenticated: false,
-            categories: [],
-            isLoaded: false
-        };
+    this.state = {
+      modalShow: false,
+      isShowing: false,
+      recipe: null,
+      filter: [],
+      activeStyle: "",
+      authenticated: false,
+      categories: [],
+      isLoaded: false
+    };
 
-        this.showRecipe = this.showRecipe.bind(this);
-        this.setFilter = this.setFilter.bind(this);
-        this.showMenu = this.showMenu.bind(this);
-        this.getCategories = this.getCategories.bind(this);
-    }
+    this.showRecipe = this.showRecipe.bind(this);
+    this.setFilter = this.setFilter.bind(this);
+    this.showMenu = this.showMenu.bind(this);
+    this.getCategories = this.getCategories.bind(this);
+  }
 
   componentWillUpdate() {}
 
@@ -46,12 +46,11 @@ class App extends Component {
     });
   }
 
-    componentDidMount() {
-        this.getCategories();
-        if (localStorage.getItem("isLoggedIn") === "true") {
-        } else {
-            console.log(localStorage.getItem("isLoggedIn"));
-        }
+  componentDidMount() {
+    this.getCategories();
+    if (localStorage.getItem("isLoggedIn") === "true") {
+    } else {
+      console.log(localStorage.getItem("isLoggedIn"));
     }
   }
 
@@ -75,96 +74,65 @@ class App extends Component {
       : this.setState({ activeStyle: "" });
   }
 
-    getCategories = () => {
-        fetch("http://localhost:4000/api/category/categories")
-            .then(data => data.json())
-            .then(res =>
-                this.setState({ categories: res.data, isLoaded: true })
-            );
-    };
+  getCategories = () => {
+    fetch("http://localhost:4000/api/category/categories")
+      .then(data => data.json())
+      .then(res => this.setState({ categories: res.data, isLoaded: true }));
+  };
 
-    render() {
-        //let modalClose = () => this.setState({ modalShow: false });
-        if (!this.state.isLoaded) return <div>Loading</div>;
-        return (
-            <AppProvider>
-                <Router>
-                    <div className="nopadding">
-                        <NavBar showMenu={this.showMenu} />
-                        <div>
-                            <div className="wrapper">
-                                <SideBar
-                                    cats={this.state.categories}
-                                    setFilter={this.setFilter.bind(this)}
-                                    activeStyle={this.state.activeStyle}
-                                />
-                                <div id="content">
-                                    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                                        <div className="container-fluid">
-                                            <Route
-                                                path="/"
-                                                exact
-                                                render={props => (
-                                                    <RecipeList
-                                                        method={this.showRecipe}
-                                                        filter={
-                                                            this.state.filter
-                                                        }
-                                                        categories={
-                                                            this.state
-                                                                .categories
-                                                        }
-                                                    />
-                                                )}
-                                            />
-                                            <Route
-                                                path="/edit/:id"
-                                                component={EditRecipe}
-                                            />
-                                            <Route
-                                                path="/create"
-                                                exact
-                                                render={props => (
-                                                    <CreateRecipe
-                                                        categories={
-                                                            this.state
-                                                                .categories
-                                                        }
-                                                    />
-                                                )}
-                                            />
-                                            <Route
-                                                path="/login"
-                                                component={Login}
-                                            />
-                                            <Route
-                                                path="/userProfile"
-                                                component={UserProfile}
-                                            />
-                                            <Route
-                                                path="/editUser"
-                                                component={EditUser}
-                                            />
-                                            <Route
-                                                path="/register"
-                                                component={Register}
-                                            />
-                                            <Route
-                                                path="/recipe"
-                                                render={props => (
-                                                    <RecipeRead
-                                                        recipe={
-                                                            this.state.recipe
-                                                        }
-                                                    />
-                                                )}
-                                            />
-                                        </div>
-                                    </nav>
-                                </div>
-                            </div>
-                            <style>
-                                {`
+  render() {
+    //let modalClose = () => this.setState({ modalShow: false });
+    if (!this.state.isLoaded) return <div>Loading</div>;
+    return (
+      <AppProvider>
+        <Router>
+          <div className="nopadding">
+            <NavBar showMenu={this.showMenu} />
+            <div>
+              <div className="wrapper">
+                <SideBar
+                  cats={this.state.categories}
+                  setFilter={this.setFilter.bind(this)}
+                  activeStyle={this.state.activeStyle}
+                />
+                <div id="content">
+                  <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <div className="container-fluid">
+                      <Route
+                        path="/"
+                        exact
+                        render={props => (
+                          <RecipeList
+                            method={this.showRecipe}
+                            filter={this.state.filter}
+                            categories={this.state.categories}
+                          />
+                        )}
+                      />
+                      <Route path="/edit/:id" component={EditRecipe} />
+                      <Route
+                        path="/create"
+                        exact
+                        render={props => (
+                          <CreateRecipe categories={this.state.categories} />
+                        )}
+                      />
+                      <Route path="/login" component={Login} />
+                      <Route path="/userProfile" component={UserProfile} />
+                      <Route path="/editUser" component={EditUser} />
+                      <Route path="/register" component={Register} />
+                      <Route
+                        path="/recipe"
+                        render={props => (
+                          <RecipeRead recipe={this.state.recipe} />
+                        )}
+                      />
+                    </div>
+                  </nav>
+                </div>
+              </div>
+              <style>
+                {`
                               .wrapper {
                                 display: flex;
                                 align-items: stretch;
