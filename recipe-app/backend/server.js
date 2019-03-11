@@ -28,10 +28,7 @@ app.listen(PORT, function() {
   console.log("Server is running on Port: " + PORT);
 });
 
-
 userRoutes.post("/getUserInfo", (req, res) => {
-  console.log(req.body);
-  console.log(req.body.email);
   User.findOne({ email: req.body.email }, (error, result) => {
     if (error) {
       return res.json({ success: false, error: error });
@@ -42,7 +39,6 @@ userRoutes.post("/getUserInfo", (req, res) => {
 
 userRoutes.post("/update", (req, res) => {
   const { email, name, password } = req.body;
-  console.log(email);
   User.findOneAndUpdate(
     { email: email },
     { name: name, password: password },
@@ -53,6 +49,21 @@ userRoutes.post("/update", (req, res) => {
   );
 });
 
+userRoutes.post("/addSavedRecipe", (req, res) => {
+  const { _id, email } = req.body;
+  User.findOneAndUpdate({ email: email }, { $push: { saved: _id } }, error => {
+    if (error) return res.json({ success: false, error: error });
+    return res.json({ success: true });
+  });
+});
+
+userRoutes.post("/deleteSavedRecipe", (req, res) => {
+  const { _id, email } = req.body;
+  User.findOneAndUpdate({ email: email }, { $pull: { saved: _id } }, error => {
+    if (error) return res.json({ success: false, error: error });
+    return res.json({ success: true });
+  });
+});
 
 userRoutes.post("/add", (req, res) => {
   let user = new User();
@@ -89,7 +100,6 @@ recipeRoutes.post("/add", (req, res) => {
   recipe.ingredients = req.body.ingredients;
   recipe.instructions = req.body.instructions;
   recipe.category = req.body.category;
-  console.log(req.body.category);
 
   recipe.save(error => {
     if (error) return res.json({ success: false, error: error });
@@ -97,13 +107,11 @@ recipeRoutes.post("/add", (req, res) => {
   });
 });
 
-
 recipeRoutes.get("/recipes", (req, res) => {
   Recipe.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
-
 });
 
 recipeRoutes.get("/getRecipe", (req, res) => {
@@ -114,20 +122,17 @@ recipeRoutes.get("/getRecipe", (req, res) => {
   });
 });
 
-
 app.use("/api/recipe", recipeRoutes);
 app.use("/api/user", userRoutes);
 
-recipeRoutes.post('/getRecipeById', (req, res) => {
-    Recipe.findOne({ _id : req.body._id }, (error, result) => {
-        if (error) {
-            return res.json({ success: false, error: error });
-        }
-        return res.json({ success: true, data: result });
-    });
+recipeRoutes.post("/getRecipeById", (req, res) => {
+  Recipe.findOne({ _id: req.body._id }, (error, result) => {
+    if (error) {
+      return res.json({ success: false, error: error });
+    }
+    return res.json({ success: true, data: result });
+  });
 });
-
-
 
 recipeRoutes.post("/update", (req, res) => {
   Recipe.findByIdAndUpdate(
