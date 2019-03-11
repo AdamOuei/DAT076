@@ -6,8 +6,10 @@ const PORT = 4000;
 const mongoose = require("mongoose");
 const User = require("./user.model");
 const Recipe = require("./recipe.model");
+const Category = require("./category.model");
 const recipeRoutes = express.Router();
 const userRoutes = express.Router();
+const categoryRoutes = express.Router();
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -163,5 +165,12 @@ recipeRoutes.post("/update", (req, res) => {
   );
 });
 
+categoryRoutes.get("/categories", (req, res) => {
+  Category.find((err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
 app.use("/api/recipe", recipeRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/category", categoryRoutes);

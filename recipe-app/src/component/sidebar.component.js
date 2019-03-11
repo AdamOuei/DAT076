@@ -34,8 +34,8 @@ export default class SideBar extends Component {
                     <ul className="list-unstyled components">
                         {this.props.cats.map(cat => (
                             <ListItem
-                                key={cat}
-                                item={cat}
+                                key={cat._id}
+                                item={cat.category}
                                 setFilter={this.setFilter.bind(this)}
                             />
                         ))}
@@ -90,6 +90,10 @@ export default class SideBar extends Component {
               #sidebar ul li div:hover {
                 color: #aaaaaa;
                 background: #fff;
+              }
+              #sidebar ul li .selected:hover {
+                color: #fff;
+                background: #e0e0e0;
               }
                 `}</style>
             </React.Fragment>
