@@ -27,12 +27,14 @@ class App extends Component {
             filter: [],
             activeStyle: "",
             authenticated: false,
-            categories: []
+            categories: [],
+            isLoaded: false
         };
 
         this.showRecipe = this.showRecipe.bind(this);
         this.setFilter = this.setFilter.bind(this);
         this.showMenu = this.showMenu.bind(this);
+        this.getCategories = this.getCategories.bind(this);
     }
 
     componentWillUpdate() {}
@@ -45,6 +47,7 @@ class App extends Component {
     }
 
     componentDidMount() {
+        this.getCategories();
         if (localStorage.getItem("isLoggedIn") === "true") {
         } else {
             console.log(localStorage.getItem("isLoggedIn"));
@@ -71,9 +74,17 @@ class App extends Component {
             : this.setState({ activeStyle: "" });
     }
 
+    getCategories = () => {
+        fetch("http://localhost:4000/api/category/categories")
+            .then(data => data.json())
+            .then(res =>
+                this.setState({ categories: res.data, isLoaded: true })
+            );
+    };
+
     render() {
-        let cats = ["Kött", "Kyckling", "Fisk", "Vegetariskt", "Vegan"];
         //let modalClose = () => this.setState({ modalShow: false });
+        if (!this.state.isLoaded) return <div>Loading</div>;
         return (
             <AppProvider>
                 <Router>
@@ -82,7 +93,7 @@ class App extends Component {
                         <div>
                             <div className="wrapper">
                                 <SideBar
-                                    cats={cats}
+                                    cats={this.state.categories}
                                     setFilter={this.setFilter.bind(this)}
                                     activeStyle={this.state.activeStyle}
                                 />
@@ -98,7 +109,10 @@ class App extends Component {
                                                         filter={
                                                             this.state.filter
                                                         }
-                                                        categories={cats}
+                                                        categories={
+                                                            this.state
+                                                                .categories
+                                                        }
                                                     />
                                                 )}
                                             />
@@ -108,7 +122,15 @@ class App extends Component {
                                             />
                                             <Route
                                                 path="/create"
-                                                component={CreateRecipe}
+                                                exact
+                                                render={props => (
+                                                    <CreateRecipe
+                                                        categories={
+                                                            this.state
+                                                                .categories
+                                                        }
+                                                    />
+                                                )}
                                             />
                                             <Route
                                                 path="/login"

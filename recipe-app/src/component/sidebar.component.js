@@ -34,8 +34,8 @@ export default class SideBar extends Component {
                     <ul className="list-unstyled components">
                         {this.props.cats.map(cat => (
                             <ListItem
-                                key={cat}
-                                item={cat}
+                                key={cat._id}
+                                item={cat.category}
                                 setFilter={this.setFilter.bind(this)}
                             />
                         ))}

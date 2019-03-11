@@ -22,10 +22,18 @@ export default class RecipeList extends Component {
             .then(res => this.setState({ recipes: res.data, isLoaded: true }));
     };
 
+    formatCategories() {
+        let res = [];
+        this.props.categories.forEach(element => {
+            res.push(element.category);
+        });
+        return res;
+    }
+
     render() {
         let filter =
             this.props.filter.length < 1
-                ? this.props.categories
+                ? this.formatCategories()
                 : this.props.filter;
         if (!this.state.isLoaded) return <div>Loading...</div>;
         return (
