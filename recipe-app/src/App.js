@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 import RecipeList from "./component/recipe-list.component";
-import EditRecipe from "./component/edit-recipe.component";
+import UpdateRecipe from "./component/update-recipe";
 import CreateRecipe from "./component/create-recipe.component.js";
 import Login from "./component/login.component";
 import RecipeRead from "./component/read-recipe.component";
@@ -120,8 +120,8 @@ class App extends Component {
                                                 )}
                                             />
                                             <Route
-                                                path="/edit/:id"
-                                                component={EditRecipe}
+                                                path="/update/:id"
+                                                component={UpdateRecipe}
                                             />
                                             <Route
                                                 path="/create"
@@ -156,7 +156,7 @@ class App extends Component {
                                                 component={Register}
                                             />
                                             <Route
-                                                path="/recipe"
+                                                path="/recipe/:id"
                                                 render={props => (
                                                     <RecipeRead
                                                         recipe={

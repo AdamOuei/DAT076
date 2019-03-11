@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import axios from 'axios';
-import { Form, Row, Col } from 'react-bootstrap';
+import axios from "axios";
+import { Form, Row, Col } from "react-bootstrap";
+import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
 
 class UpdateRecipe extends Component {
-
     constructor(props) {
         super(props);
 
@@ -12,7 +12,7 @@ class UpdateRecipe extends Component {
             ingredients: "",
             instructions: "",
             category: ""
-        }
+        };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,21 +26,24 @@ class UpdateRecipe extends Component {
     };
 
     handleSubmit = event => {
-        axios.post("http://localhost:4000/api/recipe/update", {
-            title: this.state.title,
-            ingredients: this.state.ingredients,
-            instructions: this.state.instructions
-        }).then(res => {
-            this.setState({
-                title: res.data.title,
-                ingredients: res.data.ingredients,
-                instructions: res.data.instructions
+        axios
+            .post("http://localhost:4000/api/recipe/update", {
+                title: this.state.title,
+                ingredients: this.state.ingredients,
+                instructions: this.state.instructions
             })
-        })
+            .then(res => {
+                this.setState({
+                    title: res.data.title,
+                    ingredients: res.data.ingredients,
+                    instructions: res.data.instructions
+                });
+            });
         event.preventDefault();
     };
 
     render() {
+        let options = ["Test", "1"];
         return (
             <div>
                 <p>Update Recipe</p>
@@ -65,7 +68,9 @@ class UpdateRecipe extends Component {
                                         id="ingredients"
                                         value={this.state.ingredients}
                                         onChange={this.handleChange}
-                                        placeholder={this.props.recipe.ingredients}
+                                        placeholder={
+                                            this.props.recipe.ingredients
+                                        }
                                     />
                                 </label>
                                 <br />
@@ -76,15 +81,18 @@ class UpdateRecipe extends Component {
                                         id="instructions"
                                         value={this.state.instructions}
                                         onChange={this.handleChange}
-                                        placeholder={this.props.recipe.instructions}
+                                        placeholder={
+                                            this.props.recipe.instructions
+                                        }
                                     />
                                 </label>
                                 <br />
 
                                 <label>
                                     Category:
-                                <ReactMultiSelectCheckboxes options={options} />
-
+                                    <ReactMultiSelectCheckboxes
+                                        options={options}
+                                    />
                                 </label>
                                 <br />
                                 <input type="submit" value="Submit" />
@@ -93,9 +101,8 @@ class UpdateRecipe extends Component {
                     </div>
                 </div>
             </div>
-        )
+        );
     }
-
 }
 
 export default UpdateRecipe;
