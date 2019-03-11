@@ -17,8 +17,8 @@ import Register from "./component/register-user.component";
 import SideBar from "./component/sidebar.component";
 
 class App extends Component {
-    constructor(...args) {
-        super(...args);
+  constructor(...args) {
+    super(...args);
 
         this.state = {
             modalShow: false,
@@ -37,14 +37,14 @@ class App extends Component {
         this.getCategories = this.getCategories.bind(this);
     }
 
-    componentWillUpdate() {}
+  componentWillUpdate() {}
 
-    showRecipe(recipe) {
-        this.setState({
-            isShowing: true,
-            recipe: recipe
-        });
-    }
+  showRecipe(recipe) {
+    this.setState({
+      isShowing: true,
+      recipe: recipe
+    });
+  }
 
     componentDidMount() {
         this.getCategories();
@@ -53,26 +53,27 @@ class App extends Component {
             console.log(localStorage.getItem("isLoggedIn"));
         }
     }
+  }
 
-    setFilter(category) {
-        let index = this.state.filter.indexOf(category);
-        if (index > -1) {
-            this.state.filter.splice(index, 1);
-            this.setState(prevVal => ({
-                filter: prevVal.filter
-            }));
-        } else {
-            this.setState(prevVal => ({
-                filter: [...prevVal.filter, category]
-            }));
-        }
+  setFilter(category) {
+    let index = this.state.filter.indexOf(category);
+    if (index > -1) {
+      this.state.filter.splice(index, 1);
+      this.setState(prevVal => ({
+        filter: prevVal.filter
+      }));
+    } else {
+      this.setState(prevVal => ({
+        filter: [...prevVal.filter, category]
+      }));
     }
+  }
 
-    showMenu() {
-        this.state.activeStyle === ""
-            ? this.setState({ activeStyle: "active" })
-            : this.setState({ activeStyle: "" });
-    }
+  showMenu() {
+    this.state.activeStyle === ""
+      ? this.setState({ activeStyle: "active" })
+      : this.setState({ activeStyle: "" });
+  }
 
     getCategories = () => {
         fetch("http://localhost:4000/api/category/categories")
@@ -169,13 +170,13 @@ class App extends Component {
                                 align-items: stretch;
                               }
                             `}
-                            </style>
-                        </div>
-                    </div>
-                </Router>
-            </AppProvider>
-        );
-    }
+              </style>
+            </div>
+          </div>
+        </Router>
+      </AppProvider>
+    );
+  }
 }
 
 App.contextType = AppContext;

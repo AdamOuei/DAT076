@@ -31,8 +31,6 @@ app.listen(PORT, function() {
 });
 
 userRoutes.post("/getUserInfo", (req, res) => {
-    console.log(req.body);
-    console.log(req.body.email);
     User.findOne({ email: req.body.email }, (error, result) => {
         if (error) {
             return res.json({ success: false, error: error });
@@ -43,10 +41,33 @@ userRoutes.post("/getUserInfo", (req, res) => {
 
 userRoutes.post("/update", (req, res) => {
     const { email, name, password } = req.body;
-    console.log(email);
     User.findOneAndUpdate(
         { email: email },
         { name: name, password: password },
+        error => {
+            if (error) return res.json({ success: false, error: error });
+            return res.json({ success: true });
+        }
+    );
+});
+
+userRoutes.post("/addSavedRecipe", (req, res) => {
+    const { _id, email } = req.body;
+    User.findOneAndUpdate(
+        { email: email },
+        { $push: { saved: _id } },
+        error => {
+            if (error) return res.json({ success: false, error: error });
+            return res.json({ success: true });
+        }
+    );
+});
+
+userRoutes.post("/deleteSavedRecipe", (req, res) => {
+    const { _id, email } = req.body;
+    User.findOneAndUpdate(
+        { email: email },
+        { $pull: { saved: _id } },
         error => {
             if (error) return res.json({ success: false, error: error });
             return res.json({ success: true });
@@ -89,7 +110,6 @@ recipeRoutes.post("/add", (req, res) => {
     recipe.ingredients = req.body.ingredients;
     recipe.instructions = req.body.instructions;
     recipe.category = req.body.category;
-    console.log(req.body.category);
 
     recipe.save(error => {
         if (error) return res.json({ success: false, error: error });
