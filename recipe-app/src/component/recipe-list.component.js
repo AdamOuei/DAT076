@@ -39,7 +39,7 @@ export default class RecipeList extends Component {
         return (
             <div>
                 <AppContext.Consumer>
-                    {context => <p>Hej{context.user.name}!</p>}
+                    {context => <p>Hej {context.user.name}!</p>}
                 </AppContext.Consumer>
                 <CardColumns>
                     {this.state.recipes

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import photo from "./recipePhotos/default.jpg";
+import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 export default class RecipeRead extends Component {
   constructor(props) {
@@ -35,6 +37,13 @@ export default class RecipeRead extends Component {
           {this.state.categories.map(cat => (
             <p key={cat._id}>{cat.label}</p>
           ))}
+        </div>
+        <div>
+        <Button variant="primary">
+            <Link to="/" style={{ color: "white" }}>
+              Back
+            </Link>
+          </Button>
         </div>
       </div>
     );

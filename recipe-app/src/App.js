@@ -53,7 +53,7 @@ class App extends Component {
             console.log(localStorage.getItem("isLoggedIn"));
         }
     }
-  }
+  
 
   setFilter(category) {
     let index = this.state.filter.indexOf(category);
@@ -178,6 +178,7 @@ class App extends Component {
     );
   }
 }
+
 
 App.contextType = AppContext;
 
