@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import "../styles/Login.css";
 import axios from "axios";
@@ -17,14 +17,6 @@ export default class Login extends Component {
         };
     }
 
-    validateForm() {
-        return this.state.email.length > 0 && this.state.password.length > 0;
-    }
-    handleChange = event => {
-        this.setState({
-            [event.target.id]: event.target.value
-        });
-    };
 
     validateForm() {
         return this.state.email.length > 0 && this.state.password.length > 0;
