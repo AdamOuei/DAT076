@@ -62,15 +62,15 @@ export default class RecipeRead extends Component {
                         <p key={cat._id}>{cat.label}</p>
                     ))}
                 </div>
-                <div>
-                    <div>
+                <div id="wrapper">
+                    <div id="back">
                         <Button variant="primary">
                             <Link to="/" style={{ color: "white" }}>
                                 Back
                             </Link>
                         </Button>
                     </div>
-                    <div>
+                    <div id="update">
                         <AppContext.Consumer>
                             {context => {
                                 if (context.isLoggedIn) {
@@ -95,6 +95,19 @@ export default class RecipeRead extends Component {
                             }}
                         </AppContext.Consumer>
                     </div>
+                    <style>{`
+                      #wrapper {
+                        width: 100%;
+                        overflow: hidden;
+                      }
+                      #back {
+                        width: 50px;
+                        float: left;
+                      }
+                      #update {
+                        float: right;
+                      }
+                    `}</style>
                 </div>
             </div>
         );
