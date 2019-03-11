@@ -143,7 +143,11 @@ class App extends Component {
                                             />
                                             <Route
                                                 path="/userProfile"
-                                                component={UserProfile}
+                                                render={props => (
+                                                    <UserProfile
+                                                        method={this.showRecipe}
+                                                    />
+                                                )}
                                             />
                                             <Route
                                                 path="/editUser"

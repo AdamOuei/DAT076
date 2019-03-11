@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import MiniRecipe from "./recipe-miniature.component";
 import { AppContext } from "../AppProvider";
 import { CardColumns } from "react-bootstrap";
+import axios from "axios";
 import { HamburgerButton } from "react-hamburger-button";
 
 export default class RecipeList extends Component {
@@ -9,20 +10,55 @@ export default class RecipeList extends Component {
         super(props);
         this.state = {
             recipes: {},
+            savedRecipes: [],
+            open: true,
             isLoaded: false,
-            open: true
+            savedLoaded: false
         };
         this.handleClick.bind(this);
     }
 
     componentDidMount() {
+        this.getSavedRecipes();
         this.getDataFromDb();
+    }
+
+    isRecipeSaved(id) {
+        for (let i = 0; i < this.state.savedRecipes.length; i++) {
+            if (this.state.savedRecipes[i] === id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    getSavedRecipes() {
+        axios
+            .post("http://localhost:4000/api/user/getUserInfo", {
+                email: localStorage.getItem("userEmail")
+            })
+            .then(res => res.request.response)
+            .then(res => {
+                this.setState({
+                    savedRecipes: JSON.parse(res).data.saved,
+                    savedLoaded: true
+                });
+            });
+    }
+
+    handleClick() {
+        this.props.showMenu();
+        this.setState({
+            open: !this.state.open
+        });
     }
 
     getDataFromDb = () => {
         fetch("http://localhost:4000/api/recipe/recipes")
             .then(data => data.json())
-            .then(res => this.setState({ recipes: res.data, isLoaded: true }));
+            .then(res => {
+                this.setState({ recipes: res.data, isLoaded: true });
+            });
     };
 
     formatCategories() {
@@ -33,19 +69,13 @@ export default class RecipeList extends Component {
         return res;
     }
 
-    handleClick() {
-        this.props.showMenu();
-        this.setState({
-            open: !this.state.open
-        });
-    }
-
     render() {
         let filter =
             this.props.filter.length < 1
                 ? this.formatCategories()
                 : this.props.filter;
-        if (!this.state.isLoaded) return <div>Loading...</div>;
+        if (!this.state.isLoaded || !this.state.savedLoaded)
+            return <div>Loading...</div>;
         return (
             <div>
                 <div className="wrapper">
@@ -62,7 +92,18 @@ export default class RecipeList extends Component {
                     </div>
                     <div id="user">
                         <AppContext.Consumer>
-                            {context => <p>Hej{context.user.name}!</p>}
+                            {context => {
+                                if (context.isLoggedIn) {
+                                    return <p>Welcome {context.user.name}!</p>;
+                                } else {
+                                    return (
+                                        <p>
+                                            Please login to enjoy all our
+                                            awesome features
+                                        </p>
+                                    );
+                                }
+                            }}
                         </AppContext.Consumer>
                     </div>
                 </div>
@@ -78,6 +119,7 @@ export default class RecipeList extends Component {
                                 key={recipe._id}
                                 recipe={recipe}
                                 method={this.props.method}
+                                saved={this.isRecipeSaved(recipe._id)}
                             />
                         ))}
                 </CardColumns>

@@ -63,6 +63,18 @@ userRoutes.post("/addSavedRecipe", (req, res) => {
     );
 });
 
+userRoutes.post("/addCreatedRecipe", (req, res) => {
+    const { _id, email } = req.body;
+    User.findOneAndUpdate(
+        { email: email },
+        { $push: { created: _id } },
+        error => {
+            if (error) return res.json({ success: false, error: error });
+            return res.json({ success: true });
+        }
+    );
+});
+
 userRoutes.post("/deleteSavedRecipe", (req, res) => {
     const { _id, email } = req.body;
     User.findOneAndUpdate(
@@ -76,22 +88,36 @@ userRoutes.post("/deleteSavedRecipe", (req, res) => {
 });
 
 userRoutes.post("/add", (req, res) => {
-    let user = new User();
-    user.id = req.body.id;
-    user.name = req.body.name;
-    user.email = req.body.email;
-    user.password = req.body.password;
+    User.findOne({ email: req.body.email }, (err, result) => {
+        if (result === null) {
+            let user = new User();
+            user.id = req.body.id;
+            user.name = req.body.name;
+            user.email = req.body.email;
+            user.password = req.body.password;
 
-    user.save(error => {
-        if (error) return res.json({ success: false, error: error });
-        return res.json({ success: true });
+            user.save(error => {
+                if (error) return res.json({ success: false, error: error });
+                return res.json({ success: true });
+            });
+        } else {
+            return res.json({
+                success: false,
+                message: "Email already exists"
+            });
+        }
     });
 });
 
 userRoutes.post("/get", async (req, res) => {
     User.findOne({ email: req.body.email }, (err, result) => {
         if (err) throw err;
-        if (
+        if (result === null) {
+            return res.json({
+                success: false,
+                message: "Username or password incorrect"
+            });
+        } else if (
             result.password === req.body.password &&
             result.password !== undefined &&
             req.body.password !== undefined
@@ -111,7 +137,15 @@ recipeRoutes.post("/add", (req, res) => {
     recipe.instructions = req.body.instructions;
     recipe.category = req.body.category;
 
-    recipe.save(error => {
+    recipe.save((error, result) => {
+        if (error) return res.json({ success: false, error: error });
+        return res.json({ success: true, data: { _id: result._id } });
+    });
+});
+
+recipeRoutes.post("/delete", (req, res) => {
+    const { _id } = req.body;
+    Recipe.findByIdAndDelete(_id, error => {
         if (error) return res.json({ success: false, error: error });
         return res.json({ success: true });
     });
@@ -131,9 +165,6 @@ recipeRoutes.get("/getRecipe", (req, res) => {
         return res.json({ success: true, recipe: data });
     });
 });
-
-app.use("/api/recipe", recipeRoutes);
-app.use("/api/user", userRoutes);
 
 recipeRoutes.post("/getRecipeById", (req, res) => {
     Recipe.findOne({ _id: req.body._id }, (error, result) => {

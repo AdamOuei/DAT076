@@ -15,7 +15,7 @@ export default class UserProfile extends Component {
       password: "",
       saved: [],
       savedRecipes: [],
-      created: ["5c82cf202e2f5c28c5c6e23a", "5c82a99079f5751970b1fde6"],
+      created: [],
       createdRecipes: [],
       isLoaded: false
     };
@@ -31,7 +31,7 @@ export default class UserProfile extends Component {
     }
   }
 
-  getUsersSavedRecipies() {
+  getUsersRecipies() {
     axios
       .post("http://localhost:4000/api/user/getUserInfo", {
         email: this.context.user.email
@@ -41,9 +41,11 @@ export default class UserProfile extends Component {
         var result = JSON.parse(res).data;
         this.setState({
           email: result.email,
-          saved: result.saved
+          saved: result.saved,
+          created: result.created
         });
         this.setSavedRecipes();
+        this.setCreatedRecipes();
       });
   }
 
@@ -77,30 +79,11 @@ export default class UserProfile extends Component {
             createdRecipes: this.state.createdRecipes.concat(res.data)
           });
         }
-
-        /*   if(this.state.saved.length === this.state.savedRecipes.length){
-               this.setState({isLoaded: true});
-               
-               
-           }
-       */
       });
   }
 
-  /*   getUserInfo(userName){
-         axios.post("http://localhost:4000/api/user/getUserInfoTest", {name: userName})
-         .then(res => {
-             this.setState({ created: res.data.created, saved: res.data.saved});
-         })
-         
-     }
- 
- */
   componentDidMount() {
-    this.getUsersSavedRecipies();
-    console.log("hej");
-    //this.setSavedRecipes();
-    //this.setCreatedRecipes();
+    this.getUsersRecipies();
   }
 
   render() {
