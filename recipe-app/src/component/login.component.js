@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { BrowserRouter as Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
+import Register from "./register-user.component";
 import "../styles/Login.css";
 import axios from "axios";
 import { AppContext } from "../AppProvider.js";
