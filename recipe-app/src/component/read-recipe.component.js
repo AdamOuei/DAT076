@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import photo from "./recipePhotos/default.jpg";
 
 export default class RecipeRead extends Component {
   constructor(props) {
@@ -16,15 +17,21 @@ export default class RecipeRead extends Component {
     return (
       <div>
         <div>
+          <img src={photo} width="450px" alt="logo" />
+        </div>
+        <div>
           <h2>{this.state.title}</h2>
         </div>
         <div>
+        <b>Ingredients: </b>
           <p>{this.state.ingredients}</p>
         </div>
         <div>
+          <b>Instructions: </b>
           <p>{this.state.instructions}</p>
         </div>
         <div>
+          <b>Categories: </b>
           {this.state.categories.map(cat => (
             <p key={cat._id}>{cat.label}</p>
           ))}

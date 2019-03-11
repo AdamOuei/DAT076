@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import MiniRecipe from "./recipe-miniature.component";
 import { AppContext } from "../AppProvider";
+import { Card, CardGroup, CardDeck, CardColumns } from "react-bootstrap";
 
 export default class RecipeList extends Component {
     constructor(props) {
@@ -32,6 +33,7 @@ export default class RecipeList extends Component {
                 <AppContext.Consumer>
                     {context => <p>Hej{context.user.name}!</p>}
                 </AppContext.Consumer>
+                <CardColumns>
                 {this.state.recipes
                     .filter(recipe =>
                         recipe.category.some(
@@ -45,6 +47,7 @@ export default class RecipeList extends Component {
                             method={this.props.method}
                         />
                     ))}
+                    </CardColumns>
             </div>
         );
     }
