@@ -77,7 +77,7 @@ export default class Login extends Component {
             <div className="Login">
                 <p id="errorMsg">{this.state.msg}</p>
                 <form onSubmit={this.handleSubmit}>
-                    <FormGroup controlId="email" bSize="large ">
+                    <FormGroup controlId="email" bsize="large ">
                         <FormLabel>
                             <p>Email</p>
                         </FormLabel>
@@ -88,7 +88,7 @@ export default class Login extends Component {
                             onChange={this.handleChange}
                         />
                     </FormGroup>
-                    <FormGroup controlId="password" bSize="large">
+                    <FormGroup controlId="password" bsize="large">
                         <FormLabel>
                             <span>Password</span>
                         </FormLabel>

@@ -76,16 +76,24 @@ userRoutes.post("/deleteSavedRecipe", (req, res) => {
 });
 
 userRoutes.post("/add", (req, res) => {
-    let user = new User();
-    user.id = req.body.id;
-    user.name = req.body.name;
-    user.email = req.body.email;
-    user.password = req.body.password;
+    User.findOne({email: req.body.email}, (err,result) => {
+        if(result === null){
+            let user = new User();
+            user.id = req.body.id;
+            user.name = req.body.name;
+            user.email = req.body.email;
+            user.password = req.body.password;
 
     user.save(error => {
         if (error) return res.json({ success: false, error: error });
         return res.json({ success: true });
     });
+            
+        }else{
+          return res.json({ success: false, message: "Email already exists"});
+        }
+    });
+       
 });
 
 userRoutes.post("/get", async (req, res) => {

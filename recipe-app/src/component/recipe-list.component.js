@@ -26,6 +26,7 @@ export default class RecipeList extends Component {
         let res = [];
         this.props.categories.forEach(element => {
             res.push(element.category);
+           
         });
         return res;
     }
