@@ -5,12 +5,14 @@ import { Card } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { AppContext } from "../AppProvider";
 
 export default class MiniRecipe extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      liked: false,
+      saved: false,
       rating: 1,
       recipe: {},
       isLoaded: false
@@ -23,9 +25,17 @@ export default class MiniRecipe extends Component {
     this.props.method(this.props.recipe);
   }
 
-  handleClick(event) {
-    this.setState({ liked: !this.state.liked });
-    console.log("Clicked");
+  handleClick() {
+    !this.state.saved
+      ? axios.post("http://localhost:4000/api/user/addSavedRecipe", {
+          email: this.context.user.email,
+          _id: this.props.recipe._id
+        })
+      : axios.post("http://localhost:4000/api/user/deleteSavedRecipe", {
+          email: this.context.user.email,
+          _id: this.props.recipe._id
+        });
+    this.setState({ saved: !this.state.saved });
   }
 
   render() {
@@ -42,7 +52,7 @@ export default class MiniRecipe extends Component {
       </SvgIcon>
     );
 
-    let buttonText = this.state.liked ? "Unsave" : "Save";
+    let buttonText = this.state.saved ? "Unsave" : "Save";
     return (
       <Card style={{ width: "18rem" }}>
         <Card.Img variant="top" src={photo} />
@@ -75,3 +85,5 @@ export default class MiniRecipe extends Component {
     );
   }
 }
+
+MiniRecipe.contextType = AppContext;
