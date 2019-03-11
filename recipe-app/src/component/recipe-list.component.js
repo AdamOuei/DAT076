@@ -48,7 +48,7 @@ export default class RecipeList extends Component {
       </div>
     );
   }
-  
+
 }
 
 RecipeList.context = AppContext;

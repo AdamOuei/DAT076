@@ -100,7 +100,7 @@ class App extends Component {
                     ))}
                   </ul>
                 </nav>
-                <div id="content">
+                <div id="content" style={{ width: '100%' }}>
                   <nav className="navbar navbar-expand-lg navbar-light bg-light">
                     <div className="container-fluid">
                       <Route
