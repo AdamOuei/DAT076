@@ -91,6 +91,10 @@ export default class SideBar extends Component {
                 color: #aaaaaa;
                 background: #fff;
               }
+              #sidebar ul li .selected:hover {
+                color: #fff;
+                background: #e0e0e0;
+              }
                 `}</style>
             </React.Fragment>
         );
