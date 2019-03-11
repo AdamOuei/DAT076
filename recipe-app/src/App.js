@@ -69,8 +69,6 @@ class App extends Component {
     }
 
     showMenu() {
-        console.log("show");
-
         this.state.activeStyle === ""
             ? this.setState({ activeStyle: "active" })
             : this.setState({ activeStyle: "" });
