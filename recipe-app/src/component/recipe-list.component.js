@@ -69,7 +69,13 @@ export default class RecipeList extends Component {
     return (
       <div>
         <AppContext.Consumer>
-          {context => <p>Hej {context.user.name}!</p>}
+          {context => {
+            if (context.isLoggedIn) {
+              return <p>Welcome {context.user.name}!</p>;
+            } else {
+              return <p>Please login to enjoy all our awesome features</p>;
+            }
+          }}
         </AppContext.Consumer>
         <CardColumns>
           {this.state.recipes
