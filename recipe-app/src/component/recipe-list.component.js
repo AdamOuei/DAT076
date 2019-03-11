@@ -38,9 +38,25 @@ export default class RecipeList extends Component {
         if (!this.state.isLoaded) return <div>Loading...</div>;
         return (
             <div>
-                <AppContext.Consumer>
-                    {context => <p>Hej{context.user.name}!</p>}
-                </AppContext.Consumer>
+                <div className="wrapper">
+                    <div id="hamburger">
+                        <button
+                            type="button"
+                            id="sidebarCollapse"
+                            className="navbar-btn"
+                            onClick={this.props.showMenu}
+                        >
+                            <span />
+                            <span />
+                            <span />
+                        </button>
+                    </div>
+                    <div id="user">
+                        <AppContext.Consumer>
+                            {context => <p>Hej{context.user.name}!</p>}
+                        </AppContext.Consumer>
+                    </div>
+                </div>
                 <CardColumns>
                     {this.state.recipes
                         .filter(recipe =>
@@ -56,6 +72,24 @@ export default class RecipeList extends Component {
                             />
                         ))}
                 </CardColumns>
+                <style>{`
+                    .wrapper {
+                        width: 100%;
+                        overflow: hidden;
+                    }
+                    #hamburger {
+                        float;
+                    }
+                    #user {
+                        margin-left: 270px;
+                    }
+                `}</style>
+                <link
+                    rel="stylesheet"
+                    href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+                    integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+                    crossorigin="anonymous"
+                />
             </div>
         );
     }

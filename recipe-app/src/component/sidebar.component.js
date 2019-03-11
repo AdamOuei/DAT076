@@ -44,7 +44,6 @@ export default class SideBar extends Component {
                 <style>{`
             #sidebar {
                 min-width: 250px;
-                max-width: 250px;
                 min-height: 100vh;
                 background: #e0e0e0;
                 color: #fff;
