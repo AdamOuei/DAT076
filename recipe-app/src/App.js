@@ -121,7 +121,14 @@ class App extends Component {
                                             />
                                             <Route
                                                 path="/update/:id"
-                                                component={UpdateRecipe}
+                                                exact
+                                                render={props => (
+                                                    <UpdateRecipe
+                                                        recipe={
+                                                            this.state.recipe
+                                                        }
+                                                    />
+                                                )}
                                             />
                                             <Route
                                                 path="/create"

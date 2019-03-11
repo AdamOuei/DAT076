@@ -43,7 +43,8 @@ class UpdateRecipe extends Component {
     };
 
     render() {
-        let options = ["Test", "1"];
+        console.log(this.props.recipe);
+
         return (
             <div>
                 <p>Update Recipe</p>
@@ -91,7 +92,7 @@ class UpdateRecipe extends Component {
                                 <label>
                                     Category:
                                     <ReactMultiSelectCheckboxes
-                                        options={options}
+                                        options={this.props.recipe.category}
                                     />
                                 </label>
                                 <br />
