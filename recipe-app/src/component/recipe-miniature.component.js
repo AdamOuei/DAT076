@@ -54,6 +54,9 @@ export default class MiniRecipe extends Component {
     );
 
     let buttonText = this.state.saved ? "Unsave" : "Save";
+    if (!this.context.isLoggedIn) {
+      buttonText = "Save";
+    }
     return (
       <Card style={{ width: "18rem" }}>
         <Card.Img variant="top" src={photo} />
@@ -62,6 +65,7 @@ export default class MiniRecipe extends Component {
             onClick={this.handleClick}
             className="like"
             style={iconStyles}
+            disabled={!this.context.isLoggedIn}
           >
             <i className="fa fa-heart" />
             &nbsp;
