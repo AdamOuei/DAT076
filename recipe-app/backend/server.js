@@ -70,7 +70,10 @@ userRoutes.post("/add", (req, res) => {
 userRoutes.post("/get", async (req, res) => {
   User.findOne({ email: req.body.email }, (err, result) => {
     if (err) throw err;
-    if (
+      if (result === null){
+        return res.json({ success: false, message: "Username or password incorrect"});
+      }
+    else if (
       result.password === req.body.password &&
       result.password !== undefined &&
       req.body.password !== undefined

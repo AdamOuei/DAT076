@@ -13,7 +13,8 @@ export default class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      loggedIn: false
+      loggedIn: false,
+      msg: ""
     };
   }
 
@@ -49,10 +50,14 @@ export default class Login extends Component {
           this.context.user.name = JSON.parse(res).name;
           this.context.user.email = this.state.email;
           if (this.state.loggedIn) {
+            this.setState({msg: ""});
             this.props.history.push("/");
             localStorage.setItem("isLoggedIn", this.state.loggedIn);
             localStorage.setItem("userName", this.context.user.name);
             localStorage.setItem("userEmail", this.context.user.email);
+          }else{
+            this.setState({msg: JSON.parse(res).message});
+          
           }
         });
     } catch (error) {
@@ -65,6 +70,7 @@ export default class Login extends Component {
   render() {
     return (
       <div className="Login">
+      <p id="errorMsg">{this.state.msg}</p>
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="email" bSize="large ">
             <FormLabel>Email</FormLabel>
