@@ -57,6 +57,18 @@ userRoutes.post("/addSavedRecipe", (req, res) => {
   });
 });
 
+userRoutes.post("/addCreatedRecipe", (req, res) => {
+  const { _id, email } = req.body;
+  User.findOneAndUpdate(
+    { email: email },
+    { $push: { created: _id } },
+    error => {
+      if (error) return res.json({ success: false, error: error });
+      return res.json({ success: true });
+    }
+  );
+});
+
 userRoutes.post("/deleteSavedRecipe", (req, res) => {
   const { _id, email } = req.body;
   User.findOneAndUpdate({ email: email }, { $pull: { saved: _id } }, error => {
@@ -101,9 +113,9 @@ recipeRoutes.post("/add", (req, res) => {
   recipe.instructions = req.body.instructions;
   recipe.category = req.body.category;
 
-  recipe.save(error => {
+  recipe.save((error, result) => {
     if (error) return res.json({ success: false, error: error });
-    return res.json({ success: true });
+    return res.json({ success: true, data: { _id: result._id } });
   });
 });
 
