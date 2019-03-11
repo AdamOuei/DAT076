@@ -11,17 +11,19 @@ class UpdateRecipe extends Component {
             title: "",
             ingredients: "",
             instructions: "",
-            category: ""
+            category: "",
+            categories: this.props.recipe.category
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange = event => {
-        console.log(event.target);
+    handleChange = selectedOptions => {
+        console.log(selectedOptions);
+
         this.setState({
-            [event.target.id]: event.target.value
+            categories: selectedOptions
         });
     };
 
@@ -42,9 +44,20 @@ class UpdateRecipe extends Component {
         event.preventDefault();
     };
 
-    render() {
-        console.log(this.props.recipe);
+    getOptions() {
+        let options = [];
+        var i = 1;
+        this.props.categories.forEach(element => {
+            options.push({ label: element.category, value: i });
+            i++;
+        });
+        return options;
+    }
 
+    render() {
+        console.log(this.state.categories);
+
+        const selectedOptions = this.state.categories;
         return (
             <div>
                 <p>Update Recipe</p>
@@ -92,7 +105,9 @@ class UpdateRecipe extends Component {
                                 <label>
                                     Category:
                                     <ReactMultiSelectCheckboxes
-                                        options={this.props.recipe.category}
+                                        value={selectedOptions}
+                                        onChange={this.handleChange}
+                                        options={this.getOptions()}
                                     />
                                 </label>
                                 <br />

@@ -127,6 +127,10 @@ class App extends Component {
                                                         recipe={
                                                             this.state.recipe
                                                         }
+                                                        categories={
+                                                            this.state
+                                                                .categories
+                                                        }
                                                     />
                                                 )}
                                             />
