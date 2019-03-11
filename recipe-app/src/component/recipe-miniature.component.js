@@ -12,7 +12,7 @@ export default class MiniRecipe extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      saved: false,
+      saved: this.props.saved,
       rating: 1,
       recipe: {},
       isLoaded: false

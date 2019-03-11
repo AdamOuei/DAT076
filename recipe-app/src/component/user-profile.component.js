@@ -128,6 +128,7 @@ export default class UserProfile extends Component {
                 key={recipe.data._id}
                 recipe={recipe.data}
                 method={this.props.method}
+                saved={true}
               />
             ))}
           </div>
