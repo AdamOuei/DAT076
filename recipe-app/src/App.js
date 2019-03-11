@@ -35,13 +35,11 @@ class App extends Component {
     this.showMenu = this.showMenu.bind(this);
   }
 
-  componentWillUpdate() { }
+  componentWillUpdate() {}
 
   componentDidMount() {
     if (localStorage.getItem("isLoggedIn") === "true") {
-      console.log("enters here");
     } else {
-      console.log("Failed lol get rekt");
       console.log(localStorage.getItem("isLoggedIn"));
     }
   }
@@ -100,7 +98,7 @@ class App extends Component {
                     ))}
                   </ul>
                 </nav>
-                <div id="content" style={{ width: '100%' }}>
+                <div id="content" style={{ width: "100%" }}>
                   <nav className="navbar navbar-expand-lg navbar-light bg-light">
                     <div className="container-fluid">
                       <Route
@@ -197,7 +195,6 @@ class App extends Component {
           `}
               </style>
             </div>
-
           </div>
         </Router>
       </AppProvider>
