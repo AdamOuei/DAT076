@@ -95,7 +95,12 @@ userRoutes.post("/add", (req, res) => {
 userRoutes.post("/get", async (req, res) => {
   User.findOne({ email: req.body.email }, (err, result) => {
     if (err) throw err;
-    if (
+    if (result === null) {
+      return res.json({
+        success: false,
+        message: "Username or password incorrect"
+      });
+    } else if (
       result.password === req.body.password &&
       result.password !== undefined &&
       req.body.password !== undefined
@@ -124,7 +129,6 @@ recipeRoutes.post("/add", (req, res) => {
 recipeRoutes.get("/recipes", (req, res) => {
   Recipe.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
-    console.log(data);
     return res.json({ success: true, data: data });
   });
 });

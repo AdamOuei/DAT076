@@ -12,9 +12,16 @@ export default class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      loggedIn: false
+      loggedIn: false,
+      msg: ""
     };
   }
+
+  handleChange = event => {
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+  };
 
   validateForm() {
     return this.state.email.length > 0 && this.state.password.length > 0;
@@ -48,25 +55,30 @@ export default class Login extends Component {
           this.context.user.name = JSON.parse(res).name;
           this.context.user.email = this.state.email;
           if (this.state.loggedIn) {
+            this.setState({ msg: "" });
             this.props.history.push("/");
             localStorage.setItem("isLoggedIn", this.state.loggedIn);
             localStorage.setItem("userName", this.context.user.name);
             localStorage.setItem("userEmail", this.context.user.email);
+          } else {
+            this.setState({ msg: JSON.parse(res).message });
           }
         });
     } catch (error) {
       console.log(error);
     }
-
     event.preventDefault();
   };
 
   render() {
     return (
       <div className="Login">
+        <p id="errorMsg">{this.state.msg}</p>
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="email" bSize="large ">
-            <FormLabel>Email</FormLabel>
+            <FormLabel>
+              <p>Email</p>
+            </FormLabel>
             <FormControl
               autoFocus
               type="email"
@@ -75,7 +87,9 @@ export default class Login extends Component {
             />
           </FormGroup>
           <FormGroup controlId="password" bSize="large">
-            <FormLabel>Password</FormLabel>
+            <FormLabel>
+              <span>Password</span>
+            </FormLabel>
             <FormControl
               type="password"
               value={this.state.password}
@@ -84,10 +98,10 @@ export default class Login extends Component {
           </FormGroup>
 
           <Button block disabled={!this.validateForm()} type="submit">
-            Login
+            <span>Login</span>
           </Button>
           <Link to="/register" className="nav-link">
-            Sign Up
+            <span>Sign Up</span>
           </Link>
         </form>
       </div>

@@ -12,6 +12,7 @@ export default class MiniRecipe extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      savedRecipes: [],
       saved: this.props.saved,
       rating: 1,
       recipe: {},
