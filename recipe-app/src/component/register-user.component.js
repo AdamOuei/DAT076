@@ -3,6 +3,7 @@ import { Button, FormGroup, FormLabel, FormControl } from "react-bootstrap";
 import axios from "axios";
 import "../styles/Register.css";
 import { Link } from "react-router-dom";
+import {AppContext} from "../AppProvider";
 
 export default class Register extends Component {
   constructor(props) {
@@ -11,7 +12,8 @@ export default class Register extends Component {
     this.state = {
       email: "",
       password: "",
-      name: ""
+      name: "",
+      msg: ""
     };
   }
   validateForm() {
@@ -31,6 +33,20 @@ export default class Register extends Component {
       email: this.state.email,
       password: this.state.password,
       name: this.state.name
+    }).then(res => res.request.response)
+    .then(res => {
+      if(!JSON.parse(res).success){
+        this.setState({msg: JSON.parse(res).message});
+      console.log(JSON.parse(res).message);
+      }else{
+        this.props.history.push("/");
+        this.context.isLoggedIn = true;
+        this.context.user.name = this.state.name;
+        this.context.user.email = this.state.email;
+        localStorage.setItem("isLoggedIn", true);
+        localStorage.setItem("userName", this.context.user.name);
+        localStorage.setItem("userEmail", this.context.user.email);
+      }
     });
     event.preventDefault();
   };
@@ -38,8 +54,9 @@ export default class Register extends Component {
   render() {
     return (
       <div className="Register">
+        <p>{this.state.msg}</p>
         <form onSubmit={this.handleSubmit}>
-          <FormGroup controlId="email" bSize="large">
+          <FormGroup controlId="email" bsize="large">
             <FormLabel>Email</FormLabel>
             <FormControl
               autoFocus
@@ -48,7 +65,7 @@ export default class Register extends Component {
               onChange={this.handleChange}
             />
           </FormGroup>
-          <FormGroup controlId="password" bSize="large">
+          <FormGroup controlId="password" bsize="large">
             <FormLabel>Password</FormLabel>
             <FormControl
               type="password"
@@ -56,7 +73,7 @@ export default class Register extends Component {
               onChange={this.handleChange}
             />
           </FormGroup>
-          <FormGroup controlId="name" bSize="large">
+          <FormGroup controlId="name" bsize="large">
             <FormLabel>Name</FormLabel>
             <FormControl
               type="name"
@@ -80,3 +97,5 @@ export default class Register extends Component {
     );
   }
 }
+
+Register.contextType = AppContext;

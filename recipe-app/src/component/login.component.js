@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import "../styles/Login.css";
 import axios from "axios";
@@ -75,7 +75,7 @@ export default class Login extends Component {
       <div className="Login">
         <p id="errorMsg">{this.state.msg}</p>
         <form onSubmit={this.handleSubmit}>
-          <FormGroup controlId="email" bSize="large ">
+          <FormGroup controlId="email" bsize="large ">
             <FormLabel>
               <p>Email</p>
             </FormLabel>
@@ -86,7 +86,7 @@ export default class Login extends Component {
               onChange={this.handleChange}
             />
           </FormGroup>
-          <FormGroup controlId="password" bSize="large">
+          <FormGroup controlId="password" bsize="large">
             <FormLabel>
               <span>Password</span>
             </FormLabel>
