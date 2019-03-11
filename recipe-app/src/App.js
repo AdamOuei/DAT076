@@ -1,7 +1,5 @@
 import React, { Component /*, Modal, Button */ } from "react";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-
-import logo from "./logo.svg";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -15,7 +13,6 @@ import ListItem from "./component/sidebarItem.component";
 import UserProfile from "./component/user-profile.component.js";
 import AppProvider, { AppContext } from "./AppProvider";
 import NavBar from "./component/navbar.component";
-import { Button } from "@material-ui/core";
 import EditUser from "./component/edit-user";
 import Register from "./component/register-user.component";
 
@@ -38,7 +35,7 @@ class App extends Component {
     this.showMenu = this.showMenu.bind(this);
   }
 
-  componentWillUpdate() {}
+  componentWillUpdate() { }
 
   componentDidMount() {
     if (localStorage.getItem("isLoggedIn") === "true") {
@@ -204,19 +201,19 @@ class App extends Component {
           </div>
         </Router>
       </AppProvider>
-/*=======
-          </nav>
-          <br />
-
-          <Route path="/" exact render={(props) => <RecipeList method={this.showRecipe}  />} />
-          <Route path="/edit/:id" component={EditRecipe} />
-          <Route path="/create" component={CreateRecipe} />
-          <Route path="/login" component={Login} />
-          <Route path="/recipe" render={(props) => <RecipeRead recipe={this.state.recipe}/>} />
-        </div>
-      </Router>
->>>>>>> view
-*/
+      /*=======
+                </nav>
+                <br />
+      
+                <Route path="/" exact render={(props) => <RecipeList method={this.showRecipe}  />} />
+                <Route path="/edit/:id" component={EditRecipe} />
+                <Route path="/create" component={CreateRecipe} />
+                <Route path="/login" component={Login} />
+                <Route path="/recipe" render={(props) => <RecipeRead recipe={this.state.recipe}/>} />
+              </div>
+            </Router>
+      >>>>>>> view
+      */
     );
   }
 }
