@@ -1,7 +1,5 @@
 import React, { Component /*, Modal, Button */ } from "react";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-
-import logo from "./logo.svg";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -14,7 +12,6 @@ import RecipeRead from "./component/read-recipe.component";
 import UserProfile from "./component/user-profile.component.js";
 import AppProvider, { AppContext } from "./AppProvider";
 import NavBar from "./component/navbar.component";
-import { Button } from "@material-ui/core";
 import EditUser from "./component/edit-user";
 import Register from "./component/register-user.component";
 import SideBar from "./component/sidebar.component";
@@ -40,19 +37,18 @@ class App extends Component {
 
     componentWillUpdate() {}
 
-    componentDidMount() {
-        if (localStorage.getItem("isLoggedIn") === "true") {
-            console.log("enters here");
-        } else {
-            console.log("Failed lol get rekt");
-            console.log(localStorage.getItem("isLoggedIn"));
-        }
-    }
     showRecipe(recipe) {
         this.setState({
             isShowing: true,
             recipe: recipe
         });
+    }
+
+    componentDidMount() {
+        if (localStorage.getItem("isLoggedIn") === "true") {
+        } else {
+            console.log(localStorage.getItem("isLoggedIn"));
+        }
     }
 
     setFilter(category) {
@@ -146,11 +142,11 @@ class App extends Component {
                             </div>
                             <style>
                                 {`
-            .wrapper {
-              display: flex;
-              align-items: stretch;
-            }
-          `}
+                              .wrapper {
+                                display: flex;
+                                align-items: stretch;
+                              }
+                            `}
                             </style>
                         </div>
                     </div>

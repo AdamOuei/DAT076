@@ -22,10 +22,6 @@ export default class RecipeList extends Component {
     };
 
     render() {
-        console.log("Renders");
-
-        console.log(this.props.filter);
-
         let filter =
             this.props.filter.length < 1
                 ? this.props.categories

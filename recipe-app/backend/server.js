@@ -28,6 +28,7 @@ app.listen(PORT, function() {
   console.log("Server is running on Port: " + PORT);
 });
 
+
 userRoutes.post("/getUserInfo", (req, res) => {
   console.log(req.body);
   console.log(req.body.email);
@@ -51,6 +52,7 @@ userRoutes.post("/update", (req, res) => {
     }
   );
 });
+
 
 userRoutes.post("/add", (req, res) => {
   let user = new User();
@@ -95,11 +97,13 @@ recipeRoutes.post("/add", (req, res) => {
   });
 });
 
+
 recipeRoutes.get("/recipes", (req, res) => {
   Recipe.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
+
 });
 
 recipeRoutes.get("/getRecipe", (req, res) => {
@@ -110,8 +114,20 @@ recipeRoutes.get("/getRecipe", (req, res) => {
   });
 });
 
+
 app.use("/api/recipe", recipeRoutes);
 app.use("/api/user", userRoutes);
+
+recipeRoutes.post('/getRecipeById', (req, res) => {
+    Recipe.findOne({ _id : req.body._id }, (error, result) => {
+        if (error) {
+            return res.json({ success: false, error: error });
+        }
+        return res.json({ success: true, data: result });
+    });
+});
+
+
 
 recipeRoutes.post("/update", (req, res) => {
   Recipe.findByIdAndUpdate(

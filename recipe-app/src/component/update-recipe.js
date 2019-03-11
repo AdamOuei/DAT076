@@ -1,4 +1,6 @@
-import { Component } from "react";
+import React, { Component } from "react";
+import axios from 'axios';
+import { Form, Row, Col } from 'react-bootstrap';
 
 class UpdateRecipe extends Component {
 

@@ -50,6 +50,7 @@ export default class CreateRecipe extends Component {
       instructions: this.state.instructions,
       category: this.state.categories
     });
+    this.props.history.push("/");
     event.preventDefault();
   };
 
@@ -117,7 +118,7 @@ export default class CreateRecipe extends Component {
 }
 
 /*
-                        
+
                         <Link to="/dashboard">
                           <button type="button">
                                 Create
