@@ -132,6 +132,14 @@ recipeRoutes.post("/add", (req, res) => {
   });
 });
 
+recipeRoutes.post("/delete", (req, res) => {
+  const { _id } = req.body;
+  Recipe.findByIdAndDelete(_id, error => {
+    if (error) return res.json({ success: false, error: error });
+    return res.json({ success: true });
+  });
+});
+
 recipeRoutes.get("/recipes", (req, res) => {
   Recipe.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
@@ -146,9 +154,6 @@ recipeRoutes.get("/getRecipe", (req, res) => {
     return res.json({ success: true, recipe: data });
   });
 });
-
-app.use("/api/recipe", recipeRoutes);
-app.use("/api/user", userRoutes);
 
 recipeRoutes.post("/getRecipeById", (req, res) => {
   Recipe.findOne({ _id: req.body._id }, (error, result) => {
