@@ -94,11 +94,13 @@ class App extends Component {
                         <NavBar />
                         <div>
                             <div className="wrapper">
-                                <SideBar
-                                    cats={this.state.categories}
-                                    setFilter={this.setFilter.bind(this)}
-                                    activeStyle={this.state.activeStyle}
-                                />
+                                <div>
+                                    <SideBar
+                                        cats={this.state.categories}
+                                        setFilter={this.setFilter.bind(this)}
+                                        activeStyle={this.state.activeStyle}
+                                    />
+                                </div>
                                 <div id="content">
                                     <nav className="navbar navbar-expand-lg navbar-light bg-light">
                                         <div className="container-fluid">
@@ -172,6 +174,7 @@ class App extends Component {
                                 align-items: stretch;
                                 width: 100%;
                               }
+                              
                             `}
                             </style>
                         </div>

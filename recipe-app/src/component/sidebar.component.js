@@ -54,16 +54,6 @@ export default class SideBar extends Component {
                 margin-left: -250px;
               }
   
-              @media (max-width: 768px) {
-                #sidebar {
-                  margin-left: -250px;
-                }
-  
-                #sidebar.active {
-                  margin-left: 0;
-                }
-              }
-  
               p {
                 font-size: 1em;
                 font-weight: 300;
