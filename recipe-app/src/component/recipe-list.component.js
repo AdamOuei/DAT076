@@ -23,6 +23,11 @@ export default class RecipeList extends Component {
             this.getSavedRecipes();
         }
         this.getDataFromDb();
+        this.props.showMenu();
+    }
+
+    componentWillUnmount() {
+        this.props.showMenu();
     }
 
     isRecipeSaved(id) {
