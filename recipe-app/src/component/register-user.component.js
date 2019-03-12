@@ -3,7 +3,7 @@ import { Button, FormGroup, FormLabel, FormControl } from "react-bootstrap";
 import axios from "axios";
 import "../styles/Register.css";
 import { Link } from "react-router-dom";
-import {AppContext} from "../AppProvider";
+import { AppContext } from "../AppProvider";
 
 export default class Register extends Component {
   constructor(props) {
@@ -28,26 +28,28 @@ export default class Register extends Component {
 
   handleSubmit = event => {
     //TODO fix id
-    axios.post("http://localhost:4000/api/user/add", {
-      id: 50,
-      email: this.state.email,
-      password: this.state.password,
-      name: this.state.name
-    }).then(res => res.request.response)
-    .then(res => {
-      if(!JSON.parse(res).success){
-        this.setState({msg: JSON.parse(res).message});
-      console.log(JSON.parse(res).message);
-      }else{
-        this.props.history.push("/");
-        this.context.isLoggedIn = true;
-        this.context.user.name = this.state.name;
-        this.context.user.email = this.state.email;
-        localStorage.setItem("isLoggedIn", true);
-        localStorage.setItem("userName", this.context.user.name);
-        localStorage.setItem("userEmail", this.context.user.email);
-      }
-    });
+    axios
+      .post("http://localhost:4000/api/user/add", {
+        id: 50,
+        email: this.state.email,
+        password: this.state.password,
+        name: this.state.name
+      })
+      .then(res => res.request.response)
+      .then(res => {
+        if (!JSON.parse(res).success) {
+          this.setState({ msg: JSON.parse(res).message });
+          console.log(JSON.parse(res).message);
+        } else {
+          this.context.isLoggedIn = true;
+          this.context.user.name = this.state.name;
+          this.context.user.email = this.state.email;
+          localStorage.setItem("isLoggedIn", true);
+          localStorage.setItem("userName", this.context.user.name);
+          localStorage.setItem("userEmail", this.context.user.email);
+          this.props.history.push("/");
+        }
+      });
     event.preventDefault();
   };
 
@@ -90,9 +92,9 @@ export default class Register extends Component {
             Submit
           </Button>
         </form>
-            <Link to="/login" className="nav-link">
-              Login
-            </Link>
+        <Link to="/login" className="nav-link">
+          Login
+        </Link>
       </div>
     );
   }
