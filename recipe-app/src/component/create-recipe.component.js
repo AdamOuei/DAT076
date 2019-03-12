@@ -2,6 +2,12 @@ import React, { Component } from "react";
 import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
 import axios from "axios";
 import { AppContext } from "../AppProvider";
+import {
+  Button,
+  FormGroup,
+  FormControl,
+  FormLabel,
+} from "react-bootstrap";
 
 import "../styles/CreateRecipe.css";
 
@@ -32,6 +38,10 @@ export default class CreateRecipe extends Component {
     });
   };
 
+  validateForm() {
+    return this.state.title.length > 0 && this.state.ingredients.length > 0 && this.state.instructions.length > 0 ;
+  }
+
   handleSubmit = event => {
     axios
       .post("http://localhost:4000/api/recipe/add", {
@@ -44,12 +54,16 @@ export default class CreateRecipe extends Component {
       .then(res => {
         if (this.context.isLoggedIn) {
           axios.post("http://localhost:4000/api/user/addCreatedRecipe", {
+
             email: this.context.user.email,
             _id: JSON.parse(res).data._id
           });
+          
         }
       });
-    this.props.history.push("/");
+      console.log("Outside of axios");
+      this.props.history.push("/");
+    
     event.preventDefault();
   };
 
@@ -69,12 +83,81 @@ export default class CreateRecipe extends Component {
       /*TODO: Make into a form so that we can setStates above*/
 
       <div>
-        <p>Create Recipe</p>
+        <h2>Create Recipe</h2>
         <div className="recipeContainer">
           <div className="row mt-5">
             <div className="col-sm-12">
               <form onSubmit={this.handleSubmit}>
-                <label>
+              <FormGroup bsize="large">
+                <FormLabel column sm="2">
+                  Title
+                </FormLabel>
+                <FormControl
+              className="test"
+              id="title"
+              type="text"
+              value={this.state.title}
+              onChange={this.handleChange}
+            />
+                </FormGroup>
+                <FormGroup>
+                <FormLabel column sm="2">
+                  Ingredients
+                </FormLabel>
+                <FormControl 
+                as="textarea" 
+                rows="3" 
+                className="test"
+                id="ingredients"
+                type="text"
+                value={this.state.ingredients}
+                onChange={this.handleChange}/>
+                </FormGroup>
+                <FormGroup>
+                <FormLabel column sm="2">
+                  Instructions
+                </FormLabel>
+                <FormControl 
+                as="textarea" 
+                rows="3" 
+                className="test"
+                id="instructions"
+                value={this.state.instructions}
+                onChange={this.handleChange}/>
+                </FormGroup>
+                <FormGroup>
+                <FormLabel column sm="2">
+                  Category
+                </FormLabel>
+                  <ReactMultiSelectCheckboxes
+                    value={selectedOptions}
+                    onChange={this.handleOptions}
+                    options={this.getOptions()}
+                  />
+                
+                </FormGroup>
+                <Button
+                  block
+                  bsize="large"
+                  disabled={!this.validateForm()}
+                  type="submit"
+                >
+                  Submit
+                </Button>
+                
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+CreateRecipe.contextType = AppContext;
+
+/*
+<label>
                   Title:
                   <input
                     className="test"
@@ -106,24 +189,6 @@ export default class CreateRecipe extends Component {
                   />
                 </label>
                 <br />
-
-                <label>
-                  Category:
-                  <ReactMultiSelectCheckboxes
-                    value={selectedOptions}
-                    onChange={this.handleOptions}
-                    options={this.getOptions()}
-                  />
-                </label>
                 <br />
                 <input type="submit" value="Submit" />
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
-
-CreateRecipe.contextType = AppContext;
+*/

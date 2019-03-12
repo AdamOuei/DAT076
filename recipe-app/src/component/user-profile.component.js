@@ -85,6 +85,7 @@ export default class UserProfile extends Component {
             savedRecipes: this.state.savedRecipes.concat(res.data)
           });
         } else {
+          console.log(res.data);
           this.setState({
             createdRecipes: this.state.createdRecipes.concat(res.data)
           });

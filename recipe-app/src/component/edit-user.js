@@ -81,7 +81,7 @@ class EditUser extends Component {
         <div className="row mt-5">
           <div className="col-sm-12">
             <form onSubmit={this.handleSubmit}>
-              <FormGroup controlId="formPlaintextEmail">
+              <FormGroup controlId="formPlaintextEmail" >
                 <FormLabel column sm="2">
                   Email
                 </FormLabel>
