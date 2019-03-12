@@ -6,6 +6,7 @@ import EditUser from "./edit-user";
 import { AppContext } from "../AppProvider";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { CardColumns } from "react-bootstrap";
 
 export default class UserProfile extends Component {
   constructor(props) {
@@ -19,7 +20,8 @@ export default class UserProfile extends Component {
       savedRecipes: [],
       created: [],
       createdRecipes: [],
-      isLoaded: false
+      createMessage: "",
+      saveMessage: ""
     };
   }
 
@@ -53,6 +55,9 @@ export default class UserProfile extends Component {
 
   //Get whole recipes from the users saved id
   setSavedRecipes() {
+    if(this.state.saved.length === 0){
+      this.setState({saveMessage: "Nothing to show, save recipes in order to make them show."});
+    }
     for (var i = 0; i < this.state.saved.length; i++) {
       this.getRecipeById(this.state.saved[i], "saved");
     }
@@ -60,6 +65,9 @@ export default class UserProfile extends Component {
 
   //Get whole recipes from the users created id
   setCreatedRecipes() {
+    if(this.state.created.length === 0){
+      this.setState({createMessage: "Nothing to show, create your own recipes in order to make them show."});
+    }
     for (var i = 0; i < this.state.created.length; i++) {
       this.getRecipeById(this.state.created[i], "created");
     }
@@ -89,7 +97,6 @@ export default class UserProfile extends Component {
   }
 
   render() {
-    // if(!this.state.isLoaded) return (<div>Loading...</div>);
     return (
       <div id="userProfile">
         <div id="UserInfo">
@@ -110,6 +117,8 @@ export default class UserProfile extends Component {
         <div id="saved">
           <h1>Saved recipes</h1>
           <div>
+            <p>{this.state.saveMessage}</p>
+            <CardColumns>
             {this.state.savedRecipes.map(recipe => (
               <MiniRecipe
                 key={recipe.data._id}
@@ -118,11 +127,14 @@ export default class UserProfile extends Component {
                 saved={true}
               />
             ))}
+             </CardColumns>
           </div>
         </div>
         <div id="created">
           <h1>Recipes created by you</h1>
           <div>
+            <p>{this.state.createMessage}</p>
+            <CardColumns>
             {this.state.createdRecipes.map(recipe => (
               <MiniRecipe
                 key={recipe.data._id}
@@ -130,6 +142,7 @@ export default class UserProfile extends Component {
                 method={this.props.method}
               />
             ))}
+            </CardColumns>
           </div>
         </div>
       </div>
