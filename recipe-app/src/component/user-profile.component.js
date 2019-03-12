@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
 import MiniRecipe from "./recipe-miniature.component";
-import { BrowserRouter as Router, Link, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import EditUser from "./edit-user";
 import { AppContext } from "../AppProvider";
+import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 export default class UserProfile extends Component {
   constructor(props) {
@@ -96,9 +98,11 @@ export default class UserProfile extends Component {
           <p>Email: {this.state.email}</p>
           <Router>
             <div>
-              <Link to="/editUser">
-                <button>Edit info</button>
-              </Link>
+            <Button variant="primary">
+                            <Link to="/editUser" style={{ color: "white" }}>
+                                Edit user
+                            </Link>
+                        </Button>
               <Route path="/editUser" component={EditUser} />
             </div>
           </Router>

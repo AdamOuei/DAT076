@@ -59,12 +59,14 @@ class EditUser extends Component {
   }
 
   handleChange(event) {
+   
     this.setState({
       [event.target.id]: event.target.value
     });
   }
 
   handleSubmit(event) {
+    
     axios.post("http://localhost:4000/api/user/update", {
       name: this.state.name,
       email: this.state.email,
@@ -91,7 +93,7 @@ class EditUser extends Component {
                   />
                 </Col>
               </FormGroup>
-              <FormGroup controlId="changePassword">
+              <FormGroup controlId="password">
                 <FormLabel column sm="2">
                   Password
                 </FormLabel>
@@ -102,7 +104,7 @@ class EditUser extends Component {
                   />
                 </Col>
               </FormGroup>
-              <FormGroup controlId="changeName">
+              <FormGroup controlId="name">
                 <FormLabel column sm="2">
                   Name
                 </FormLabel>
