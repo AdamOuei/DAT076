@@ -176,10 +176,10 @@ recipeRoutes.post("/getRecipeById", (req, res) => {
 });
 
 recipeRoutes.post("/update", (req,res) => {
-    const {_id, title, ingredients, instructions} = req.body;
+    const {_id, title, ingredients, instructions, category} = req.body;
     Recipe.findOneAndUpdate(
         {_id : _id},
-        {title: title, ingredients: ingredients, instructions: instructions},
+        {title: title, ingredients: ingredients, instructions: instructions, category: category},
         error => {
             if (error) return res.json({success: false, error: error})
             return res.json({success: true});
@@ -188,6 +188,21 @@ recipeRoutes.post("/update", (req,res) => {
 });
 
 /*
+recipeRoutes.post("/add", (req, res) => {
+    let recipe = new Recipe();
+    recipe.id = req.body.id;
+    recipe.title = req.body.title;
+    recipe.ingredients = req.body.ingredients;
+    recipe.instructions = req.body.instructions;
+    recipe.category = req.body.category;
+
+    recipe.save((error, result) => {
+        if (error) return res.json({ success: false, error: error });
+        return res.json({ success: true, data: { _id: result._id } });
+    });
+});
+
+
 recipeRoutes.post("/update", (req, res) => {
     Recipe.findByIdAndUpdate(
         req.params.id,

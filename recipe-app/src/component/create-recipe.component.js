@@ -23,9 +23,11 @@ export default class CreateRecipe extends Component {
   }
 
   handleChange = event => {
+    
     this.setState({
       [event.target.id]: event.target.value
     });
+    
   };
 
   handleOptions = selectedOptions => {
@@ -43,6 +45,8 @@ export default class CreateRecipe extends Component {
   }
 
   handleSubmit = event => {
+    console.log(this.state.title);
+    console.log(this.state.instructions);
     axios
       .post("http://localhost:4000/api/recipe/add", {
         title: this.state.title,
@@ -135,7 +139,7 @@ export default class CreateRecipe extends Component {
                     options={this.getOptions()}
                   />
                 </FormGroup>
-                <Link to="/">
+                
                   <Button
                     block
                     bsize="large"
@@ -144,7 +148,7 @@ export default class CreateRecipe extends Component {
                   >
                     Submit
                   </Button>
-                </Link>
+               
               </form>
             </div>
           </div>

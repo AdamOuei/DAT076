@@ -18,7 +18,7 @@ class UpdateRecipe extends Component {
             ingredients: "",
             instructions: "",
             category: "",
-            categories: this.props.recipe.category
+            categories: []
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -34,7 +34,8 @@ class UpdateRecipe extends Component {
         this.setState({
             title: this.props.recipe.title,
             ingredients: this.props.recipe.ingredients,
-            instructions: this.props.recipe.instructions
+            instructions: this.props.recipe.instructions,
+            categories: this.props.recipe.category
         });
     }
 
@@ -63,14 +64,14 @@ class UpdateRecipe extends Component {
                 title: this.state.title,
                 ingredients: this.state.ingredients,
                 instructions: this.state.instructions,
-               // categories: this.state.categories
+                category: this.state.categories
             })
             .then(res => {
                 this.setState({
                     title: res.data.title,
                     ingredients: res.data.ingredients,
                     instructions: res.data.instructions,
-                  //  category: res.data.categories
+                    category: res.data.categories
                 });
                 
             });
