@@ -39,7 +39,8 @@ export default class RecipeRead extends Component {
     }
 
     render() {
-        if (!this.state.isLoaded) return <div>Loading...</div>;
+        if (this.context.isLoggedIn && !this.state.isLoaded)
+            return <div>Loading...</div>;
         return (
             <div>
                 <div>
