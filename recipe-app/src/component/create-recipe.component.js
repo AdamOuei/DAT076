@@ -22,11 +22,15 @@ export default class CreateRecipe extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange = event => {
-        this.setState({
-            [event.target.id]: event.target.value
-        });
-    };
+
+  handleChange = event => {
+    
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+    
+  };
+
 
     handleOptions = selectedOptions => {
         this.setState({
@@ -41,6 +45,7 @@ export default class CreateRecipe extends Component {
             this.state.instructions.length > 0
         );
     }
+
 
     handleSubmit = event => {
         axios
@@ -150,6 +155,7 @@ export default class CreateRecipe extends Component {
                         </div>
                     </div>
                 </div>
+
             </div>
         );
     }
