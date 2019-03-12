@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Form, Row, Col } from "react-bootstrap";
 import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
+import { Redirect } from "react-router-dom";
 
 class UpdateRecipe extends Component {
     constructor(props) {
@@ -12,7 +13,8 @@ class UpdateRecipe extends Component {
             ingredients: "",
             instructions: "",
             category: "",
-            categories: this.props.recipe.category
+            categories: this.props.recipe.category,
+            redirect: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -55,9 +57,8 @@ class UpdateRecipe extends Component {
     }
 
     render() {
-        console.log(this.state.categories);
-
         const selectedOptions = this.state.categories;
+        if (this.state.redirect) return <Redirect to="/" />;
         return (
             <div>
                 <p>Update Recipe</p>

@@ -3,7 +3,7 @@ import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
 import axios from "axios";
 import { AppContext } from "../AppProvider";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 import "../styles/CreateRecipe.css";
 
@@ -15,7 +15,8 @@ export default class CreateRecipe extends Component {
             title: "",
             ingredients: "",
             instructions: "",
-            categories: {}
+            categories: {},
+            redirect: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -62,10 +63,10 @@ export default class CreateRecipe extends Component {
                     );
                 }
             });
-        this.props.history.push("/");
+        //this.props.history.push("/");
         console.log("Outside of axios");
-
         event.preventDefault();
+        this.setState({ redirect: true });
     };
 
     getOptions() {
@@ -80,6 +81,7 @@ export default class CreateRecipe extends Component {
 
     render() {
         const { selectedOptions } = this.state.categories;
+        if (this.state.redirect) return <Redirect to="/" />;
         return (
             /*TODO: Make into a form so that we can setStates above*/
 
