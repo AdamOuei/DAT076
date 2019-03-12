@@ -175,6 +175,19 @@ recipeRoutes.post("/getRecipeById", (req, res) => {
     });
 });
 
+recipeRoutes.post("/update", (req,res) => {
+    const {_id, title, ingredients, instructions} = req.body;
+    Recipe.findOneAndUpdate(
+        {_id : _id},
+        {title: title, ingredients: ingredients, instructions: instructions},
+        error => {
+            if (error) return res.json({success: false, error: error})
+            return res.json({success: true});
+        }
+    );
+});
+
+/*
 recipeRoutes.post("/update", (req, res) => {
     Recipe.findByIdAndUpdate(
         req.params.id,
@@ -191,7 +204,7 @@ recipeRoutes.post("/update", (req, res) => {
         }
     );
 });
-
+*/ 
 categoryRoutes.get("/categories", (req, res) => {
     Category.find((err, data) => {
         if (err) return res.json({ success: false, error: err });
