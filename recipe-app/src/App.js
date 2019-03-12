@@ -35,6 +35,7 @@ class App extends Component {
         this.setFilter = this.setFilter.bind(this);
         this.showMenu = this.showMenu.bind(this);
         this.getCategories = this.getCategories.bind(this);
+        this.closeMenu = this.closeMenu.bind(this);
     }
 
     componentWillUpdate() {}
@@ -72,6 +73,11 @@ class App extends Component {
         this.state.activeStyle === ""
             ? this.setState({ activeStyle: "active" })
             : this.setState({ activeStyle: "" });
+    }
+
+    closeMenu() {
+        if (this.state.activeStyle === "")
+            this.setState({ activeStyle: "active" });
     }
 
     getCategories = () => {
@@ -116,6 +122,9 @@ class App extends Component {
                                                                 .categories
                                                         }
                                                         showMenu={this.showMenu}
+                                                        closeMenu={
+                                                            this.closeMenu
+                                                        }
                                                     />
                                                 )}
                                             />

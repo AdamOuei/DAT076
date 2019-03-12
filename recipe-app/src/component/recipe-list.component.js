@@ -27,7 +27,7 @@ export default class RecipeList extends Component {
     }
 
     componentWillUnmount() {
-        this.props.showMenu();
+        this.props.closeMenu();
     }
 
     isRecipeSaved(id) {
