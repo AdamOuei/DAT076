@@ -69,7 +69,8 @@ class EditUser extends Component {
       .post("http://localhost:4000/api/user/deleteUser", {
         email: this.state.email
       })
-      .then(this.props.history.push("/"));
+      .then(this.props.history.push("/"))
+      .then(this.context.removeUser());
   };
 
   handleSubmit(event) {
@@ -135,42 +136,6 @@ class EditUser extends Component {
       </div>
     );
   }
-  /*  render() {
-    return (
-      <div className="container">
-        <div className="row mt-5">
-          <div className="col-sm-12">
-            <form onSubmit={this.handleSubmit}>
-              <label>
-                Name:
-                <input
-                  id="name"
-                  type="text"
-                  value={this.state.name}
-                  onChange={this.handleChange}
-                  placeholder={this.state.name}
-                />
-              </label>
-              <br />
-              <label>Email: {this.state.email}</label>
-              <br />
-              <label>
-                Password:
-                <input
-                  id="password"
-                  value={this.state.password}
-                  onChange={this.handleChange}
-                  placeholder={this.state.password}
-                />
-              </label>
-              <br />
-              <input type="submit" value="Update" />
-            </form>
-          </div>
-        </div>
-      </div>
-    );
-  }*/
 }
 
 EditUser.contextType = AppContext;

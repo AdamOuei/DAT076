@@ -27,28 +27,18 @@ export default class RecipeRead extends Component {
       .then(res => res.request.response)
       .then(res => {
         var result = JSON.parse(res).data;
+        console.log(result);
         this.setState({
           created: result.created,
           isLoaded: true
         });
       });
   }
-  deleteRecipe = () => {
-    axios
-      .post("http://localhost:4000/api/recipe/delete", {
-        _id: this.props.recipe._id
-      })
-      .then(
-        axios.post("http://localhost:4000/api/user/deleteCreatedRecipe", {
-          email: this.context.user.email,
-          _id: this.props.recipe._id
-        })
-      )
-      .then(this.props.history.push("/userProfile"));
-  };
 
   componentDidMount() {
-    if (this.context.isLoggedIn) this.getUsersRecipies();
+    if (this.context.isLoggedIn) {
+      this.getUsersRecipies();
+    }
   }
 
   render() {
@@ -95,9 +85,6 @@ export default class RecipeRead extends Component {
                           <Link to={`/update/${this.props.recipe._id}`}>
                             Uppdatera
                           </Link>
-                        </Button>
-                        <Button variant="warning" onClick={this.deleteRecipe}>
-                          Delete
                         </Button>
                       </div>
                     );

@@ -25,7 +25,9 @@ export default class AppProvider extends Component {
     },
     removeUser: () => {
       this.setState({
-        isLoggedIn: false
+        isLoggedIn: false,
+        name: "",
+        email: ""
       });
       localStorage.setItem("isLoggedIn", false);
     }
