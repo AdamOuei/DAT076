@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import EditUser from "./edit-user";
 import { AppContext } from "../AppProvider";
 import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { CardColumns } from "react-bootstrap";
 
 export default class UserProfile extends Component {
@@ -25,10 +25,6 @@ export default class UserProfile extends Component {
         };
     }
 
-    componentWillMount() {
-        this.checkIfLoggedIn();
-    }
-
     checkIfLoggedIn() {
         if (!this.context.isLoggedIn) {
             this.props.history.push("/");
@@ -36,21 +32,25 @@ export default class UserProfile extends Component {
     }
 
     getUsersRecipies() {
-        axios
-            .post("http://localhost:4000/api/user/getUserInfo", {
-                email: this.context.user.email
-            })
-            .then(res => res.request.response)
-            .then(res => {
-                var result = JSON.parse(res).data;
-                this.setState({
-                    email: result.email,
-                    saved: result.saved,
-                    created: result.created
+        try {
+            axios
+                .post("http://localhost:4000/api/user/getUserInfo", {
+                    email: this.context.user.email
+                })
+                .then(res => res.request.response)
+                .then(res => {
+                    var result = JSON.parse(res).data;
+                    this.setState({
+                        email: result.email,
+                        saved: result.saved,
+                        created: result.created
+                    });
+                    this.setSavedRecipes();
+                    this.setCreatedRecipes();
                 });
-                this.setSavedRecipes();
-                this.setCreatedRecipes();
-            });
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     //Get whole recipes from the users saved id
@@ -104,13 +104,14 @@ export default class UserProfile extends Component {
     }
 
     componentDidMount() {
-        this.getUsersRecipies();
+        //this.checkIfLoggedIn();
+        if (this.context.isLoggedIn) {
+            this.getUsersRecipies();
+        }
     }
 
     render() {
-        console.log("Created: ", this.state.createdRecipes);
-        console.log("Saved: ", this.state.savedRecipes);
-
+        if (!this.context.isLoggedIn) return <Redirect to="/" />;
         return (
             <div id="userProfile">
                 <div id="UserInfo">

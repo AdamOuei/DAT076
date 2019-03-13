@@ -55,6 +55,13 @@ class App extends Component {
         }
     }
 
+    checkLoggedIn = (nextState, replace) => {
+        if (localStorage.getItem("isLoggedIn") === "false") {
+            replace({
+                pathname: "/"
+            });
+        }
+    };
     setFilter(category) {
         let index = this.state.filter.indexOf(category);
         if (index > -1) {
@@ -161,6 +168,7 @@ class App extends Component {
                                             />
                                             <Route
                                                 path="/userProfile"
+                                                onEnter={this.checkLoggedIn}
                                                 render={props => (
                                                     <UserProfile
                                                         method={this.showRecipe}
