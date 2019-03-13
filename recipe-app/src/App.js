@@ -93,7 +93,6 @@ class App extends Component {
   };
 
   render() {
-    //let modalClose = () => this.setState({ modalShow: false });
     if (!this.state.isLoaded) return <div>Loading</div>;
     return (
       <AppProvider>
