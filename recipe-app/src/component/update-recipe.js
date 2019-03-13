@@ -35,24 +35,28 @@ class UpdateRecipe extends Component {
       categories: this.props.recipe.category
     });
   }
-
+  /**
+   * Takes values from a multiselect and sets categorie state to the selected options
+   */
   handleCategoryChange = selectedOptions => {
-    console.log(selectedOptions);
-
     this.setState({
       categories: selectedOptions
     });
   };
 
+  /**
+   * Takes the values from the event and changes the state according to id
+   */
   handleChange(event) {
     this.setState({
       [event.target.id]: event.target.value
     });
   }
 
+  /**
+   * Updates the recipes in the database
+   */
   handleSubmit = event => {
-    console.log("Submit clicked!");
-
     axios
       .post("http://localhost:4000/api/recipe/update", {
         _id: this.props.recipe._id,
@@ -73,6 +77,9 @@ class UpdateRecipe extends Component {
     this.setState({ redirect: true });
   };
 
+  /**
+   * Check if there is text written
+   */
   validateForm() {
     return (
       this.state.title.length > 0 &&
@@ -81,7 +88,9 @@ class UpdateRecipe extends Component {
       this.state.categories.length > 0
     );
   }
-
+  /**
+   * Getter for options for the multiselectbox
+   */
   getOptions() {
     let options = [];
     var i = 1;
