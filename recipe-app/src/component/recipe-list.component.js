@@ -19,7 +19,9 @@ export default class RecipeList extends Component {
     }
 
     componentDidMount() {
-        this.getSavedRecipes();
+        if (this.context.isLoggedIn) {
+            this.getSavedRecipes();
+        }
         this.getDataFromDb();
         this.props.showMenu();
     }
@@ -32,7 +34,7 @@ export default class RecipeList extends Component {
         for (let i = 0; i < this.state.savedRecipes.length; i++) {
             if (this.state.savedRecipes[i] === id) {
                 console.log(id);
-                console.log(this.state.savedRecipes[i])
+                console.log(this.state.savedRecipes[i]);
                 return true;
             }
         }
@@ -82,7 +84,10 @@ export default class RecipeList extends Component {
             this.props.filter.length < 1
                 ? this.formatCategories()
                 : this.props.filter;
-        if (!this.state.isLoaded || !this.state.savedLoaded)
+        if (
+            !this.state.isLoaded ||
+            (this.context.isLoggedIn && !this.state.savedLoaded)
+        )
             return <div>Loading...</div>;
         return (
             <div>
