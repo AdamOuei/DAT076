@@ -4,6 +4,7 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AppContext } from "../AppProvider";
 import axios from "axios";
+import "../styles/ReadRecipe.css";
 
 export default class RecipeRead extends Component {
   constructor(props) {
@@ -18,7 +19,9 @@ export default class RecipeRead extends Component {
       isLoaded: false
     };
   }
-
+  /**
+   * Retrieves the recipes that the loggedIn user has created
+   */
   getUsersRecipies() {
     axios
       .post("http://localhost:4000/api/user/getUserInfo", {
@@ -27,28 +30,18 @@ export default class RecipeRead extends Component {
       .then(res => res.request.response)
       .then(res => {
         var result = JSON.parse(res).data;
+        console.log(result);
         this.setState({
           created: result.created,
           isLoaded: true
         });
       });
   }
-  deleteRecipe = () => {
-    axios
-      .post("http://localhost:4000/api/recipe/delete", {
-        _id: this.props.recipe._id
-      })
-      .then(
-        axios.post("http://localhost:4000/api/user/deleteCreatedRecipe", {
-          email: this.context.user.email,
-          _id: this.props.recipe._id
-        })
-      )
-      .then(this.props.history.push("/userProfile"));
-  };
 
   componentDidMount() {
-    if (this.context.isLoggedIn) this.getUsersRecipies();
+    if (this.context.isLoggedIn) {
+      this.getUsersRecipies();
+    }
   }
 
   render() {
@@ -87,6 +80,7 @@ export default class RecipeRead extends Component {
           <div id="update">
             <AppContext.Consumer>
               {context => {
+                //Allows the recipe to be updated if you created the recipe
                 if (context.isLoggedIn) {
                   if (this.state.created.includes(this.props.recipe._id)) {
                     return (
@@ -96,9 +90,6 @@ export default class RecipeRead extends Component {
                             Uppdatera
                           </Link>
                         </Button>
-                        <Button variant="warning" onClick={this.deleteRecipe}>
-                          Delete
-                        </Button>
                       </div>
                     );
                   }
@@ -106,19 +97,6 @@ export default class RecipeRead extends Component {
               }}
             </AppContext.Consumer>
           </div>
-          <style>{`
-                      #wrapper {
-                        width: 100%;
-                        overflow: hidden;
-                      }
-                      #back {
-                        width: 50px;
-                        float: left;
-                      }
-                      #update {
-                        float: right;
-                      }
-                    `}</style>
         </div>
       </div>
     );

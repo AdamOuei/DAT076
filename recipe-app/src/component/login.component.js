@@ -23,23 +23,27 @@ export default class Login extends Component {
     });
   };
 
+  /**
+   * Check that there is text written in the textboxes
+   */
   validateForm() {
     return this.state.email.length > 0 && this.state.password.length > 0;
   }
-  handleChange = event => {
-    this.setState({
-      [event.target.id]: event.target.value
-    });
-  };
 
+  /**
+   * Changes the loggedIn to the input which is true or false
+   */
   validateLogin(input) {
     this.setState({
       loggedIn: input
     });
   }
 
+  /**
+   * Call to database to check if the password and email is correct, also calls validateLogin
+   * with input from database true or false
+   */
   handleSubmit = async event => {
-    console.log(this.context);
     try {
       axios
         .post("http://localhost:4000/api/user/get", {
@@ -48,7 +52,6 @@ export default class Login extends Component {
         })
         .then(res => res.request.response)
         .then(res => {
-          console.log(res);
           let validate = JSON.parse(res).success;
           this.validateLogin(validate);
           this.context.isLoggedIn = this.state.loggedIn;

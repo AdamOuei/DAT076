@@ -1,13 +1,18 @@
 import React, { Component } from "react";
+import "../styles/SideBar.css";
 
 export default class ListItem extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             selected: ""
         };
     }
+
+    /**
+     * Sets filter for recipe-list
+     * Changes style for component
+     */
     setFilter() {
         this.props.setFilter(this.props.item);
         this.state.selected === ""
@@ -22,14 +27,6 @@ export default class ListItem extends Component {
                 <li onClick={this.setFilter.bind(this)}>
                     <div className={this.state.selected}>{item}</div>
                 </li>
-                <style>{`
-              .selected {
-                color: #aaaaaa;
-                background: #fff;
-                font-weight: bold;
-                border: solid;
-              }
-            `}</style>
             </React.Fragment>
         );
     }

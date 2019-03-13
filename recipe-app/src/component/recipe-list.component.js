@@ -20,9 +20,7 @@ export default class RecipeList extends Component {
   }
 
   componentDidMount() {
-    if (this.context.isLoggedIn) {
-      this.getSavedRecipes();
-    }
+    this.getSavedRecipes();
     this.getDataFromDb();
     this.props.showMenu();
   }
@@ -31,17 +29,24 @@ export default class RecipeList extends Component {
     this.props.closeMenu();
   }
 
+  /**
+   *
+   * @param {*} id The Recipe ID
+   *
+   * Checks if the recipe is saved
+   */
   isRecipeSaved(id) {
     for (let i = 0; i < this.state.savedRecipes.length; i++) {
       if (this.state.savedRecipes[i] === id) {
-        console.log(id);
-        console.log(this.state.savedRecipes[i]);
         return true;
       }
     }
     return false;
   }
 
+  /**
+   * Retrieves the saved recipes in the user database
+   */
   getSavedRecipes() {
     axios
       .post("http://localhost:4000/api/user/getUserInfo", {
@@ -49,14 +54,22 @@ export default class RecipeList extends Component {
       })
       .then(res => res.request.response)
       .then(res => {
-        this.setState({
-          savedRecipes: JSON.parse(res).data.saved,
-          savedLoaded: true
-        });
-        console.log(this.state.savedRecipes);
+        if (JSON.parse(res).data !== null) {
+          this.setState({
+            savedRecipes: JSON.parse(res).data.saved,
+            savedLoaded: true
+          });
+        } else {
+          this.setState({
+            savedLoaded: true
+          });
+        }
       });
   }
 
+  /**
+   * Opens and closes the sidebar
+   */
   handleClick() {
     this.props.showMenu();
     this.setState({
@@ -64,6 +77,9 @@ export default class RecipeList extends Component {
     });
   }
 
+  /**
+   * Retrieves the data from recipe database
+   */
   getDataFromDb = () => {
     fetch("http://localhost:4000/api/recipe/recipes")
       .then(data => data.json())
@@ -72,6 +88,9 @@ export default class RecipeList extends Component {
       });
   };
 
+  /**
+   *
+   */
   formatCategories() {
     let res = [];
     this.props.categories.forEach(element => {
@@ -85,10 +104,7 @@ export default class RecipeList extends Component {
       this.props.filter.length < 1
         ? this.formatCategories()
         : this.props.filter;
-    if (
-      !this.state.isLoaded ||
-      (this.context.isLoggedIn && !this.state.savedLoaded)
-    )
+    if (this.context.isLoggedIn || !this.state.savedLoaded)
       return <div>Loading...</div>;
     return (
       <div>

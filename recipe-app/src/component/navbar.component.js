@@ -14,8 +14,6 @@ export default class NavBar extends Component {
     };
   }
 
-  componentDidUpdate = () => {};
-
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -41,6 +39,7 @@ export default class NavBar extends Component {
           <div className="friends">
             <AppContext.Consumer>
               {context =>
+                // NavBar changes if you are logged in or not
                 context.isLoggedIn === false ? (
                   <Link to="/login" className="nav-link">
                     Login

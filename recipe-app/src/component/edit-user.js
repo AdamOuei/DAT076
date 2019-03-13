@@ -27,6 +27,9 @@ class EditUser extends Component {
     this.getUserInfo();
   }
 
+  /**
+   * Uses the Context API to retrieve the user information
+   */
   getUserInfo() {
     axios
       .post("http://localhost:4000/api/user/getUserInfo", {
@@ -35,7 +38,6 @@ class EditUser extends Component {
       .then(res => res.request.response)
       .then(res => {
         let user = JSON.parse(res).data;
-        console.log(user);
         this.setState({
           name: user.name,
           email: user.email,
@@ -52,6 +54,9 @@ class EditUser extends Component {
     this.checkIfLoggedIn();
   }
 
+  /**
+   * Pushes the user to the homepage if they are not logged in
+   */
   checkIfLoggedIn() {
     if (!this.context.isLoggedIn) {
       this.props.history.push("/");
@@ -64,14 +69,23 @@ class EditUser extends Component {
     });
   }
 
+  /**
+   * Deletes the user from the database and pushes the user to the homepage,
+   * Removes the user from the AppProvider context
+   */
   deleteUser = () => {
     axios
       .post("http://localhost:4000/api/user/deleteUser", {
         email: this.state.email
       })
-      .then(this.props.history.push("/"));
+      .then(this.props.history.push("/"))
+      .then(this.context.removeUser());
   };
 
+  /**
+   * Updates the database with new user info
+   * Pushes the user to the homepage when they edit their user info
+   */
   handleSubmit(event) {
     axios.post("http://localhost:4000/api/user/update", {
       name: this.state.name,
@@ -122,7 +136,6 @@ class EditUser extends Component {
                   />
                 </Col>
               </FormGroup>
-              {/*Try to center this one*/}
               <Button column sm="2" type="submit">
                 Submit
               </Button>
@@ -135,42 +148,6 @@ class EditUser extends Component {
       </div>
     );
   }
-  /*  render() {
-    return (
-      <div className="container">
-        <div className="row mt-5">
-          <div className="col-sm-12">
-            <form onSubmit={this.handleSubmit}>
-              <label>
-                Name:
-                <input
-                  id="name"
-                  type="text"
-                  value={this.state.name}
-                  onChange={this.handleChange}
-                  placeholder={this.state.name}
-                />
-              </label>
-              <br />
-              <label>Email: {this.state.email}</label>
-              <br />
-              <label>
-                Password:
-                <input
-                  id="password"
-                  value={this.state.password}
-                  onChange={this.handleChange}
-                  placeholder={this.state.password}
-                />
-              </label>
-              <br />
-              <input type="submit" value="Update" />
-            </form>
-          </div>
-        </div>
-      </div>
-    );
-  }*/
 }
 
 EditUser.contextType = AppContext;
