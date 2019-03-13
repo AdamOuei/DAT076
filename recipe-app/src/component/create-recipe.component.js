@@ -39,7 +39,8 @@ export default class CreateRecipe extends Component {
         return (
             this.state.title.length > 0 &&
             this.state.ingredients.length > 0 &&
-            this.state.instructions.length > 0
+            this.state.instructions.length > 0 &&
+            this.state.categories.length > 0
         );
     }
 

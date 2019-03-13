@@ -3,6 +3,7 @@ import axios from "axios";
 import { Form, Row, Col } from "react-bootstrap";
 import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
 import { Redirect } from "react-router-dom";
+import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 
 class UpdateRecipe extends Component {
     constructor(props) {
@@ -13,15 +14,29 @@ class UpdateRecipe extends Component {
             ingredients: "",
             instructions: "",
             category: "",
-            categories: this.props.recipe.category,
+            categories: [],
             redirect: false
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleCategoryChange = this.handleCategoryChange.bind(this);
     }
 
-    handleChange = selectedOptions => {
+    componentDidMount() {
+        this.setRecipeValues();
+    }
+
+    setRecipeValues() {
+        this.setState({
+            title: this.props.recipe.title,
+            ingredients: this.props.recipe.ingredients,
+            instructions: this.props.recipe.instructions,
+            categories: this.props.recipe.category
+        });
+    }
+
+    handleCategoryChange = selectedOptions => {
         console.log(selectedOptions);
 
         this.setState({
@@ -29,22 +44,50 @@ class UpdateRecipe extends Component {
         });
     };
 
+    handleChange(event) {
+        this.setState({
+            [event.target.id]: event.target.value
+        });
+    }
+
     handleSubmit = event => {
+        console.log("Submit clicked!");
+
         axios
             .post("http://localhost:4000/api/recipe/update", {
+                _id: this.props.recipe._id,
                 title: this.state.title,
                 ingredients: this.state.ingredients,
-                instructions: this.state.instructions
+                instructions: this.state.instructions,
+                category: this.state.categories
             })
             .then(res => {
                 this.setState({
                     title: res.data.title,
                     ingredients: res.data.ingredients,
-                    instructions: res.data.instructions
+                    instructions: res.data.instructions,
+                    category: res.data.categories
                 });
             });
         event.preventDefault();
+        this.setState({ redirect: true });
     };
+
+    validateForm() {
+        console.log(
+            this.state.title.length > 0,
+            this.state.ingredients.length > 0,
+            this.state.instructions.length > 0,
+            this.state.categories.length > 0
+        );
+
+        return (
+            this.state.title.length > 0 &&
+            this.state.ingredients.length > 0 &&
+            this.state.instructions.length > 0 &&
+            this.state.categories.length > 0
+        );
+    }
 
     getOptions() {
         let options = [];
@@ -61,58 +104,63 @@ class UpdateRecipe extends Component {
         if (this.state.redirect) return <Redirect to="/" />;
         return (
             <div>
-                <p>Update Recipe</p>
+                <h2>Update Recipe</h2>
                 <div className="container">
                     <div className="row mt-5">
                         <div className="col-sm-12">
                             <form onSubmit={this.handleSubmit}>
-                                <label>
-                                    Title:
-                                    <input
-                                        id="title"
+                                <FormGroup controlId="title">
+                                    <FormLabel column sm="2">
+                                        Title
+                                    </FormLabel>
+                                    <FormControl
                                         type="text"
                                         value={this.state.title}
                                         onChange={this.handleChange}
-                                        placeholder={this.props.recipe.title}
                                     />
-                                </label>
-                                <br />
-                                <label>
-                                    Ingredients:
-                                    <textarea
-                                        id="ingredients"
+                                </FormGroup>
+                                <FormGroup controlId="ingredients">
+                                    <FormLabel column sm="2">
+                                        Ingredients
+                                    </FormLabel>
+                                    <FormControl
+                                        as="textarea"
+                                        rows="3"
+                                        type="text"
                                         value={this.state.ingredients}
                                         onChange={this.handleChange}
-                                        placeholder={
-                                            this.props.recipe.ingredients
-                                        }
                                     />
-                                </label>
-                                <br />
-
-                                <label>
-                                    Instructions:
-                                    <textarea
-                                        id="instructions"
+                                </FormGroup>
+                                <FormGroup controlId="instructions">
+                                    <FormLabel column sm="2">
+                                        Instructions
+                                    </FormLabel>
+                                    <FormControl
+                                        as="textarea"
+                                        rows="3"
+                                        className="test"
                                         value={this.state.instructions}
                                         onChange={this.handleChange}
-                                        placeholder={
-                                            this.props.recipe.instructions
-                                        }
                                     />
-                                </label>
-                                <br />
-
-                                <label>
-                                    Category:
+                                </FormGroup>
+                                <FormGroup controlId="category">
+                                    <FormLabel column sm="2">
+                                        Category
+                                    </FormLabel>
                                     <ReactMultiSelectCheckboxes
                                         value={selectedOptions}
-                                        onChange={this.handleChange}
+                                        onChange={this.handleCategoryChange}
                                         options={this.getOptions()}
                                     />
-                                </label>
-                                <br />
-                                <input type="submit" value="Submit" />
+                                </FormGroup>
+                                <Button
+                                    block
+                                    bsize="large"
+                                    disabled={!this.validateForm()}
+                                    type="submit"
+                                >
+                                    Submit
+                                </Button>
                             </form>
                         </div>
                     </div>

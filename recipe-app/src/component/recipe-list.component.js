@@ -141,8 +141,8 @@ export default class RecipeList extends Component {
                         margin-bottom: 10px;
                     }
                     #hamburger {
-                        width: 40px;
-                        height: 40px;
+                        width: 40px !important;
+                        height: 40px !important;
                         float;
                         z-index:999;
                         background: #e0e0e0;
