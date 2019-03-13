@@ -19,7 +19,9 @@ export default class RecipeRead extends Component {
       isLoaded: false
     };
   }
-
+  /**
+   * Retrieves the recipes that the loggedIn user has created
+   */
   getUsersRecipies() {
     axios
       .post("http://localhost:4000/api/user/getUserInfo", {
@@ -78,6 +80,7 @@ export default class RecipeRead extends Component {
           <div id="update">
             <AppContext.Consumer>
               {context => {
+                //Allows the recipe to be updated if you created the recipe
                 if (context.isLoggedIn) {
                   if (this.state.created.includes(this.props.recipe._id)) {
                     return (

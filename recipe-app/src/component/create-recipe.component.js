@@ -10,7 +10,7 @@ import "../styles/CreateRecipe.css";
 export default class CreateRecipe extends Component {
   constructor(props) {
     super(props);
-    /*Preliminary strings, change to lists if possible, or parse them*/
+
     this.state = {
       title: "",
       ingredients: "",
@@ -23,18 +23,26 @@ export default class CreateRecipe extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  /**
+   * Takes the values from the event and changes the state according to id
+   */
   handleChange = event => {
     this.setState({
       [event.target.id]: event.target.value
     });
   };
-
+  /**
+   * Takes values from a multiselect and sets categorie state to the selected options
+   */
   handleOptions = selectedOptions => {
     this.setState({
       categories: selectedOptions
     });
   };
 
+  /**
+   * Check if there is text written
+   */
   validateForm() {
     return (
       this.state.title.length > 0 &&
@@ -44,6 +52,9 @@ export default class CreateRecipe extends Component {
     );
   }
 
+  /**
+   * Adds the recipes into the database
+   */
   handleSubmit = event => {
     axios
       .post("http://localhost:4000/api/recipe/add", {
@@ -65,6 +76,9 @@ export default class CreateRecipe extends Component {
     this.setState({ redirect: true });
   };
 
+  /**
+   * Getter for options for the multiselectbox
+   */
   getOptions() {
     let options = [];
     var i = 1;
@@ -77,6 +91,7 @@ export default class CreateRecipe extends Component {
 
   render() {
     const { selectedOptions } = this.state.categories;
+    // Redirect user to homepage when created a recipe
     if (this.state.redirect) return <Redirect to="/" />;
     return (
       <div>

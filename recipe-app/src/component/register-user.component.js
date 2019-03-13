@@ -16,6 +16,10 @@ export default class Register extends Component {
       msg: ""
     };
   }
+
+  /**
+   * Make sure user has entered text
+   */
   validateForm() {
     return this.state.email.length > 0 && this.state.password.length > 0;
   }
@@ -26,6 +30,10 @@ export default class Register extends Component {
     });
   };
 
+  /**
+   * Adds a user to the database
+   *
+   */
   handleSubmit = event => {
     axios
       .post("http://localhost:4000/api/user/add", {

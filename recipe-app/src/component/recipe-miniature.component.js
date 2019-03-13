@@ -19,10 +19,16 @@ export default class MiniRecipe extends Component {
     this.showRecipe = this.showRecipe.bind(this);
   }
 
+  /**
+   * Opens the recipe and renders the read-recipe.component
+   */
   showRecipe() {
     this.props.method(this.props.recipe);
   }
-
+  /**
+   * If the recipe is saved, clicking the button removes the saved recipe from the database
+   * If the recipe is not saved, clicking adds it to the user in the database
+   */
   handleClick() {
     !this.state.saved
       ? axios.post("http://localhost:4000/api/user/addSavedRecipe", {
