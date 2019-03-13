@@ -1,0 +1,11 @@
+#wrapper {
+  width: 100%;
+  overflow: hidden;
+}
+#back {
+  width: 50px;
+  float: left;
+}
+#update {
+  float: right;
+}
