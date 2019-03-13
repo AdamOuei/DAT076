@@ -29,6 +29,12 @@ export default class RecipeList extends Component {
     this.props.closeMenu();
   }
 
+  /**
+   *
+   * @param {*} id The Recipe ID
+   *
+   * Checks if the recipe is saved
+   */
   isRecipeSaved(id) {
     for (let i = 0; i < this.state.savedRecipes.length; i++) {
       if (this.state.savedRecipes[i] === id) {
@@ -38,6 +44,9 @@ export default class RecipeList extends Component {
     return false;
   }
 
+  /**
+   * Retrieves the saved recipes in the user database
+   */
   getSavedRecipes() {
     axios
       .post("http://localhost:4000/api/user/getUserInfo", {
@@ -58,6 +67,9 @@ export default class RecipeList extends Component {
       });
   }
 
+  /**
+   * Opens and closes the sidebar
+   */
   handleClick() {
     this.props.showMenu();
     this.setState({
@@ -65,6 +77,9 @@ export default class RecipeList extends Component {
     });
   }
 
+  /**
+   * Retrieves the data from recipe database
+   */
   getDataFromDb = () => {
     fetch("http://localhost:4000/api/recipe/recipes")
       .then(data => data.json())
@@ -73,6 +88,9 @@ export default class RecipeList extends Component {
       });
   };
 
+  /**
+   *
+   */
   formatCategories() {
     let res = [];
     this.props.categories.forEach(element => {

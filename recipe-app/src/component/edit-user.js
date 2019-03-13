@@ -27,6 +27,9 @@ class EditUser extends Component {
     this.getUserInfo();
   }
 
+  /**
+   * Uses the Context API to retrieve the user information
+   */
   getUserInfo() {
     axios
       .post("http://localhost:4000/api/user/getUserInfo", {
@@ -51,6 +54,9 @@ class EditUser extends Component {
     this.checkIfLoggedIn();
   }
 
+  /**
+   * Pushes the user to the homepage if they are not logged in
+   */
   checkIfLoggedIn() {
     if (!this.context.isLoggedIn) {
       this.props.history.push("/");
@@ -63,6 +69,10 @@ class EditUser extends Component {
     });
   }
 
+  /**
+   * Deletes the user from the database and pushes the user to the homepage,
+   * Removes the user from the AppProvider context
+   */
   deleteUser = () => {
     axios
       .post("http://localhost:4000/api/user/deleteUser", {
@@ -72,6 +82,10 @@ class EditUser extends Component {
       .then(this.context.removeUser());
   };
 
+  /**
+   * Updates the database with new user info
+   * Pushes the user to the homepage when they edit their user info
+   */
   handleSubmit(event) {
     axios.post("http://localhost:4000/api/user/update", {
       name: this.state.name,
