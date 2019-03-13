@@ -17,202 +17,157 @@ import Register from "./component/register-user.component";
 import SideBar from "./component/sidebar.component";
 
 class App extends Component {
-    constructor(...args) {
-        super(...args);
+  constructor(...args) {
+    super(...args);
 
-        this.state = {
-            modalShow: false,
-            isShowing: false,
-            recipe: null,
-            filter: [],
-            activeStyle: "active",
-            authenticated: false,
-            categories: [],
-            isLoaded: false
-        };
-
-        this.showRecipe = this.showRecipe.bind(this);
-        this.setFilter = this.setFilter.bind(this);
-        this.showMenu = this.showMenu.bind(this);
-        this.getCategories = this.getCategories.bind(this);
-        this.closeMenu = this.closeMenu.bind(this);
-    }
-
-    componentWillUpdate() {}
-
-    showRecipe(recipe) {
-        this.setState({
-            isShowing: true,
-            recipe: recipe
-        });
-    }
-
-    componentDidMount() {
-        this.getCategories();
-        if (localStorage.getItem("isLoggedIn") === "true") {
-        } else {
-            console.log(localStorage.getItem("isLoggedIn"));
-        }
-    }
-
-    checkLoggedIn = (nextState, replace) => {
-        if (localStorage.getItem("isLoggedIn") === "false") {
-            replace({
-                pathname: "/"
-            });
-        }
-    };
-    setFilter(category) {
-        let index = this.state.filter.indexOf(category);
-        if (index > -1) {
-            this.state.filter.splice(index, 1);
-            this.setState(prevVal => ({
-                filter: prevVal.filter
-            }));
-        } else {
-            this.setState(prevVal => ({
-                filter: [...prevVal.filter, category]
-            }));
-        }
-    }
-
-    showMenu() {
-        this.state.activeStyle === ""
-            ? this.setState({ activeStyle: "active" })
-            : this.setState({ activeStyle: "" });
-    }
-
-    closeMenu() {
-        if (this.state.activeStyle === "")
-            this.setState({ activeStyle: "active" });
-    }
-
-    getCategories = () => {
-        fetch("http://localhost:4000/api/category/categories")
-            .then(data => data.json())
-            .then(res =>
-                this.setState({ categories: res.data, isLoaded: true })
-            );
+    this.state = {
+      modalShow: false,
+      isShowing: false,
+      recipe: null,
+      filter: [],
+      activeStyle: "active",
+      authenticated: false,
+      categories: [],
+      isLoaded: false
     };
 
-    render() {
-        //let modalClose = () => this.setState({ modalShow: false });
-        if (!this.state.isLoaded) return <div>Loading</div>;
-        return (
-            <AppProvider>
-                <Router>
-                    <div className="nopadding">
-                        <NavBar />
-                        <div>
-                            <div className="wrapper">
-                                <div>
-                                    <SideBar
-                                        cats={this.state.categories}
-                                        setFilter={this.setFilter.bind(this)}
-                                        activeStyle={this.state.activeStyle}
-                                    />
-                                </div>
-                                <div id="content">
-                                    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                                        <div className="container-fluid">
-                                            <Route
-                                                path="/"
-                                                exact
-                                                render={props => (
-                                                    <RecipeList
-                                                        method={this.showRecipe}
-                                                        filter={
-                                                            this.state.filter
-                                                        }
-                                                        categories={
-                                                            this.state
-                                                                .categories
-                                                        }
-                                                        showMenu={this.showMenu}
-                                                        closeMenu={
-                                                            this.closeMenu
-                                                        }
-                                                    />
-                                                )}
-                                            />
-                                            <Route
-                                                path="/update/:id"
-                                                exact
-                                                render={props => (
-                                                    <UpdateRecipe
-                                                        recipe={
-                                                            this.state.recipe
-                                                        }
-                                                        categories={
-                                                            this.state
-                                                                .categories
-                                                        }
-                                                    />
-                                                )}
-                                            />
-                                            <Route
-                                                path="/create"
-                                                exact
-                                                render={props => (
-                                                    <CreateRecipe
-                                                        categories={
-                                                            this.state
-                                                                .categories
-                                                        }
-                                                    />
-                                                )}
-                                            />
-                                            <Route
-                                                path="/login"
-                                                component={Login}
-                                            />
-                                            <Route
-                                                path="/userProfile"
-                                                onEnter={this.checkLoggedIn}
-                                                render={props => (
-                                                    <UserProfile
-                                                        method={this.showRecipe}
-                                                    />
-                                                )}
-                                            />
-                                            <Route
-                                                path="/editUser"
-                                                component={EditUser}
-                                            />
-                                            <Route
-                                                path="/register"
-                                                component={Register}
-                                            />
-                                            <Route
-                                                path="/recipe/:id"
-                                                render={props => (
-                                                    <RecipeRead
-                                                        recipe={
-                                                            this.state.recipe
-                                                        }
-                                                    />
-                                                )}
-                                            />
-                                        </div>
-                                    </nav>
-                                </div>
-                            </div>
-                            <style>
-                                {`
-                              .wrapper {
-                                display: flex;
-                                align-items: stretch;
-                                width: 100%;
-                              }
-                              
-                            `}
-                            </style>
-                        </div>
+    this.showRecipe = this.showRecipe.bind(this);
+    this.setFilter = this.setFilter.bind(this);
+    this.showMenu = this.showMenu.bind(this);
+    this.getCategories = this.getCategories.bind(this);
+    this.closeMenu = this.closeMenu.bind(this);
+  }
+
+  componentWillUpdate() {}
+
+  showRecipe(recipe) {
+    this.setState({
+      isShowing: true,
+      recipe: recipe
+    });
+  }
+
+  componentDidMount() {
+    this.getCategories();
+    if (localStorage.getItem("isLoggedIn") === "true") {
+    } else {
+      console.log(localStorage.getItem("isLoggedIn"));
+    }
+  }
+
+  checkLoggedIn = (nextState, replace) => {
+    if (localStorage.getItem("isLoggedIn") === "false") {
+      replace({
+        pathname: "/"
+      });
+    }
+  };
+  setFilter(category) {
+    let index = this.state.filter.indexOf(category);
+    if (index > -1) {
+      this.state.filter.splice(index, 1);
+      this.setState(prevVal => ({
+        filter: prevVal.filter
+      }));
+    } else {
+      this.setState(prevVal => ({
+        filter: [...prevVal.filter, category]
+      }));
+    }
+  }
+
+  showMenu() {
+    this.state.activeStyle === ""
+      ? this.setState({ activeStyle: "active" })
+      : this.setState({ activeStyle: "" });
+  }
+
+  closeMenu() {
+    if (this.state.activeStyle === "") this.setState({ activeStyle: "active" });
+  }
+
+  getCategories = () => {
+    fetch("http://localhost:4000/api/category/categories")
+      .then(data => data.json())
+      .then(res => this.setState({ categories: res.data, isLoaded: true }));
+  };
+
+  render() {
+    //let modalClose = () => this.setState({ modalShow: false });
+    if (!this.state.isLoaded) return <div>Loading</div>;
+    return (
+      <AppProvider>
+        <Router>
+          <div className="nopadding">
+            <NavBar />
+            <div>
+              <div className="wrapper">
+                <div>
+                  <SideBar
+                    cats={this.state.categories}
+                    setFilter={this.setFilter.bind(this)}
+                    activeStyle={this.state.activeStyle}
+                  />
+                </div>
+                <div id="content">
+                  <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <div className="container-fluid">
+                      <Route
+                        path="/"
+                        exact
+                        render={props => (
+                          <RecipeList
+                            method={this.showRecipe}
+                            filter={this.state.filter}
+                            categories={this.state.categories}
+                            showMenu={this.showMenu}
+                            closeMenu={this.closeMenu}
+                          />
+                        )}
+                      />
+                      <Route
+                        path="/update/:id"
+                        exact
+                        render={props => (
+                          <UpdateRecipe
+                            recipe={this.state.recipe}
+                            categories={this.state.categories}
+                          />
+                        )}
+                      />
+                      <Route
+                        path="/create"
+                        exact
+                        render={props => (
+                          <CreateRecipe categories={this.state.categories} />
+                        )}
+                      />
+                      <Route path="/login" component={Login} />
+                      <Route
+                        path="/userProfile"
+                        onEnter={this.checkLoggedIn}
+                        render={props => (
+                          <UserProfile method={this.showRecipe} />
+                        )}
+                      />
+                      <Route path="/editUser" component={EditUser} />
+                      <Route path="/register" component={Register} />
+                      <Route
+                        path="/recipe/:id"
+                        render={props => (
+                          <RecipeRead recipe={this.state.recipe} />
+                        )}
+                      />
                     </div>
-                </Router>
-            </AppProvider>
-        );
-    }
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Router>
+      </AppProvider>
+    );
+  }
 }
 
 App.contextType = AppContext;
