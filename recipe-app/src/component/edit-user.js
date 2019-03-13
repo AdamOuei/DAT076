@@ -64,6 +64,14 @@ class EditUser extends Component {
     });
   }
 
+  deleteUser = () => {
+    axios
+      .post("http://localhost:4000/api/user/deleteUser", {
+        email: this.state.email
+      })
+      .then(this.props.history.push("/"));
+  };
+
   handleSubmit(event) {
     axios.post("http://localhost:4000/api/user/update", {
       name: this.state.name,
@@ -117,6 +125,9 @@ class EditUser extends Component {
               {/*Try to center this one*/}
               <Button column sm="2" type="submit">
                 Submit
+              </Button>
+              <Button variant="warning" onClick={this.deleteUser}>
+                Delete
               </Button>
             </form>
           </div>
