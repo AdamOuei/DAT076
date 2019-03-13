@@ -84,16 +84,13 @@ class App extends Component {
     }
 
     closeMenu() {
-        if (this.state.activeStyle === "")
-            this.setState({ activeStyle: "active" });
+        if (this.state.activeStyle === "") this.setState({ activeStyle: "active" });
     }
 
     getCategories = () => {
         fetch("http://localhost:4000/api/category/categories")
             .then(data => data.json())
-            .then(res =>
-                this.setState({ categories: res.data, isLoaded: true })
-            );
+            .then(res => this.setState({ categories: res.data, isLoaded: true }));
     };
 
     render() {
@@ -122,17 +119,10 @@ class App extends Component {
                                                 render={props => (
                                                     <RecipeList
                                                         method={this.showRecipe}
-                                                        filter={
-                                                            this.state.filter
-                                                        }
-                                                        categories={
-                                                            this.state
-                                                                .categories
-                                                        }
+                                                        filter={this.state.filter}
+                                                        categories={this.state.categories}
                                                         showMenu={this.showMenu}
-                                                        closeMenu={
-                                                            this.closeMenu
-                                                        }
+                                                        closeMenu={this.closeMenu}
                                                     />
                                                 )}
                                             />
@@ -141,13 +131,8 @@ class App extends Component {
                                                 exact
                                                 render={props => (
                                                     <UpdateRecipe
-                                                        recipe={
-                                                            this.state.recipe
-                                                        }
-                                                        categories={
-                                                            this.state
-                                                                .categories
-                                                        }
+                                                        recipe={this.state.recipe}
+                                                        categories={this.state.categories}
                                                     />
                                                 )}
                                             />
@@ -155,65 +140,29 @@ class App extends Component {
                                                 path="/create"
                                                 exact
                                                 render={props => (
-                                                    <CreateRecipe
-                                                        categories={
-                                                            this.state
-                                                                .categories
-                                                        }
-                                                    />
+                                                    <CreateRecipe categories={this.state.categories} />
                                                 )}
                                             />
-                                            {/**
-                                            <Route
-                                                path="/login"
-                                                component={Login}
-                                            />
-                                             */}
+                                            <Route path="/login" component={Login} />
                                             <Route
                                                 path="/userProfile"
                                                 onEnter={this.checkLoggedIn}
                                                 render={props => (
-                                                    <UserProfile
-                                                        method={this.showRecipe}
-                                                    />
+                                                    <UserProfile method={this.showRecipe} />
                                                 )}
                                             />
-                                            <Route
-                                                path="/test"
-                                                component={Test}
-                                            />
-                                            <Route
-                                                path="/editUser"
-                                                component={EditUser}
-                                            />
-                                            <Route
-                                                path="/register"
-                                                component={Register}
-                                            />
+                                            <Route path="/editUser" component={EditUser} />
+                                            <Route path="/register" component={Register} />
                                             <Route
                                                 path="/recipe/:id"
                                                 render={props => (
-                                                    <RecipeRead
-                                                        recipe={
-                                                            this.state.recipe
-                                                        }
-                                                    />
+                                                    <RecipeRead recipe={this.state.recipe} />
                                                 )}
                                             />
                                         </div>
                                     </nav>
                                 </div>
                             </div>
-                            <style>
-                                {`
-                              .wrapper {
-                                display: flex;
-                                align-items: stretch;
-                                width: 100%;
-                              }
-                              
-                            `}
-                            </style>
                         </div>
                     </div>
                 </Router>

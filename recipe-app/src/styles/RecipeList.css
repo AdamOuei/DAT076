@@ -1,0 +1,27 @@
+.wrapper {
+  width: 100%;
+  overflow: hidden;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+#hamburger {
+  width: 40px !important;
+  height: 40px !important;
+  float: left;
+  z-index: 999;
+  background: #e0e0e0;
+  border-radius: 50%;
+  box-shadow: 2px 2px 2px grey;
+}
+#hamburger div {
+  margin: auto;
+  margin-top: 12px;
+}
+
+#user {
+  width: 100%;
+  text-align: center;
+}
+#user p {
+  text-align: center;
+}
