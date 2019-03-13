@@ -25,7 +25,7 @@ export default class UserProfile extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.checkIfLoggedIn();
   }
 
@@ -50,13 +50,16 @@ export default class UserProfile extends Component {
         });
         this.setSavedRecipes();
         this.setCreatedRecipes();
+        console.log(this.state.email);
       });
   }
 
   //Get whole recipes from the users saved id
   setSavedRecipes() {
-    if(this.state.saved.length === 0){
-      this.setState({saveMessage: "Nothing to show, save recipes in order to make them show."});
+    if (this.state.saved.length === 0) {
+      this.setState({
+        saveMessage: "Nothing to show, save recipes in order to make them show."
+      });
     }
     for (var i = 0; i < this.state.saved.length; i++) {
       this.getRecipeById(this.state.saved[i], "saved");
@@ -65,8 +68,11 @@ export default class UserProfile extends Component {
 
   //Get whole recipes from the users created id
   setCreatedRecipes() {
-    if(this.state.created.length === 0){
-      this.setState({createMessage: "Nothing to show, create your own recipes in order to make them show."});
+    if (this.state.created.length === 0) {
+      this.setState({
+        createMessage:
+          "Nothing to show, create your own recipes in order to make them show."
+      });
     }
     for (var i = 0; i < this.state.created.length; i++) {
       this.getRecipeById(this.state.created[i], "created");
@@ -106,11 +112,11 @@ export default class UserProfile extends Component {
           <p>Email: {this.state.email}</p>
           <Router>
             <div>
-            <Button variant="primary">
-                            <Link to="/editUser" style={{ color: "white" }}>
-                                Edit user
-                            </Link>
-                        </Button>
+              <Button variant="primary">
+                <Link to="/editUser" style={{ color: "white" }}>
+                  Edit user
+                </Link>
+              </Button>
               <Route path="/editUser" component={EditUser} />
             </div>
           </Router>
@@ -120,15 +126,15 @@ export default class UserProfile extends Component {
           <div>
             <p>{this.state.saveMessage}</p>
             <CardColumns>
-            {this.state.savedRecipes.map(recipe => (
-              <MiniRecipe
-                key={recipe.data._id}
-                recipe={recipe.data}
-                method={this.props.method}
-                saved={true}
-              />
-            ))}
-             </CardColumns>
+              {this.state.savedRecipes.map(recipe => (
+                <MiniRecipe
+                  key={recipe.data._id}
+                  recipe={recipe.data}
+                  method={this.props.method}
+                  saved={true}
+                />
+              ))}
+            </CardColumns>
           </div>
         </div>
         <div id="created">
@@ -136,13 +142,13 @@ export default class UserProfile extends Component {
           <div>
             <p>{this.state.createMessage}</p>
             <CardColumns>
-            {this.state.createdRecipes.map(recipe => (
-              <MiniRecipe
-                key={recipe.data._id}
-                recipe={recipe.data}
-                method={this.props.method}
-              />
-            ))}
+              {this.state.createdRecipes.map(recipe => (
+                <MiniRecipe
+                  key={recipe.data._id}
+                  recipe={recipe.data}
+                  method={this.props.method}
+                />
+              ))}
             </CardColumns>
           </div>
         </div>
