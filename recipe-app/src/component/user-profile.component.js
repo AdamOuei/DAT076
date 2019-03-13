@@ -11,7 +11,6 @@ import { CardColumns } from "react-bootstrap";
 export default class UserProfile extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             name: "",
             email: "",
@@ -25,12 +24,9 @@ export default class UserProfile extends Component {
         };
     }
 
-    checkIfLoggedIn() {
-        if (!this.context.isLoggedIn) {
-            this.props.history.push("/");
-        }
-    }
-
+    /**
+     * Fetches current users saved and created recipe IDs and adds them to state
+     */
     getUsersRecipies() {
         try {
             axios
@@ -81,8 +77,6 @@ export default class UserProfile extends Component {
 
     //Get recipes by id
     getRecipeById(num, type) {
-        console.log("In get recipe by id");
-
         axios
             .post("http://localhost:4000/api/recipe/getRecipeById", {
                 _id: num
@@ -104,13 +98,16 @@ export default class UserProfile extends Component {
     }
 
     componentDidMount() {
-        //this.checkIfLoggedIn();
         if (this.context.isLoggedIn) {
             this.getUsersRecipies();
         }
     }
 
     render() {
+        /**
+         * If the user is not logged in it shouldn't be able to get to this page
+         * therefore redirects it to /
+         */
         if (!this.context.isLoggedIn) return <Redirect to="/" />;
         return (
             <div id="userProfile">
