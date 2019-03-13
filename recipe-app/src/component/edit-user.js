@@ -35,7 +35,6 @@ class EditUser extends Component {
       .then(res => res.request.response)
       .then(res => {
         let user = JSON.parse(res).data;
-        console.log(user);
         this.setState({
           name: user.name,
           email: user.email,
@@ -123,7 +122,6 @@ class EditUser extends Component {
                   />
                 </Col>
               </FormGroup>
-              {/*Try to center this one*/}
               <Button column sm="2" type="submit">
                 Submit
               </Button>

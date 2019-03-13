@@ -6,168 +6,161 @@ import { Redirect } from "react-router-dom";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 
 class UpdateRecipe extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            title: "",
-            ingredients: "",
-            instructions: "",
-            category: "",
-            categories: [],
-            redirect: false
-        };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleCategoryChange = this.handleCategoryChange.bind(this);
-    }
-
-    componentDidMount() {
-        this.setRecipeValues();
-    }
-
-    setRecipeValues() {
-        this.setState({
-            title: this.props.recipe.title,
-            ingredients: this.props.recipe.ingredients,
-            instructions: this.props.recipe.instructions,
-            categories: this.props.recipe.category
-        });
-    }
-
-    handleCategoryChange = selectedOptions => {
-        console.log(selectedOptions);
-
-        this.setState({
-            categories: selectedOptions
-        });
+    this.state = {
+      title: "",
+      ingredients: "",
+      instructions: "",
+      category: "",
+      categories: [],
+      redirect: false
     };
 
-    handleChange(event) {
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCategoryChange = this.handleCategoryChange.bind(this);
+  }
+
+  componentDidMount() {
+    this.setRecipeValues();
+  }
+
+  setRecipeValues() {
+    this.setState({
+      title: this.props.recipe.title,
+      ingredients: this.props.recipe.ingredients,
+      instructions: this.props.recipe.instructions,
+      categories: this.props.recipe.category
+    });
+  }
+
+  handleCategoryChange = selectedOptions => {
+    console.log(selectedOptions);
+
+    this.setState({
+      categories: selectedOptions
+    });
+  };
+
+  handleChange(event) {
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+  }
+
+  handleSubmit = event => {
+    console.log("Submit clicked!");
+
+    axios
+      .post("http://localhost:4000/api/recipe/update", {
+        _id: this.props.recipe._id,
+        title: this.state.title,
+        ingredients: this.state.ingredients,
+        instructions: this.state.instructions,
+        category: this.state.categories
+      })
+      .then(res => {
         this.setState({
-            [event.target.id]: event.target.value
+          title: res.data.title,
+          ingredients: res.data.ingredients,
+          instructions: res.data.instructions,
+          category: res.data.categories
         });
-    }
+      });
+    event.preventDefault();
+    this.setState({ redirect: true });
+  };
 
-    handleSubmit = event => {
-        console.log("Submit clicked!");
+  validateForm() {
+    return (
+      this.state.title.length > 0 &&
+      this.state.ingredients.length > 0 &&
+      this.state.instructions.length > 0 &&
+      this.state.categories.length > 0
+    );
+  }
 
-        axios
-            .post("http://localhost:4000/api/recipe/update", {
-                _id: this.props.recipe._id,
-                title: this.state.title,
-                ingredients: this.state.ingredients,
-                instructions: this.state.instructions,
-                category: this.state.categories
-            })
-            .then(res => {
-                this.setState({
-                    title: res.data.title,
-                    ingredients: res.data.ingredients,
-                    instructions: res.data.instructions,
-                    category: res.data.categories
-                });
-            });
-        event.preventDefault();
-        this.setState({ redirect: true });
-    };
+  getOptions() {
+    let options = [];
+    var i = 1;
+    this.props.categories.forEach(element => {
+      options.push({ label: element.category, value: i });
+      i++;
+    });
+    return options;
+  }
 
-    validateForm() {
-        console.log(
-            this.state.title.length > 0,
-            this.state.ingredients.length > 0,
-            this.state.instructions.length > 0,
-            this.state.categories.length > 0
-        );
-
-        return (
-            this.state.title.length > 0 &&
-            this.state.ingredients.length > 0 &&
-            this.state.instructions.length > 0 &&
-            this.state.categories.length > 0
-        );
-    }
-
-    getOptions() {
-        let options = [];
-        var i = 1;
-        this.props.categories.forEach(element => {
-            options.push({ label: element.category, value: i });
-            i++;
-        });
-        return options;
-    }
-
-    render() {
-        const selectedOptions = this.state.categories;
-        if (this.state.redirect) return <Redirect to="/" />;
-        return (
-            <div>
-                <h2>Update Recipe</h2>
-                <div className="container">
-                    <div className="row mt-5">
-                        <div className="col-sm-12">
-                            <form onSubmit={this.handleSubmit}>
-                                <FormGroup controlId="title">
-                                    <FormLabel column sm="2">
-                                        Title
-                                    </FormLabel>
-                                    <FormControl
-                                        type="text"
-                                        value={this.state.title}
-                                        onChange={this.handleChange}
-                                    />
-                                </FormGroup>
-                                <FormGroup controlId="ingredients">
-                                    <FormLabel column sm="2">
-                                        Ingredients
-                                    </FormLabel>
-                                    <FormControl
-                                        as="textarea"
-                                        rows="3"
-                                        type="text"
-                                        value={this.state.ingredients}
-                                        onChange={this.handleChange}
-                                    />
-                                </FormGroup>
-                                <FormGroup controlId="instructions">
-                                    <FormLabel column sm="2">
-                                        Instructions
-                                    </FormLabel>
-                                    <FormControl
-                                        as="textarea"
-                                        rows="3"
-                                        className="test"
-                                        value={this.state.instructions}
-                                        onChange={this.handleChange}
-                                    />
-                                </FormGroup>
-                                <FormGroup controlId="category">
-                                    <FormLabel column sm="2">
-                                        Category
-                                    </FormLabel>
-                                    <ReactMultiSelectCheckboxes
-                                        value={selectedOptions}
-                                        onChange={this.handleCategoryChange}
-                                        options={this.getOptions()}
-                                    />
-                                </FormGroup>
-                                <Button
-                                    block
-                                    bsize="large"
-                                    disabled={!this.validateForm()}
-                                    type="submit"
-                                >
-                                    Submit
-                                </Button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+  render() {
+    const selectedOptions = this.state.categories;
+    if (this.state.redirect) return <Redirect to="/" />;
+    return (
+      <div>
+        <h2>Update Recipe</h2>
+        <div className="container">
+          <div className="row mt-5">
+            <div className="col-sm-12">
+              <form onSubmit={this.handleSubmit}>
+                <FormGroup controlId="title">
+                  <FormLabel column sm="2">
+                    Title
+                  </FormLabel>
+                  <FormControl
+                    type="text"
+                    value={this.state.title}
+                    onChange={this.handleChange}
+                  />
+                </FormGroup>
+                <FormGroup controlId="ingredients">
+                  <FormLabel column sm="2">
+                    Ingredients
+                  </FormLabel>
+                  <FormControl
+                    as="textarea"
+                    rows="3"
+                    type="text"
+                    value={this.state.ingredients}
+                    onChange={this.handleChange}
+                  />
+                </FormGroup>
+                <FormGroup controlId="instructions">
+                  <FormLabel column sm="2">
+                    Instructions
+                  </FormLabel>
+                  <FormControl
+                    as="textarea"
+                    rows="3"
+                    className="test"
+                    value={this.state.instructions}
+                    onChange={this.handleChange}
+                  />
+                </FormGroup>
+                <FormGroup controlId="category">
+                  <FormLabel column sm="2">
+                    Category
+                  </FormLabel>
+                  <ReactMultiSelectCheckboxes
+                    value={selectedOptions}
+                    onChange={this.handleCategoryChange}
+                    options={this.getOptions()}
+                  />
+                </FormGroup>
+                <Button
+                  block
+                  bsize="large"
+                  disabled={!this.validateForm()}
+                  type="submit"
+                >
+                  Submit
+                </Button>
+              </form>
             </div>
-        );
-    }
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default UpdateRecipe;

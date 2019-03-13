@@ -4,6 +4,7 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AppContext } from "../AppProvider";
 import axios from "axios";
+import "../styles/ReadRecipe.css";
 
 export default class RecipeRead extends Component {
   constructor(props) {
@@ -93,19 +94,6 @@ export default class RecipeRead extends Component {
               }}
             </AppContext.Consumer>
           </div>
-          <style>{`
-                      #wrapper {
-                        width: 100%;
-                        overflow: hidden;
-                      }
-                      #back {
-                        width: 50px;
-                        float: left;
-                      }
-                      #update {
-                        float: right;
-                      }
-                    `}</style>
         </div>
       </div>
     );

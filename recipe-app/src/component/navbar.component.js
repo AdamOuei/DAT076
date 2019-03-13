@@ -14,8 +14,6 @@ export default class NavBar extends Component {
     };
   }
 
-  componentDidUpdate = () => {};
-
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">

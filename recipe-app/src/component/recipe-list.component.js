@@ -22,13 +22,8 @@ export default class RecipeList extends Component {
   componentDidMount() {
     this.getSavedRecipes();
     this.getDataFromDb();
-    console.log(this.context.isLoggedIn);
     this.props.showMenu();
   }
-
-  test = context => {
-    console.log(context);
-  };
 
   componentWillUnmount() {
     this.props.closeMenu();
@@ -37,8 +32,6 @@ export default class RecipeList extends Component {
   isRecipeSaved(id) {
     for (let i = 0; i < this.state.savedRecipes.length; i++) {
       if (this.state.savedRecipes[i] === id) {
-        console.log(id);
-        console.log(this.state.savedRecipes[i]);
         return true;
       }
     }
@@ -62,7 +55,6 @@ export default class RecipeList extends Component {
             savedLoaded: true
           });
         }
-        console.log(this.state.savedRecipes);
       });
   }
 
