@@ -20,12 +20,15 @@ export default class RecipeList extends Component {
   }
 
   componentDidMount() {
-    if (this.context.isLoggedIn) {
-      this.getSavedRecipes();
-    }
+    this.getSavedRecipes();
     this.getDataFromDb();
+    console.log(this.context.isLoggedIn);
     this.props.showMenu();
   }
+
+  test = context => {
+    console.log(context);
+  };
 
   componentWillUnmount() {
     this.props.closeMenu();
@@ -49,10 +52,16 @@ export default class RecipeList extends Component {
       })
       .then(res => res.request.response)
       .then(res => {
-        this.setState({
-          savedRecipes: JSON.parse(res).data.saved,
-          savedLoaded: true
-        });
+        if (JSON.parse(res).data !== null) {
+          this.setState({
+            savedRecipes: JSON.parse(res).data.saved,
+            savedLoaded: true
+          });
+        } else {
+          this.setState({
+            savedLoaded: true
+          });
+        }
         console.log(this.state.savedRecipes);
       });
   }
@@ -85,10 +94,7 @@ export default class RecipeList extends Component {
       this.props.filter.length < 1
         ? this.formatCategories()
         : this.props.filter;
-    if (
-      !this.state.isLoaded ||
-      (this.context.isLoggedIn && !this.state.savedLoaded)
-    )
+    if (this.context.isLoggedIn || !this.state.savedLoaded)
       return <div>Loading...</div>;
     return (
       <div>
