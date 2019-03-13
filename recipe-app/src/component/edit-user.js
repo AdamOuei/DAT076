@@ -25,6 +25,7 @@ class EditUser extends Component {
 
   componentDidMount() {
     this.getUserInfo();
+    this.checkIfLoggedIn();
   }
 
   /**
@@ -44,14 +45,6 @@ class EditUser extends Component {
           password: user.password
         });
       });
-  }
-
-  componentDidUpdate() {
-    this.checkIfLoggedIn();
-  }
-
-  componentWillMount() {
-    this.checkIfLoggedIn();
   }
 
   /**
