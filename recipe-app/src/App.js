@@ -15,6 +15,7 @@ import NavBar from "./component/navbar.component";
 import EditUser from "./component/edit-user";
 import Register from "./component/register-user.component";
 import SideBar from "./component/sidebar.component";
+import Test from "./component/test.component";
 
 class App extends Component {
     constructor(...args) {
@@ -38,7 +39,7 @@ class App extends Component {
         this.closeMenu = this.closeMenu.bind(this);
     }
 
-    componentWillUpdate() {}
+    componentWillUpdate() { }
 
     showRecipe(recipe) {
         this.setState({
@@ -162,10 +163,12 @@ class App extends Component {
                                                     />
                                                 )}
                                             />
+                                            {/**
                                             <Route
                                                 path="/login"
                                                 component={Login}
                                             />
+                                             */}
                                             <Route
                                                 path="/userProfile"
                                                 onEnter={this.checkLoggedIn}
@@ -174,6 +177,10 @@ class App extends Component {
                                                         method={this.showRecipe}
                                                     />
                                                 )}
+                                            />
+                                            <Route
+                                                path="/test"
+                                                component={Test}
                                             />
                                             <Route
                                                 path="/editUser"
