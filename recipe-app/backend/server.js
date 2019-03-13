@@ -22,13 +22,20 @@ mongoose.connect(
 );
 const connection = mongoose.connection;
 
-connection.once("open", function() {
+connection.once("open", function () {
   console.log("MongoDB database connection established succesfully");
 });
 
-app.listen(PORT, function() {
+app.listen(PORT, function () {
   console.log("Server is running on Port: " + PORT);
 });
+
+userRoutes.get("/users", (req, res) => {
+  User.find((error, data) => {
+    if (error) return res.json({ success: false, error: error });
+    return res.json({ success: true, data: data });
+  })
+})
 
 userRoutes.post("/getUserInfo", (req, res) => {
   User.findOne({ email: req.body.email }, (error, result) => {
@@ -151,7 +158,7 @@ recipeRoutes.post("/add", (req, res) => {
 
   recipe.save((error, result) => {
     if (error) return res.json({ success: false, error: error });
-    return res.json({ success: true, data: { _id: result._id } });
+    return res.json({ success: true, data: { _id: result._id }, result: result });
   });
 });
 
@@ -172,7 +179,7 @@ recipeRoutes.get("/recipes", (req, res) => {
 
 recipeRoutes.get("/getRecipe", (req, res) => {
   const { id } = req.body;
-  Recipe.findById(id, function(err, data) {
+  Recipe.findById(id, function (err, data) {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, recipe: data });
   });

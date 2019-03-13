@@ -143,6 +143,10 @@ class App extends Component {
                                                     <CreateRecipe categories={this.state.categories} />
                                                 )}
                                             />
+                                            <Route
+                                                path="/test"
+                                                component={Test}
+                                            />
                                             <Route path="/login" component={Login} />
                                             <Route
                                                 path="/userProfile"
