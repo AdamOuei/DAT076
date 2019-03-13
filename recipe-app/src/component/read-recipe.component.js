@@ -6,97 +6,107 @@ import { AppContext } from "../AppProvider";
 import axios from "axios";
 
 export default class RecipeRead extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            title: this.props.recipe.title,
-            ingredients: this.props.recipe.ingredients,
-            instructions: this.props.recipe.instructions,
-            categories: this.props.recipe.category,
-            created: null,
-            isLoaded: false
-        };
-    }
+    this.state = {
+      title: this.props.recipe.title,
+      ingredients: this.props.recipe.ingredients,
+      instructions: this.props.recipe.instructions,
+      categories: this.props.recipe.category,
+      created: null,
+      isLoaded: false
+    };
+  }
 
-    getUsersRecipies() {
-        axios
-            .post("http://localhost:4000/api/user/getUserInfo", {
-                email: this.context.user.email
-            })
-            .then(res => res.request.response)
-            .then(res => {
-                var result = JSON.parse(res).data;
-                this.setState({
-                    created: result.created,
-                    isLoaded: true
-                });
-            });
-    }
+  getUsersRecipies() {
+    axios
+      .post("http://localhost:4000/api/user/getUserInfo", {
+        email: this.context.user.email
+      })
+      .then(res => res.request.response)
+      .then(res => {
+        var result = JSON.parse(res).data;
+        this.setState({
+          created: result.created,
+          isLoaded: true
+        });
+      });
+  }
+  deleteRecipe = () => {
+    axios
+      .post("http://localhost:4000/api/recipe/delete", {
+        _id: this.props.recipe._id
+      })
+      .then(
+        axios.post("http://localhost:4000/api/user/deleteCreatedRecipe", {
+          email: this.context.user.email,
+          _id: this.props.recipe._id
+        })
+      )
+      .then(this.props.history.push("/userProfile"));
+  };
 
-    componentDidMount() {
-        if (this.context.isLoggedIn) this.getUsersRecipies();
-    }
+  componentDidMount() {
+    if (this.context.isLoggedIn) this.getUsersRecipies();
+  }
 
-    render() {
-        if (this.context.isLoggedIn && !this.state.isLoaded)
-            return <div>Loading...</div>;
-        return (
-            <div>
-                <div>
-                    <img src={photo} width="450px" alt="logo" />
-                </div>
-                <div>
-                    <h2>{this.state.title}</h2>
-                </div>
-                <div>
-                    <b>Ingredients: </b>
-                    <p>{this.state.ingredients}</p>
-                </div>
-                <div>
-                    <b>Instructions: </b>
-                    <p>{this.state.instructions}</p>
-                </div>
-                <div>
-                    <b>Categories: </b>
-                    {this.state.categories.map(cat => (
-                        <p key={cat._id}>{cat.label}</p>
-                    ))}
-                </div>
-                <div id="wrapper">
-                    <div id="back">
+  render() {
+    if (this.context.isLoggedIn && !this.state.isLoaded)
+      return <div>Loading...</div>;
+    return (
+      <div>
+        <div>
+          <img src={photo} width="450px" alt="logo" />
+        </div>
+        <div>
+          <h2>{this.state.title}</h2>
+        </div>
+        <div>
+          <b>Ingredients: </b>
+          <p>{this.state.ingredients}</p>
+        </div>
+        <div>
+          <b>Instructions: </b>
+          <p>{this.state.instructions}</p>
+        </div>
+        <div>
+          <b>Categories: </b>
+          {this.state.categories.map(cat => (
+            <p key={cat._id}>{cat.label}</p>
+          ))}
+        </div>
+        <div id="wrapper">
+          <div id="back">
+            <Button variant="primary">
+              <Link to="/" style={{ color: "white" }}>
+                Back
+              </Link>
+            </Button>
+          </div>
+          <div id="update">
+            <AppContext.Consumer>
+              {context => {
+                if (context.isLoggedIn) {
+                  if (this.state.created.includes(this.props.recipe._id)) {
+                    return (
+                      <div>
                         <Button variant="primary">
-                            <Link to="/" style={{ color: "white" }}>
-                                Back
-                            </Link>
+                          <Link to={`/update/${this.props.recipe._id}`}>
+                            Uppdatera
+                          </Link>
                         </Button>
-                    </div>
-                    <div id="update">
-                        <AppContext.Consumer>
-                            {context => {
-                                if (context.isLoggedIn) {
-                                    if (
-                                        this.state.created.includes(
-                                            this.props.recipe._id
-                                        )
-                                    ) {
-                                        return (
-                                            <Button variant="primary">
-                                                <Link
-                                                    to={`/update/${
-                                                        this.props.recipe._id
-                                                    }`}
-                                                >
-                                                    Uppdatera
-                                                </Link>
-                                            </Button>
-                                        );
-                                    }
-                                }
-                            }}
-                        </AppContext.Consumer>
-                    </div>
-                    <style>{`
+                        <Button variant="warning" onClick={this.deleteRecipe}>
+                          Delete
+                        </Button>
+                      </div>
+                    );
+                  }
+                }
+              }}
+            </AppContext.Consumer>
+          </div>
+          <style>{`
                       #wrapper {
                         width: 100%;
                         overflow: hidden;
@@ -109,10 +119,10 @@ export default class RecipeRead extends Component {
                         float: right;
                       }
                     `}</style>
-                </div>
-            </div>
-        );
-    }
+        </div>
+      </div>
+    );
+  }
 }
 
 RecipeRead.contextType = AppContext;
