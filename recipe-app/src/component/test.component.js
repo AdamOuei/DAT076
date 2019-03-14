@@ -96,7 +96,7 @@ class Test extends Component {
     handleDeleteUserSubmit = event => {
         axios
             .post("http://localhost:4000/api/user/deleteUser", {
-                email: this.state.email
+                email: this.state.dEmail
             }).then(res => res.request.response)
             .then(res => this.setResult(res));
         event.preventDefault();
