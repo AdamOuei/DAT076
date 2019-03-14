@@ -187,7 +187,7 @@ class Test extends Component {
                         <Col>
                             <h3>Delete user test</h3>
                             <div className="DeleteUserTest">
-                                <form onSubmit={this.deleteUser}>
+                                <form onSubmit={this.handleDeleteUserSubmit}>
                                     <FormGroup>
                                         <FormLabel>Email</FormLabel>
                                         <FormControl
