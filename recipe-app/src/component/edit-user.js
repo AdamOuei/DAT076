@@ -8,6 +8,7 @@ import {
   FormLabel,
   Col
 } from "react-bootstrap";
+import { Redirect } from "react-router-dom";
 
 class EditUser extends Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class EditUser extends Component {
 
   componentDidMount() {
     this.getUserInfo();
-    this.checkIfLoggedIn();
+    //this.checkIfLoggedIn();
   }
 
   /**
@@ -50,11 +51,11 @@ class EditUser extends Component {
   /**
    * Pushes the user to the homepage if they are not logged in
    */
-  checkIfLoggedIn() {
+  /*checkIfLoggedIn() {
     if (!this.context.isLoggedIn) {
       this.props.history.push("/");
     }
-  }
+  }*/
 
   handleChange(event) {
     this.setState({
@@ -80,16 +81,21 @@ class EditUser extends Component {
    * Pushes the user to the homepage when they edit their user info
    */
   handleSubmit(event) {
-    axios.post("http://localhost:4000/api/user/update", {
-      name: this.state.name,
-      email: this.state.email,
-      password: this.state.password
-    });
+    axios
+      .post("http://localhost:4000/api/user/update", {
+        name: this.state.name,
+        email: this.state.email,
+        password: this.state.password
+      })
+      .then(localStorage.setItem("userName", this.state.name))
+      .then(this.props.refresh());
     this.props.history.push("/");
+
     event.preventDefault();
   }
 
   render() {
+    if (!this.context.isLoggedIn) return <Redirect to="/userProfile" />;
     return (
       <div className="container">
         <div className="row mt-5">

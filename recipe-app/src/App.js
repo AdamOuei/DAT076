@@ -76,6 +76,10 @@ class App extends Component {
     }
   }
 
+  refresh = () => {
+    this.getCategories();
+  };
+
   showMenu() {
     this.state.activeStyle === ""
       ? this.setState({ activeStyle: "active" })
@@ -146,7 +150,10 @@ class App extends Component {
                         path="/userProfile"
                         onEnter={this.checkLoggedIn}
                         render={props => (
-                          <UserProfile method={this.showRecipe} />
+                          <UserProfile
+                            method={this.showRecipe}
+                            refresh={this.refresh}
+                          />
                         )}
                       />
                       <Route path="/editUser" component={EditUser} />
