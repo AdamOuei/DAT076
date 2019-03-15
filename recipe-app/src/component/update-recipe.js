@@ -137,6 +137,7 @@ class UpdateRecipe extends Component {
                                                 as="textarea"
                                                 rows="3"
                                                 type="text"
+                                                id="ingredients"
                                                 value={this.state.ingredients}
                                                 onChange={this.handleChange}
                                             />
@@ -149,6 +150,7 @@ class UpdateRecipe extends Component {
                                                 as="textarea"
                                                 rows="3"
                                                 className="test"
+                                                id="instructions"
                                                 value={this.state.instructions}
                                                 onChange={this.handleChange}
                                             />
