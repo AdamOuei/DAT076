@@ -64,6 +64,13 @@ class EditUser extends Component {
   }
 
   /**
+   * Check that there is text written in the textboxes
+   */
+  validateForm() {
+    return this.state.name.length > 0 && this.state.password.length > 0;
+  }
+
+  /**
    * Deletes the user from the database and pushes the user to the homepage,
    * Removes the user from the AppProvider context
    */
@@ -135,7 +142,9 @@ class EditUser extends Component {
                   />
                 </Col>
               </FormGroup>
-              <Button column sm="2" type="submit">
+              <Button column sm="2" 
+              disabled={!this.validateForm()}
+              type="submit">
                 Submit
               </Button>
               <Button variant="warning" onClick={this.deleteUser}>
