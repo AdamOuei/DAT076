@@ -51,8 +51,6 @@ class App extends Component {
     componentDidMount() {
         this.getCategories();
         if (localStorage.getItem("isLoggedIn") === "true") {
-        } else {
-            console.log(localStorage.getItem("isLoggedIn"));
         }
     }
 
