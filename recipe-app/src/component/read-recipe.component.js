@@ -87,7 +87,7 @@ export default class RecipeRead extends Component {
                       <div>
                         <Button variant="primary">
                           <Link to={`/update/${this.props.recipe._id}`}>
-                            Uppdatera
+                            Update
                           </Link>
                         </Button>
                       </div>
