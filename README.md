@@ -10,6 +10,9 @@ In both /recipe-app and /recipe-app/backend in order to start the database and t
 
 More information can be found in each folder. 
 
+# Tests
+To test the database functions go to the "hidden" page /test
+
 # File organisation
 The "recipe"-folder contains all parts of the code.
 
