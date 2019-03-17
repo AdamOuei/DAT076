@@ -10,6 +10,8 @@ In both /recipe-app and /recipe-app/backend in order to start the database and t
 
 More information can be found in each folder. 
 
+Note: The application is developed and tested in Google Chrome.
+
 # Tests
 To test the database functions go to the "hidden" page /test
 
