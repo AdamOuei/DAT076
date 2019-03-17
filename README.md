@@ -17,6 +17,6 @@ The src-folder includes the front-end files. CSS-stylesheets can be found in the
 
 The "backend"-folder cointains all back-end parts. There are one "model.js" for each database schema. The "server.js"-file contains the calls to the database.
 
-The "public"-folder contains ***.
+The "public"-folder contains some obligatory files for the web application to function.
 
-The final report can be found in ***.
+The final report can be found in final_report.pdf on the top level of the project. 
