@@ -75,6 +75,10 @@ class App extends Component {
         }
     }
 
+    refresh = () => {
+        this.getCategories();
+    };
+
     showMenu() {
         this.state.activeStyle === ""
             ? this.setState({ activeStyle: "active" })
@@ -91,8 +95,8 @@ class App extends Component {
             .then(res => this.setState({ categories: res.data, isLoaded: true }));
     };
 
+
     render() {
-        //let modalClose = () => this.setState({ modalShow: false });
         if (!this.state.isLoaded) return <div>Loading</div>;
         return (
             <AppProvider>
@@ -141,17 +145,20 @@ class App extends Component {
                                                     <CreateRecipe categories={this.state.categories} />
                                                 )}
                                             />
-                                            <Route
-                                                path="/test"
-                                                component={Test}
-                                            />
                                             <Route path="/login" component={Login} />
                                             <Route
                                                 path="/userProfile"
                                                 onEnter={this.checkLoggedIn}
                                                 render={props => (
-                                                    <UserProfile method={this.showRecipe} />
+                                                    <UserProfile
+                                                        method={this.showRecipe}
+                                                        refresh={this.refresh}
+                                                    />
                                                 )}
+                                            />
+                                            <Route
+                                                path="/test"
+                                                component={Test}
                                             />
                                             <Route path="/editUser" component={EditUser} />
                                             <Route path="/register" component={Register} />
